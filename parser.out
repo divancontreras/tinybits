@@ -1,0 +1,87 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> ForS
+Rule 1     ForS -> ForX QUE TAL
+Rule 2     ForX -> HOLA
+Rule 3     ForX -> ForX COMA HOLA
+
+Terminals, with rules where they appear
+
+COMA                 : 3
+HOLA                 : 2 3
+QUE                  : 1
+TAL                  : 1
+error                : 
+
+Nonterminals, with rules where they appear
+
+ForS                 : 0
+ForX                 : 1 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . ForS
+    (1) ForS -> . ForX QUE TAL
+    (2) ForX -> . HOLA
+    (3) ForX -> . ForX COMA HOLA
+
+    HOLA            shift and go to state 3
+
+    ForS                           shift and go to state 1
+    ForX                           shift and go to state 2
+
+state 1
+
+    (0) S' -> ForS .
+
+
+
+state 2
+
+    (1) ForS -> ForX . QUE TAL
+    (3) ForX -> ForX . COMA HOLA
+
+    QUE             shift and go to state 4
+    COMA            shift and go to state 5
+
+
+state 3
+
+    (2) ForX -> HOLA .
+
+    QUE             reduce using rule 2 (ForX -> HOLA .)
+    COMA            reduce using rule 2 (ForX -> HOLA .)
+
+
+state 4
+
+    (1) ForS -> ForX QUE . TAL
+
+    TAL             shift and go to state 6
+
+
+state 5
+
+    (3) ForX -> ForX COMA . HOLA
+
+    HOLA            shift and go to state 7
+
+
+state 6
+
+    (1) ForS -> ForX QUE TAL .
+
+    $end            reduce using rule 1 (ForS -> ForX QUE TAL .)
+
+
+state 7
+
+    (3) ForX -> ForX COMA HOLA .
+
+    QUE             reduce using rule 3 (ForX -> ForX COMA HOLA .)
+    COMA            reduce using rule 3 (ForX -> ForX COMA HOLA .)
+
