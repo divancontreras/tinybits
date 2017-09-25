@@ -17,7 +17,7 @@ tokens = (
     'IF',
     'THEN',
     'DO',
-    'PROCESS',
+    'PROCCES',
     'FLOAT',
     'LOOP',
     'INT',
@@ -25,7 +25,6 @@ tokens = (
     'FOR',
     'ID',
     'NUMBER',
-    'POINT',
     'PLUS',
     'PLUSPLUS',
     'MINUS',
@@ -40,14 +39,14 @@ tokens = (
     'DEQUAL',
     'DISTINT',
     'COMMA',
-    'LGREATER',
-    'RGREATER',
     'LPAREN',
     'RPAREN',
     'LBRACKET',
     'RBRACKET',
-    'LBLOCK',
-    'RBLOCK',
+    'empty',
+    'COLON',
+    'QUOTES',
+    'ENDL'
 
     )
 
@@ -56,21 +55,16 @@ tokens = (
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_MINUSMINUS = r'\-\-'
-t_POINT = r'\.'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
 t_EQUAL = r'='
-t_LESS = r'<'
-t_GREATER = r'>'
-t_SEMICOLON = ';'
 t_COMMA = r','
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LBRACKET = r'\['
 t_RBRACKET = r'\]'
-t_LBLOCK = r'{'
-t_RBLOCK = r'}'
 t_QUOTES = r'\"'
+t_COLON = r'\:'
 
 # Ignored characters
 t_ignore = " \t"
@@ -85,8 +79,8 @@ def t_GETIN(t):
     r'getIn'
     return t
 
-def t_PROCESS(t):
-    r'process'
+def t_PROCCES(t):
+    r'procces'
     return t
 
 def t_ELSE(t):
@@ -108,6 +102,10 @@ def t_LOOP(t):
 
 def t_DO(t):
     r'do'
+    return t
+
+def t_ENDL(t):
+    r'endl'
     return t
 
 def t_INT(t):
@@ -135,7 +133,6 @@ def t_NUMBER(t):
 
 #expresion regular para reconocer los identificadores
 
-
 def t_ID(t):
     r'\w+(_\d\w)*'
     return t
@@ -160,16 +157,9 @@ def t_DEQUAL(t):
     r'=='
     return t
 
-
-def t_LGREATER(t):
-    r'<<'
-    return t
-
-
-def t_RGREATER(t):
-    r'>>'
-    return t
-
+def p_empty(p):
+    'empty :'
+    pass
 
 def t_DISTINT(t):
     r'!='
