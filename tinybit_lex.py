@@ -69,9 +69,12 @@ t_COLON = r'\:'
 # Ignored characters
 t_ignore = " \t"
 
-
 def t_SETOUT(t):
     r'setOut'
+    return t
+
+def t_START(t):
+    r'START'
     return t
 
 
@@ -106,6 +109,10 @@ def t_DO(t):
 
 def t_ENDL(t):
     r'endl'
+    return t
+
+def t_END(t):
+    r'END'
     return t
 
 def t_INT(t):
