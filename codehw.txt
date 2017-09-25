@@ -1,0 +1,4 @@
+START
+
+	int hola = 4
+END

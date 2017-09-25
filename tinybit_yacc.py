@@ -236,7 +236,8 @@ parser = yacc.yacc()
 
 while True:
     try:
-        s = input('>> ')  
+        s = open('codehw.txt', 'r').read()
+        input("OUTPUT:")
     except EOFError:
         break
-    parser.parse(s)
+    parser.parse(s) 

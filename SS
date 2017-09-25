@@ -1,9 +1,6 @@
-START
-PROCCES INICIO:
+TESTING
 
-PROCCES INICIO:
+
 getIn(matriz1,dimensionx1,dimensiony1)
 getIn(matriz2,dimensionx2,dimensiony2)
 
-
-END
