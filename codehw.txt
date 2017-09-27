@@ -1,4 +1,9 @@
 START
 
-	int hola = 4
+int iHOLA = 4
+
+while 1:
+int i=0
+loop
+
 END

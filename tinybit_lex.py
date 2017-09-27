@@ -57,7 +57,7 @@ t_MINUS = r'-'
 t_MINUSMINUS = r'\-\-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
-t_EQUAL = r'='
+t_EQUAL = r'\='
 t_COMMA = r','
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
@@ -83,7 +83,7 @@ def t_GETIN(t):
     return t
 
 def t_PROCCES(t):
-    r'procces'
+    r'Procces'
     return t
 
 def t_ELSE(t):
@@ -155,10 +155,17 @@ def t_LESSEQUAL(t):
     return t
 
 
+def t_LESS(t):
+    r'<'
+    return t
+
 def t_GREATEREQUAL(t):
     r'>='
     return t
 
+def t_GREATER(t):
+    r'>'
+    return t
 
 def t_DEQUAL(t):
     r'=='
@@ -176,9 +183,24 @@ def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
+
 def t_error(t):
     print (("Error Lexico: " + str(t.value[0])))
     t.lexer.skip(1)
     
 # Build the lexer
 lexer = lex.lex()
+"""
+data = input(">>")
+
+# Give the lexer some input
+lexer.input(data)
+
+# Tokenize
+while True:
+    tok = lexer.token()
+    if not tok: 
+        break      # No more input
+    print(tok)
+
+    """

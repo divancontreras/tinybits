@@ -1,8 +1,17 @@
 from tinybit_lex import tokens
 
+VERBOSE = 1
 
-def p_error(t):
-    print("INPUT RECHAZADO")
+def p_error(p):
+    #print str(dir(p))
+    #print str(dir(c_lexer))
+    if VERBOSE:
+        if p is not None:
+            print ("Error en Sintaxis linea:" + str(p.lexer.lineno)+"  Error de Contexto " + str(p.value))
+        else:
+            print ("Error en Lexico linea: " + str(c_lexer.lexer.lineno))
+    else:
+        raise Exception('Syntax', 'error')
 
 
 def p_program(p):
@@ -12,7 +21,6 @@ def p_program(p):
 
 def p_program_begin(p):
     'program_sequence : program_sequence declaration'
-    #p[0] = p[1] + p[2]
     pass   
 
 
@@ -24,7 +32,7 @@ def p_program_sequence(p):
 
 def p_declaration(p):
     """declaration : var_declaration
-    | process_declaration
+    | procces_declaration
 	"""
     pass
 
@@ -53,7 +61,7 @@ def p_var_declaration_array(p):
 
 
 def p_procces_declaration(p):
-    'process_declaration : PROCCES ID COLON statements_nont END'
+    'procces_declaration : PROCCES ID COLON statements_nont END'
     pass
 
 
@@ -67,7 +75,6 @@ def p_statements_empty(p):
 
 def p_statement(p):
     '''statement : expression_nont
-            | statements_nont
             | condition_nont
             | iteration_nont
     '''
@@ -121,12 +128,11 @@ def p_iteration_while(p):
 
 
 def p_iteration_for(p):
-    '''iteration_nont :
-| FOR var COMMA expression COMMA expression DO statement
-| FOR var COMMA expression COMMA var PLUSPLUS DO statement
-| FOR var COMMA expression COMMA PLUSPLUS var DO statement
-| FOR var COMMA expression COMMA var MINUSMINUS DO statement
-| FOR var COMMA expression COMMA MINUSMINUS var DO statement
+    '''iteration_nont : FOR var COMMA expression COMMA expression DO statement LOOP
+| FOR var COMMA expression COMMA var PLUSPLUS DO statement LOOP
+| FOR var COMMA expression COMMA PLUSPLUS var DO statement LOOP
+| FOR var COMMA expression COMMA var MINUSMINUS DO statement LOOP
+| FOR var COMMA expression COMMA MINUSMINUS var DO statement LOOP
     '''
     pass
 
