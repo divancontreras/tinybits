@@ -15,30 +15,26 @@ def p_error(p):
 
 
 def p_program(p):
-    'program : START program_start END'
+    'program : START program_sequence END'
     pass
 
 
 def p_program_begin(p):
-    'program_start : program_sequence main_declaration'
+    'program_sequence : program_sequence declaration'
     pass   
 
 
 def p_program_sequence(p):
-    'program_sequence : program_sequence declaration' 
+    'program_sequence : declaration' 
+
     pass
-
-
-def p_declaration_empty(p):
-    'program_sequence : empty'
 
 
 def p_declaration(p):
-    """declaration : procces_declaration
-    | var_declaration
-    """
+    """declaration : var_declaration
+    | procces_declaration
+	"""
     pass
-
 
 def p_var_declaration(p):
     '''var_declaration : var_type ID
@@ -63,10 +59,6 @@ def p_var_declaration_array(p):
     'var_declaration : var_type ID LBRACKET NUMBER RBRACKET'
     pass
 
-def p_main_declaration(p):
-    'main_declaration : MAIN ID COLON statements_nont END'
-    pass
-
 
 def p_procces_declaration(p):
     'procces_declaration : PROCCES ID COLON statements_nont END'
@@ -85,7 +77,6 @@ def p_statement(p):
     '''statement : expression_nont
             | condition_nont
             | iteration_nont
-            | var_declaration
     '''
     pass
 
@@ -251,8 +242,8 @@ parser = yacc.yacc()
 
 while True:
     try:
-        input("OUTPUT:")
         s = open('codehw.txt', 'r').read()
+        input("OUTPUT:")
     except EOFError:
         break
     parser.parse(s) 

@@ -43,6 +43,7 @@ tokens = (
     'RPAREN',
     'LBRACKET',
     'RBRACKET',
+    'MAIN',
     'empty',
     'COLON',
     'QUOTES',
@@ -77,6 +78,9 @@ def t_START(t):
     r'START'
     return t
 
+def t_MAIN(t):
+    r'Main'
+    return t
 
 def t_GETIN(t):
     r'getIn'
