@@ -18,6 +18,8 @@ tokens = (
     'THEN',
     'DO',
     'PROCCES',
+    'LOOP'
+    'DO'
     'FLOAT',
     'LOOP',
     'INT',
@@ -75,7 +77,7 @@ def t_SETOUT(t):
     return t
 
 def t_START(t):
-    r'START'
+    r'Start'
     return t
 
 def t_MAIN(t):
@@ -116,7 +118,7 @@ def t_ENDL(t):
     return t
 
 def t_END(t):
-    r'END'
+    r'End'
     return t
 
 def t_INT(t):
