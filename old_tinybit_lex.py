@@ -46,6 +46,7 @@ tokens = (
     'LBRACKET',
     'RBRACKET',
     'MAIN',
+    'empty',
     'COLON',
     'QUOTES',
     'ENDL'
@@ -176,6 +177,10 @@ def t_DEQUAL(t):
     r'=='
     return t
 
+def p_empty(p):
+    'empty :'
+    pass
+
 def t_DISTINT(t):
     r'!='
     return t
@@ -191,15 +196,17 @@ def t_error(t):
     
 # Build the lexer
 lexer = lex.lex()
+"""
+data = input(">>")
+
+# Give the lexer some input
+lexer.input(data)
+
+# Tokenize
 while True:
-    data = input(">>")
+    tok = lexer.token()
+    if not tok: 
+        break      # No more input
+    print(tok)
 
-    # Give the lexer some input
-    lexer.input(data)
-
-    # Tokenize
-    while True:
-        tok = lexer.token()
-        if not tok: 
-            break      # No more input
-        print(tok)
+    """

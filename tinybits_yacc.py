@@ -1,15 +1,26 @@
 import ply.yacc as yacc
-from examplelex import tokens
+from tinybits_lex import tokens
 
 
-precedence = (
-    ('left', 'NOT'),
-    ('left', 'PLUS', 'MINUS'),
-    ('left', 'MUL', 'DIV'),
-    ('left', 'EXP', 'MOD'),
-    ('right', 'UMINUS'),
-    ('right', 'UPLUS'),
-)
+VERBOSE = 1
+
+def p_error(p):
+    if VERBOSE:
+        if p is not None:
+            print ("Error en Sintaxis linea:" + str(p.lexer.lineno)+"  Error de Contexto " + str(p.value))
+        else:
+            print ("Error en Lexico linea: " + str(c_lexer.lexer.lineno))
+    else:
+        raise Exception('Syntax', 'error')
+
+
+def p_program(p):
+    'program : START program_start END'
+    pass
+
+def p_program_main(p):
+    'program_start : statement_list main_declaration'
+    pass   
 
 
 def p_statement_list(p):
@@ -29,6 +40,10 @@ def p_statement(p):
     pass
 
 
+def p_main_declaration(p):
+    'main_declaration : MAIN identifier COLON statement_list END'
+    pass
+
 def p_identifier(p):
     '''
     identifier : IDENTIFIER
@@ -39,7 +54,6 @@ def p_primitive(p):
     '''
     primitive : NUM_INT
               | NUM_FLOAT
-              | STRING
               | boolean
     '''
     pass
@@ -47,17 +61,15 @@ def p_primitive(p):
 
 def p_binary_op(p):
     '''
-    expression : expression PLUS expression %prec PLUS
-            | expression MINUS expression %prec MINUS
-            | expression MUL expression %prec MUL
-            | expression DIV expression %prec DIV
-            | expression EXP expression %prec EXP
-            | expression MOD expression %prec MOD
+    expression : expression PLUS expression PLUS
+            | expression MINUS expression MINUS
+            | expression MUL expression MUL
+            | expression DIV expression DIV
+            | expression EXP expression EXP
+            | expression MOD expression MOD
             | expression BIT_AND expression
             | expression BIT_OR expression
-            | expression BIT_XOR expression
-            | expression LSHIFT expression
-            | expression RSHIFT expression
+
     '''
     pass
 def p_boolean_operators(p):
@@ -75,8 +87,8 @@ def p_boolean_operators(p):
 
 def p_unary_operation(p):
     '''
-    expression : MINUS expression %prec UMINUS
-               | PLUS expression %prec UPLUS
+    expression : MINUS expression MINUS
+               | PLUS expression PLUS
                | BIT_NEG expression
                | NOT expression
     '''
@@ -182,16 +194,6 @@ def p_GETIN_statement(p):
     '''
     pass
 
-def p_compound_operations(p):
-    '''
-    statement : identifier PLUS_EQ expression 
-               | identifier MINUS_EQ expression 
-               | identifier MUL_EQ expression 
-               | identifier DIV_EQ expression 
-               | identifier EXP_EQ expression 
-               | identifier MOD_EQ expression 
-    '''
-    pass
 
 def p_increment_decrement_identifiers(p):
     '''
@@ -203,15 +205,14 @@ def p_increment_decrement_identifiers(p):
 def p_expression(p):
     '''
     expression : primitive
-               | STRING
                | identifier
     '''
     pass
 
 def p_for_loop(p):
     '''
-    statement : FOR identifier IN expression ARROW_LTR expression DO statement_list END
-              | FOR identifier IN expression ARROW_RTL expression DO statement_list END
+    statement : FOR identifier IN expression ARROW_LTR expression DO statement_list LOOP
+              | FOR identifier IN expression ARROW_RTL expression DO statement_list LOOP
     '''
     pass
 
@@ -231,25 +232,25 @@ def p_while_loop(p):
 def p_procces_declaration(p):
     '''
     statement : PROCCES identifier COLON statement_list END
-              | PROCCES identifier COLON statement_list END
     '''
     pass
 
 
 def p_procces_call(p):
     '''
-    expression : identifier ARROW_LTR START
-    statement : identifier ARROW_LTR START
+    expression : PROCCES identifier ARROW_LTR START
+    statement : PROCCES identifier ARROW_LTR START
     '''
     pass
 
 
-def p_error(p):
-    if p is not None:
-        raise ParserSyntaxError("Syntax error at line %d, illegal token '%s' found" % (p.lineno, p.value))
+import ply.yacc as yacc
+parser = yacc.yacc(debug=True)
 
-    raise ParserSyntaxError("Unexpected end of input")
-
-
-def get_parser():
-    return yacc.yacc(errorlog=yacc.NullLogger()) if disable_warnings else yacc.yacc()
+while True:
+    try:
+        input("OUTPUT:")
+        s = open('codehw.txt', 'r').read()
+    except EOFError:
+        break
+    parser.parse(s) 
