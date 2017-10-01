@@ -191,15 +191,15 @@ def t_error(t):
     
 # Build the lexer
 lexer = lex.lex()
-while True:
-    data = input(">>")
+# while True:
+#     data = input(">>")
 
-    # Give the lexer some input
-    lexer.input(data)
+#     # Give the lexer some input
+#     lexer.input(data)
 
-    # Tokenize
-    while True:
-        tok = lexer.token()
-        if not tok: 
-            break      # No more input
-        print(tok)
+#     # Tokenize
+#     while True:
+#         tok = lexer.token()
+#         if not tok: 
+#             break      # No more input
+#         print(tok)

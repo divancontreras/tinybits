@@ -14,13 +14,6 @@ def p_error(p):
         raise Exception('Syntax', 'error')
 
 
-def p_program(p):
-    'program : START program_start END'
-    pass
-
-def p_program_main(p):
-    'program_start : statement_list main_declaration'
-    pass   
 
 
 def p_statement_list(p):
@@ -39,10 +32,6 @@ def p_statement(p):
     '''
     pass
 
-
-def p_main_declaration(p):
-    'main_declaration : MAIN identifier COLON statement_list END'
-    pass
 
 def p_identifier(p):
     '''
