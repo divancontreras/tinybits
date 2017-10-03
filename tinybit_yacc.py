@@ -13,28 +13,28 @@ def p_error(p):
     else:
         raise Exception('Syntax', 'error')
 
-
 def p_program(p):
-    'program : START program_sequence END'
+    'program : START program_main END'
     pass
 
+def p_force_main(p):
+    'program_main : program_sequence main_declaration '
+    pass
+
+def p_main_declaration(p):
+    'main_declaration : MAIN COLON statements_nont END'
+    pass
 
 def p_program_begin(p):
-    'program_sequence : program_sequence declaration'
+    """
+    program_sequence : program_sequence
+                    | statements_nont
+                    | PROCESS_declaration
+                    | call
+    """
     pass   
 
 
-def p_program_sequence(p):
-    'program_sequence : declaration' 
-
-    pass
-
-
-def p_declaration(p):
-    """declaration : var_declaration
-    | procces_declaration
-	"""
-    pass
 
 def p_var_declaration(p):
     '''var_declaration : var_type ID
@@ -56,27 +56,38 @@ def p_var_type_FLOAT(p):
 
 
 def p_var_declaration_array(p):
-    'var_declaration : var_type ID LBRACKET NUMBER RBRACKET'
-    pass
+    """
+    var_declaration : var_type ID dimensiones 
+    """
+    pass 
 
 
-def p_procces_declaration(p):
-    'procces_declaration : PROCCES ID COLON statements_nont END'
+def p_var_dimensiones_array(p):
+    """
+    dimensiones : dimensiones LBRACKET expression RBRACKET
+                | LBRACKET expression RBRACKET
+    """
+    pass 
+
+
+def p_PROCESS_declaration(p):
+    'PROCESS_declaration : PROCESS ID DO statements_nont END'
     pass
 
 
 def p_statements_nont(p):
-    'statements_nont : statements_nont statement'
-    pass
-
-def p_statements_empty(p):
-    'statements_nont : empty'
+    """
+    statements_nont : statements_nont statement
+                    | statement
+    """
     pass
 
 def p_statement(p):
     '''statement : expression_nont
             | condition_nont
             | iteration_nont
+            | var_declaration
+            | call
     '''
     pass
 
@@ -106,34 +117,27 @@ def p_expression_GETIN(p):
 
 def p_expression_overload(p):
     '''expression_nont : ID PLUSPLUS
-    | PLUSPLUS ID
     | ID MINUSMINUS
-    | MINUSMINUS ID
     '''
     pass
 
 def p_condition_if(p):
-    'condition_nont : IF expression THEN statement END'
+    'condition_nont : IF expression THEN statements_nont END'
     pass
 
 
 def p_condition_if_else(p):
-    'condition_nont : IF expression THEN statement ELSE statement END'
+    'condition_nont : IF expression THEN statements_nont ELSE statements_nont END'
     pass
 
 
 def p_iteration_while(p):
-    'iteration_nont : WHILE expression DO statement LOOP'
+    'iteration_nont : WHILE expression DO statements_nont LOOP'
     pass
 
 
 def p_iteration_for(p):
-    '''iteration_nont : FOR var COMMA expression COMMA expression DO statement LOOP
-| FOR var COMMA expression COMMA var PLUSPLUS DO statement LOOP
-| FOR var COMMA expression COMMA PLUSPLUS var DO statement LOOP
-| FOR var COMMA expression COMMA var MINUSMINUS DO statement LOOP
-| FOR var COMMA expression COMMA MINUSMINUS var DO statement LOOP
-    '''
+    'iteration_nont : FOR var TO var DO statements_nont LOOP'
     pass
 
 
@@ -146,9 +150,18 @@ def p_var_ID(p):
     'var : ID'
     pass
 
-
 def p_var_bracket(p):
-    'var : ID LBRACKET expression RBRACKET'
+    """
+    var : var ID LBRACKET expression RBRACKET
+    | ID vardimen
+    """
+    pass
+
+def p_var_dimen(p):
+    """
+    vardimen : vardimen LBRACKET expression RBRACKET
+    | LBRACKET expression RBRACKET
+    """
     pass
 
 
@@ -158,7 +171,7 @@ def p_expression_2(p):
 
 
 def p_simple_expression_1(p):
-    'simple_expression : additive_expression relop additive_expression'
+    'simple_expression : additive_expression checkop additive_expression'
     pass
 
 
@@ -167,25 +180,22 @@ def p_simple_expression_2(p):
     pass
 
 
-def p_relop(p):
-    '''relop : LESS
+def p_checkop(p):
+    '''checkop : LESS
         | LESSEQUAL
         | GREATER
         | GREATEREQUAL
         | DEQUAL
         | DISTINT
-        | QUOTES
     '''
     pass
 
 
 def p_additive_expression_1(p):
-    'additive_expression : additive_expression addop term'
-    pass
-
-
-def p_additive_expression_2(p):
-    'additive_expression : term'
+    """
+    additive_expression : additive_expression addop term
+                        | term
+    """
     pass
 
 
@@ -195,44 +205,31 @@ def p_addop(p):
     '''
     pass
 
-def p_factor_3(p):
-    'factor : call'
+def p_factor(p):
+    """
+    factor : LPAREN expression RPAREN
+           | var
+           | NUMBER
+    """
     pass
 
 
 def p_call(p):
-    'call : PROCCES ID'
+    'call : CALL LPAREN ID RPAREN'
     pass
 
 
-def p_term_1(p):
-    'term : term mulop factor'
+def p_term_mulop(p):
+    """
+    term : term mulop factor
+        | factor
+    """
     pass
-
-
-def p_term_2(p):
-    'term : factor'
-    pass
-
 
 def p_mulop(p):
     '''mulop :  TIMES
                 | DIVIDE
     '''
-    pass
-
-
-def p_factor_1(p):
-    'factor : LPAREN expression RPAREN'
-    pass
-
-
-def p_factor_2(p):
-    'factor : var'
-    pass
-
-def p_factor_4(p):
-    'factor : NUMBER'
     pass
 
 

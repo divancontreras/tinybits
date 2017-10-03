@@ -1,6 +1,4 @@
-TESTING
-
-setOut("Ingrese las dimensiones de las matrices")
+setOut("Ingrese las dimensiones de las matrices X y Y")
 getIn(dimensionx,dimensiony)
 setOut("Ingrese la matriz 1")
 getIn(matriz1)
