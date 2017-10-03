@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-Start
-int iHOLA = 4
-End
-=======
 START
 	Process Sumar Do
 		while 1 Do
@@ -24,4 +19,3 @@ START
 		CallProcess(Sumar)
 	END
 END
->>>>>>> tempowork

@@ -18,14 +18,8 @@ tokens = (
     'IF',
     'THEN',
     'DO',
-<<<<<<< HEAD
-    'PROCCES',
-    'LOOP'
-    'DO'
-=======
     'PROCESS',
     'CALL',
->>>>>>> tempowork
     'FLOAT',
     'LOOP',
     'INT',
@@ -51,11 +45,6 @@ tokens = (
     'RPAREN',
     'LBRACKET',
     'RBRACKET',
-<<<<<<< HEAD
-    'MAIN',
-    'empty',
-=======
->>>>>>> tempowork
     'COLON',
     'QUOTES',
     'MAIN',
@@ -87,12 +76,9 @@ def t_SETOUT(t):
     return t
 
 def t_START(t):
-    r'Start'
+    r'START'
     return t
 
-def t_MAIN(t):
-    r'Main'
-    return t
 
 def t_GETIN(t):
     r'getIn'
@@ -132,7 +118,7 @@ def t_ENDL(t):
     return t
 
 def t_END(t):
-    r'End'
+    r'END'
     return t
 
 def t_INT(t):

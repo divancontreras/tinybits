@@ -1,15 +1,5 @@
 from tinybit_lex import tokens
 
-precedence = (
-    ('left', 'NOT'),
-    ('left', 'PLUS', 'MINUS'),
-    ('left', 'MUL', 'DIV'),
-    ('left', 'EXP', 'MOD'),
-    ('right', 'UMINUS'),
-    ('right', 'UPLUS'),
-)
-
-
 VERBOSE = 1
 
 def p_error(p):
@@ -24,11 +14,7 @@ def p_error(p):
         raise Exception('Syntax', 'error')
 
 def p_program(p):
-<<<<<<< HEAD
-    'program : START program_start END'
-=======
     'program : START program_main END'
->>>>>>> tempowork
     pass
 
 def p_force_main(p):
@@ -40,26 +26,6 @@ def p_main_declaration(p):
     pass
 
 def p_program_begin(p):
-<<<<<<< HEAD
-    'program_start : program_sequence main_declaration'
-    pass   
-
-
-def p_program_sequence(p):
-    'program_sequence : program_sequence declaration' 
-    pass
-
-
-def p_declaration_empty(p):
-    'program_sequence : empty'
-
-
-def p_declaration(p):
-    """declaration : procces_declaration
-    | var_declaration
-    """
-    pass
-=======
     """
     program_sequence : program_sequence
                     | statements_nont
@@ -68,8 +34,6 @@ def p_declaration(p):
     """
     pass   
 
-
->>>>>>> tempowork
 
 
 def p_var_declaration(p):
@@ -80,11 +44,6 @@ def p_var_declaration(p):
     '''
     pass
 
-def p_boolean(p):
-    '''
-    boolean : TRUE
-            | FALSE
-    '''
 
 def p_var_type_INT(p):
     'var_type : INT'
@@ -102,10 +61,6 @@ def p_var_declaration_array(p):
     """
     pass 
 
-def p_main_declaration(p):
-    'main_declaration : MAIN ID COLON statements_nont END'
-    pass
-
 
 def p_var_dimensiones_array(p):
     """
@@ -115,15 +70,6 @@ def p_var_dimensiones_array(p):
     pass 
 
 
-<<<<<<< HEAD
-def p_statements_nont(p):
-    '''
-    statements_nont : statement
-                   | statements_nont statement
-    '''
-    pass
-
-=======
 def p_PROCESS_declaration(p):
     'PROCESS_declaration : PROCESS ID DO statements_nont END'
     pass
@@ -135,54 +81,24 @@ def p_statements_nont(p):
                     | statement
     """
     pass
->>>>>>> tempowork
 
 def p_statement(p):
-    '''statement : expression
+    '''statement : expression_nont
             | condition_nont
             | iteration_nont
             | var_declaration
-<<<<<<< HEAD
-=======
             | call
->>>>>>> tempowork
     '''
     pass
 
-def p_expression(p):
-    '''
-    expression : primitive
-               | STRING
-               | ID
-    '''
+
+def p_expression_simple(p):
+    '''expression_nont : expression'''
     pass
 
-def p_expression_boolean(p):
-    '''
-    boolean : expression EQ expression
-            | expression NEQ expression
-            | expression GT expression
-            | expression GTE expression
-            | expression LT expression
-            | expression LTE expression
-            | expression AND expression
-            | expression OR expression
-    '''
-    pass
-
-def p_expression_operation(p):
-    '''
-    expression : expression PLUS expression %prec PLUS
-            | expression MINUS expression %prec MINUS
-            | expression MUL expression %prec MUL
-            | expression DIV expression %prec DIV
-            | expression EXP expression %prec EXP
-            | expression MOD expression %prec MOD
-    '''
-    pass
 
 def p_expression_SETOUT(p):
-    '''statement : SETOUT LPAREN QUOTES ID QUOTES RPAREN 
+    '''expression_nont : SETOUT LPAREN QUOTES ID QUOTES RPAREN 
     | SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN 
     | SETOUT LPAREN var RPAREN
     | SETOUT LPAREN var COMMA ENDL RPAREN 
@@ -193,24 +109,11 @@ def p_expression_SETOUT(p):
 
 
 def p_expression_GETIN(p):
-    '''expression : GETIN LPAREN var RPAREN
+    '''expression_nont : GETIN LPAREN var RPAREN
     | GETIN LPAREN var COMMA var RPAREN
     '''
     pass
 
-<<<<<<< HEAD
-def p_assign(p):
-    '''
-    expression : ID EQUALS assignable STMT_END
-    '''
-    pass
-
-def p_in_expression(p):
-    '''
-    expression : expression IN expression
-               | expression NOT IN expression
-    '''
-=======
 
 def p_expression_overload(p):
     '''expression_nont : ID PLUSPLUS
@@ -235,42 +138,18 @@ def p_iteration_while(p):
 
 def p_iteration_for(p):
     'iteration_nont : FOR var TO var DO statements_nont LOOP'
->>>>>>> tempowork
     pass
 
-def p_arrays(p):
-    '''
-    expression : LBRACKET arguments RBRACKET
-    '''
+
+def p_expression_equal(p):
+    '''expression : var EQUAL expression'''
     pass
 
-def p_array_access_assign(p):
-    '''
-    statement : ID LBRACKET expression RBRACKET EQUALS expression STMT_END
-    '''
 
-def p_array_access(p):
-    '''
-    expression : ID LBRACKET expression RBRACKET
-    '''
+def p_var_ID(p):
+    'var : ID'
     pass
 
-<<<<<<< HEAD
-def p_compound_operations(p):
-    '''
-    statement : ID PLUS_EQ expresfsion STMT_END
-               | ID MINUS_EQ expression STMT_END
-               | ID MUL_EQ expression STMT_END
-               | ID DIV_EQ expression STMT_END
-               | ID EXP_EQ expression STMT_END
-               | ID MOD_EQ expression STMT_END
-    '''
-
-def p_expression_overload(p):
-    """
-    expression : ID DOUBLE_PLUS
-               | ID DOUBLE_MINUS
-=======
 def p_var_bracket(p):
     """
     var : var ID LBRACKET expression RBRACKET
@@ -282,65 +161,24 @@ def p_var_dimen(p):
     """
     vardimen : vardimen LBRACKET expression RBRACKET
     | LBRACKET expression RBRACKET
->>>>>>> tempowork
     """
     pass
 
-def p_union_operation(p):
-    '''
-    expression : MINUS expression %prec UMINUS
-               | PLUS expression %prec UPLUS
-               | NOT expression
-    '''
 
-def p_condition_if(p):
-    'condition_nont : IF expression THEN statement END'
+def p_expression_2(p):
+    'expression : simple_expression'
     pass
 
 
-<<<<<<< HEAD
-def p_condition_if_else(p):
-    'condition_nont : IF expression THEN statement ELSE statement END'
-=======
 def p_simple_expression_1(p):
     'simple_expression : additive_expression checkop additive_expression'
->>>>>>> tempowork
     pass
 
 
-def p_iteration_while(p):
-    'iteration_nont : WHILE expression DO statement LOOP'
+def p_simple_expression_2(p):
+    'simple_expression : additive_expression'
     pass
 
-<<<<<<< HEAD
-def p_procces_call(p):
-    '''
-    expression : ID LPAREN arguments RPAREN
-    statement : ID LPAREN arguments RPAREN STMT_END
-    '''
-    pass
-def p_paren(p):
-    '''
-    expression : LPAREN expression RPAREN
-    '''
-    pass
-
-
-
-
-
-def p_var_ID(p):
-    'var : ID'
-    pass
-
-
-def p_var_bracket(p):
-    'var : ID LBRACKET expression RBRACKET'
-    pass
-
-
-
-=======
 
 def p_checkop(p):
     '''checkop : LESS
@@ -395,15 +233,14 @@ def p_mulop(p):
     pass
 
 
->>>>>>> tempowork
  # BUild the parser
 import ply.yacc as yacc
 parser = yacc.yacc()
 
 while True:
     try:
-        input("OUTPUT:")
         s = open('codehw.txt', 'r').read()
+        input("OUTPUT:")
     except EOFError:
         break
     parser.parse(s) 
