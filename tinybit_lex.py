@@ -12,14 +12,20 @@ tokens = (
     'START',
     'END',
     'SETOUT',
+    'TO',
     'GETIN',
     'ELSE',
     'IF',
     'THEN',
     'DO',
+<<<<<<< HEAD
     'PROCCES',
     'LOOP'
     'DO'
+=======
+    'PROCESS',
+    'CALL',
+>>>>>>> tempowork
     'FLOAT',
     'LOOP',
     'INT',
@@ -45,10 +51,14 @@ tokens = (
     'RPAREN',
     'LBRACKET',
     'RBRACKET',
+<<<<<<< HEAD
     'MAIN',
     'empty',
+=======
+>>>>>>> tempowork
     'COLON',
     'QUOTES',
+    'MAIN',
     'ENDL'
 
     )
@@ -88,8 +98,12 @@ def t_GETIN(t):
     r'getIn'
     return t
 
-def t_PROCCES(t):
-    r'Procces'
+def t_PROCESS(t):
+    r'Process'
+    return t
+
+def t_MAIN(t):
+    r'Main'
     return t
 
 def t_ELSE(t):
@@ -110,7 +124,7 @@ def t_LOOP(t):
     return t
 
 def t_DO(t):
-    r'do'
+    r'Do'
     return t
 
 def t_ENDL(t):
@@ -177,9 +191,14 @@ def t_DEQUAL(t):
     r'=='
     return t
 
-def p_empty(p):
-    'empty :'
-    pass
+def t_CALL(t):
+    r'CallProcess'
+    return t
+
+def t_TO(t):
+    r'To'
+    return t
+
 
 def t_DISTINT(t):
     r'!='
@@ -196,17 +215,15 @@ def t_error(t):
     
 # Build the lexer
 lexer = lex.lex()
-"""
-data = input(">>")
 
-# Give the lexer some input
-lexer.input(data)
+# data = input(">>")
 
-# Tokenize
-while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok)
+# # Give the lexer some input
+# lexer.input(data)
 
-    """
+# # Tokenize
+# while True:
+#     tok = lexer.token()
+#     if not tok: 
+#         break      # No more input
+#     print(tok)
