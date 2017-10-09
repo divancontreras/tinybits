@@ -1,9 +1,9 @@
 START
-	Process Sumar Do
-		while 1 Do
-			while 1 Do
+	Process Sumar doo
+	for varX -> dimensionx do
+			for varY -> dimensiony do
 
-				resmatriz[dimensionx][dimensiony] = matriz1[dimensionx][dimensiony] + matriz2[dimensionx][dimensiony]
+				resmatriz[varX][varY] = matriz1[varX][varY] + matriz2[varX][varY]
 
 			loop
 		loop

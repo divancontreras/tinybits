@@ -1,0 +1,10 @@
+START
+for Holax -> hola2 do
+
+getIn(In)
+
+loop
+Main:
+setOut(OUT)
+END
+END

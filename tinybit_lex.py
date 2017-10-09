@@ -12,7 +12,7 @@ tokens = (
     'START',
     'END',
     'SETOUT',
-    'TO',
+    'ARROW',
     'GETIN',
     'ELSE',
     'IF',
@@ -27,6 +27,7 @@ tokens = (
     'FOR',
     'ID',
     'NUMBER',
+    'NUMBER_FLOAT',
     'PLUS',
     'PLUSPLUS',
     'MINUS',
@@ -96,7 +97,6 @@ def t_ELSE(t):
     r'else'
     return t
 
-
 def t_IF(t):
     r'if'
     return t
@@ -110,7 +110,7 @@ def t_LOOP(t):
     return t
 
 def t_DO(t):
-    r'Do'
+    r'do'
     return t
 
 def t_ENDL(t):
@@ -138,13 +138,15 @@ def t_FOR(t):
     r'for'
     return t
 
+def t_NUMBER_FLOAT(t):
+    r'\d*\.\d+'
+    t.value = float(t.value)
+    return t
 
 def t_NUMBER(t):
     r'\d+'
     t.value = int(t.value)
     return t
-
-#expresion regular para reconocer los identificadores
 
 def t_ID(t):
     r'\w+(_\d\w)*'
@@ -181,8 +183,8 @@ def t_CALL(t):
     r'CallProcess'
     return t
 
-def t_TO(t):
-    r'To'
+def t_ARROW(t):
+    r'->'
     return t
 
 
@@ -202,14 +204,14 @@ def t_error(t):
 # Build the lexer
 lexer = lex.lex()
 
-# data = input(">>")
+data = input(">>")
 
-# # Give the lexer some input
-# lexer.input(data)
+# Give the lexer some input
+lexer.input(data)
 
-# # Tokenize
-# while True:
-#     tok = lexer.token()
-#     if not tok: 
-#         break      # No more input
-#     print(tok)
+# Tokenize
+while True:
+    tok = lexer.token()
+    if not tok: 
+        break      # No more input
+    print(tok)

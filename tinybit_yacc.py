@@ -19,6 +19,7 @@ def p_program(p):
 
 def p_force_main(p):
     'program_main : program_sequence main_declaration '
+    #p[0] = p[1] + p[2]    
     pass
 
 def p_main_declaration(p):
@@ -30,7 +31,6 @@ def p_program_begin(p):
     program_sequence : program_sequence
                     | statements_nont
                     | PROCESS_declaration
-                    | call
     """
     pass   
 
@@ -130,14 +130,14 @@ def p_condition_if_else(p):
     'condition_nont : IF expression THEN statements_nont ELSE statements_nont END'
     pass
 
+def p_iteration_for(p):
+    """
+    iteration_nont : FOR expression ARROW expression DO statements_nont LOOP
+    """
+    pass
 
 def p_iteration_while(p):
     'iteration_nont : WHILE expression DO statements_nont LOOP'
-    pass
-
-
-def p_iteration_for(p):
-    'iteration_nont : FOR var TO var DO statements_nont LOOP'
     pass
 
 
