@@ -1,6 +1,7 @@
 from tinybit_lex import tokens
 
 VERBOSE = 1
+vtable = {}
 
 def p_error(p):
     #print str(dir(p))
@@ -13,13 +14,17 @@ def p_error(p):
     else:
         raise Exception('Syntax', 'error')
 
+def p_error_repeat_var(p):
+    print("Error, la variable " + str(p) + " está repetida")
+
 def p_program(p):
     'program : START program_main END'
     pass
 
 def p_force_main(p):
     'program_main : program_sequence main_declaration '
-    #p[0] = p[1] + p[2]    
+    #p[0] = p[1] + p[2]
+    print(vtable)
     pass
 
 def p_main_declaration(p):
@@ -40,18 +45,25 @@ def p_var_declaration(p):
     '''var_declaration : var_type ID
     | var_type ID COMMA ID
     | var_type ID EQUAL NUMBER
+    | var_type ID EQUAL NUMBER_FLOAT    
     | var_type ID EQUAL var
     '''
-    pass
+    if p[2] in vtable:
+        p_error_repeat_var(p[2])
+    else:
+        vtable[p[2]] = p[1]
+
 
 
 def p_var_type_INT(p):
     'var_type : INT'
+    p[0] = "INT"
     pass
 
 
 def p_var_type_FLOAT(p):
     'var_type : FLOAT'
+    p[0] = "FLOAT"
     pass
 
 
@@ -59,8 +71,10 @@ def p_var_declaration_array(p):
     """
     var_declaration : var_type ID dimensiones 
     """
-    pass 
-
+    if p[2] in vtable:
+        p_error_repeat_var(p[2])
+    else:
+        vtable[p[2]] = p[1]
 
 def p_var_dimensiones_array(p):
     """
@@ -210,6 +224,7 @@ def p_factor(p):
     factor : LPAREN expression RPAREN
            | var
            | NUMBER
+           | NUMBER_FLOAT
     """
     pass
 
@@ -241,6 +256,7 @@ while True:
     try:
         s = open('codehw.txt', 'r').read()
         input("OUTPUT:")
+        vtable = {}        
     except EOFError:
         break
     parser.parse(s) 

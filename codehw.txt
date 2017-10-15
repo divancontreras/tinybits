@@ -1,14 +1,13 @@
 START
-	Process Sumar doo
+	Process Sumar do
 	for varX -> dimensionx do
 			for varY -> dimensiony do
-
 				resmatriz[varX][varY] = matriz1[varX][varY] + matriz2[varX][varY]
-
 			loop
 		loop
 	END
 	Main:
+		int ihola
 		setOut("IngreseXyY")
 		getIn(dimensionx,dimensiony)
 		setOut("Ingreselamatriz1")
@@ -16,6 +15,9 @@ START
 		setOut("Ingreselamatriz2")
 		getIn(matriz2)
 		int resmatriz[dimensiones][dimensiony]
+		float test = 4
+		float test2 = 5
 		CallProcess(Sumar)
+		
 	END
 END

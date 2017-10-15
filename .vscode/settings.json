@@ -17,5 +17,6 @@
     "python.unitTest.pyTestEnabled": false,
     "python.unitTest.nosetestsEnabled": false,
     "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 1000
+    "files.autoSaveDelay": 1000,
+    "python.formatting.provider": "yapf"
 }  
