@@ -8,6 +8,7 @@ START
 	END
 	Main:
 		int ihola
+		4-4	
 		setOut("IngreseXyY")
 		getIn(dimensionx,dimensiony)
 		setOut("Ingreselamatriz1")

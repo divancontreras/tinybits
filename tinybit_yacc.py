@@ -1,7 +1,16 @@
 from tinybit_lex import tokens
+from intvar import *
+from floatvar import *
+
 
 VERBOSE = 1
 vtable = {}
+ints = []
+floats = []
+precedence = (
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'TIMES', 'DIVIDE')
+)
 
 def p_error(p):
     #print str(dir(p))
@@ -25,6 +34,9 @@ def p_force_main(p):
     'program_main : program_sequence main_declaration '
     #p[0] = p[1] + p[2]
     print(vtable)
+    for var in ints:
+        print("ID: " + var.getId() + " VALUE: " + str(var.getValue()))
+
     pass
 
 def p_main_declaration(p):
@@ -40,19 +52,26 @@ def p_program_begin(p):
     pass   
 
 
+def p_var_declare_novalue(p):
+    'var_declaration : var_type ID'
 
 def p_var_declaration(p):
-    '''var_declaration : var_type ID
-    | var_type ID COMMA ID
+    '''var_declaration : var_type ID COMMA ID
     | var_type ID EQUAL NUMBER
     | var_type ID EQUAL NUMBER_FLOAT    
     | var_type ID EQUAL var
+    | var_type ID EQUAL simple_expression
     '''
     if p[2] in vtable:
         p_error_repeat_var(p[2])
+        exit()
     else:
         vtable[p[2]] = p[1]
-
+    if p[1] == 'INT':
+        ints.append(Int(p[2],p[4]))
+    elif p[1] == 'FLOAT':
+        floats.append(Float(p[2],p[4]))
+    
 def p_var_type_INT(p):
     'var_type : INT'
     p[0] = "INT"
@@ -179,17 +198,16 @@ def p_var_dimen(p):
 
 def p_expression_2(p):
     'expression : simple_expression'
-    pass
+    p[0] = p[1]
 
 
 def p_simple_expression_1(p):
     'simple_expression : additive_expression checkop additive_expression'
-    pass
 
 
 def p_simple_expression_2(p):
     'simple_expression : additive_expression'
-    pass
+    p[0] = p[1]
 
 
 def p_checkop(p):
@@ -206,26 +224,35 @@ def p_checkop(p):
 def p_additive_expression_1(p):
     """
     additive_expression : additive_expression addop term
-                        | term
     """
-    pass
+    if p[2] == '+' : 
+        p[0] = p[1] + p[3]
+    elif p[2] == '-': 
+        p[0] = p[1] - p[3]
+    print(str(p[2]) + " " + str(p[1]) + " " + str(p[3]) + " " + str(p[0]))
 
+
+def p_additive_justerm(p):
+    'additive_expression : term'
+    p[0] = p[1]
 
 def p_addop(p):
     '''addop : PLUS
     | MINUS
     '''
-    pass
+    p[0] = p[1]
 
 def p_factor(p):
     """
-    factor : LPAREN expression RPAREN
-           | var
+    factor : var
            | NUMBER
            | NUMBER_FLOAT
     """
-    pass
+    p[0] = p[1]
 
+def p_factor_1(p):
+    'factor : LPAREN expression RPAREN'
+    p[0] = p[2]
 
 def p_call(p):
     'call : CALL LPAREN ID RPAREN'
@@ -235,15 +262,22 @@ def p_call(p):
 def p_term_mulop(p):
     """
     term : term mulop factor
-        | factor
     """
-    pass
+    if p[2] == '*':
+        p[0] = p[1] * p[3]
+    elif p[2] == '/': 
+        p[0] = p[1] / p[3]
+    print(str(p[2]) + " " + str(p[1]) + " " + str(p[3]) + " " + str(p[0]))
 
+def p_term_mulop1(p):
+    'term : factor'
+    p[0] = p[1]
+    
 def p_mulop(p):
     '''mulop :  TIMES
                 | DIVIDE
     '''
-    pass
+    p[0] = p[1]
 
 
  # BUild the parser
@@ -252,9 +286,11 @@ parser = yacc.yacc()
 
 while True:
     try:
-        s = open('codehw.txt', 'r').read()
+        s = open('cuadruplos.txt', 'r').read()
         input("OUTPUT:")
-        vtable = {}        
+        vtable = {}       
+        ints = []
+        floats = [] 
     except EOFError:
         break
     parser.parse(s) 

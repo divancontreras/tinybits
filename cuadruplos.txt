@@ -1,0 +1,9 @@
+START
+	Process Sumar do
+	setIn(Hola)
+	END
+	Main:
+		int imain = (9*(3+3)*(31-3)+10)*2
+		int perrito = 123
+	END
+END
