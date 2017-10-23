@@ -53,8 +53,6 @@ def p_var_declaration(p):
     else:
         vtable[p[2]] = p[1]
 
-
-
 def p_var_type_INT(p):
     'var_type : INT'
     p[0] = "INT"
