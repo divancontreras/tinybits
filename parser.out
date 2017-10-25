@@ -37,8 +37,8 @@ Rule 31    expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN
 Rule 32    expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
 Rule 33    expression_nont -> GETIN LPAREN var RPAREN
 Rule 34    expression_nont -> GETIN LPAREN var COMMA var RPAREN
-Rule 35    expression_nont -> ID PLUSPLUS
-Rule 36    expression_nont -> ID MINUSMINUS
+Rule 35    expression_nont -> var PLUSPLUS
+Rule 36    expression_nont -> var MINUSMINUS
 Rule 37    condition_nont -> IF expression THEN statements_nont END
 Rule 38    condition_nont -> IF expression THEN statements_nont ELSE statements_nont END
 Rule 39    iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP
@@ -64,7 +64,7 @@ Rule 58    addop -> PLUS
 Rule 59    addop -> MINUS
 Rule 60    factor -> var
 Rule 61    factor -> NUMBER
-Rule 62    factor -> NUMBER_FLOAT
+Rule 62    factor -> FLOAT
 Rule 63    factor -> LPAREN expression RPAREN
 Rule 64    call -> CALL LPAREN ID RPAREN
 Rule 65    term -> term mulop factor
@@ -86,12 +86,12 @@ ELSE                 : 38
 END                  : 1 3 18 37 38
 ENDL                 : 28 30 32
 EQUAL                : 9 10 11 12 41
-FLOAT                : 14
+FLOAT                : 14 62
 FOR                  : 39
 GETIN                : 33 34
 GREATER              : 52
 GREATEREQUAL         : 53
-ID                   : 7 8 8 9 10 11 12 15 18 27 28 35 36 42 43 44 64
+ID                   : 7 8 8 9 10 11 12 15 18 27 28 42 43 44 64
 IF                   : 37 38
 INT                  : 13
 LBRACKET             : 16 17 43 45 46
@@ -103,7 +103,7 @@ MAIN                 : 3
 MINUS                : 59
 MINUSMINUS           : 36
 NUMBER               : 9 61
-NUMBER_FLOAT         : 10 62
+NUMBER_FLOAT         : 10
 PLUS                 : 58
 PLUSPLUS             : 35
 PROCESS              : 18
@@ -139,7 +139,7 @@ simple_expression    : 12 47
 statement            : 19 20
 statements_nont      : 3 5 18 19 37 38 38 39 40
 term                 : 56 57 65
-var                  : 11 29 30 31 31 32 32 33 34 34 41 43 60
+var                  : 11 29 30 31 31 32 32 33 34 34 35 36 41 43 60
 var_declaration      : 24
 var_type             : 7 8 9 10 11 12 15
 vardimen             : 44 45
@@ -185,8 +185,8 @@ state 2
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -201,11 +201,11 @@ state 2
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -214,21 +214,20 @@ state 2
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     PROCESS         shift and go to state 8
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     program_main                   shift and go to state 3
@@ -244,16 +243,16 @@ state 2
     expression                     shift and go to state 15
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 3
 
     (1) program -> START program_main . END
 
-    END             shift and go to state 33
+    END             shift and go to state 32
 
 
 state 4
@@ -263,11 +262,11 @@ state 4
     (3) main_declaration -> . MAIN COLON statements_nont END
 
   ! shift/reduce conflict for MAIN resolved as shift
-    MAIN            shift and go to state 35
+    MAIN            shift and go to state 34
 
   ! MAIN            [ reduce using rule 4 (program_sequence -> program_sequence .) ]
 
-    main_declaration               shift and go to state 34
+    main_declaration               shift and go to state 33
 
 state 5
 
@@ -287,8 +286,8 @@ state 5
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -303,11 +302,11 @@ state 5
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -316,24 +315,23 @@ state 5
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     MAIN            reduce using rule 5 (program_sequence -> statements_nont .)
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
-    statement                      shift and go to state 36
+    statement                      shift and go to state 35
     expression_nont                shift and go to state 10
     condition_nont                 shift and go to state 11
     iteration_nont                 shift and go to state 12
@@ -342,10 +340,10 @@ state 5
     expression                     shift and go to state 15
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 6
 
@@ -360,15 +358,14 @@ state 7
 
     SETOUT          reduce using rule 20 (statements_nont -> statement .)
     GETIN           reduce using rule 20 (statements_nont -> statement .)
-    ID              reduce using rule 20 (statements_nont -> statement .)
     IF              reduce using rule 20 (statements_nont -> statement .)
     FOR             reduce using rule 20 (statements_nont -> statement .)
     WHILE           reduce using rule 20 (statements_nont -> statement .)
     CALL            reduce using rule 20 (statements_nont -> statement .)
+    ID              reduce using rule 20 (statements_nont -> statement .)
     INT             reduce using rule 20 (statements_nont -> statement .)
     FLOAT           reduce using rule 20 (statements_nont -> statement .)
     NUMBER          reduce using rule 20 (statements_nont -> statement .)
-    NUMBER_FLOAT    reduce using rule 20 (statements_nont -> statement .)
     LPAREN          reduce using rule 20 (statements_nont -> statement .)
     MAIN            reduce using rule 20 (statements_nont -> statement .)
     END             reduce using rule 20 (statements_nont -> statement .)
@@ -380,20 +377,18 @@ state 8
 
     (18) PROCESS_declaration -> PROCESS . ID DO statements_nont END
 
-    ID              shift and go to state 37
+    ID              shift and go to state 36
 
 
 state 9
 
-    (35) expression_nont -> ID . PLUSPLUS
-    (36) expression_nont -> ID . MINUSMINUS
     (42) var -> ID .
     (44) var -> ID . vardimen
     (45) vardimen -> . vardimen LBRACKET expression RBRACKET
     (46) vardimen -> . LBRACKET expression RBRACKET
 
-    PLUSPLUS        shift and go to state 38
-    MINUSMINUS      shift and go to state 39
+    PLUSPLUS        reduce using rule 42 (var -> ID .)
+    MINUSMINUS      reduce using rule 42 (var -> ID .)
     EQUAL           reduce using rule 42 (var -> ID .)
     ID              reduce using rule 42 (var -> ID .)
     TIMES           reduce using rule 42 (var -> ID .)
@@ -415,15 +410,20 @@ state 9
     INT             reduce using rule 42 (var -> ID .)
     FLOAT           reduce using rule 42 (var -> ID .)
     NUMBER          reduce using rule 42 (var -> ID .)
-    NUMBER_FLOAT    reduce using rule 42 (var -> ID .)
     LPAREN          reduce using rule 42 (var -> ID .)
     MAIN            reduce using rule 42 (var -> ID .)
+    RPAREN          reduce using rule 42 (var -> ID .)
+    THEN            reduce using rule 42 (var -> ID .)
+    ARROW           reduce using rule 42 (var -> ID .)
+    DO              reduce using rule 42 (var -> ID .)
+    RBRACKET        reduce using rule 42 (var -> ID .)
+    COMMA           reduce using rule 42 (var -> ID .)
     END             reduce using rule 42 (var -> ID .)
     ELSE            reduce using rule 42 (var -> ID .)
     LOOP            reduce using rule 42 (var -> ID .)
-    LBRACKET        shift and go to state 41
+    LBRACKET        shift and go to state 38
 
-    vardimen                       shift and go to state 40
+    vardimen                       shift and go to state 37
 
 state 10
 
@@ -431,15 +431,14 @@ state 10
 
     SETOUT          reduce using rule 21 (statement -> expression_nont .)
     GETIN           reduce using rule 21 (statement -> expression_nont .)
-    ID              reduce using rule 21 (statement -> expression_nont .)
     IF              reduce using rule 21 (statement -> expression_nont .)
     FOR             reduce using rule 21 (statement -> expression_nont .)
     WHILE           reduce using rule 21 (statement -> expression_nont .)
     CALL            reduce using rule 21 (statement -> expression_nont .)
+    ID              reduce using rule 21 (statement -> expression_nont .)
     INT             reduce using rule 21 (statement -> expression_nont .)
     FLOAT           reduce using rule 21 (statement -> expression_nont .)
     NUMBER          reduce using rule 21 (statement -> expression_nont .)
-    NUMBER_FLOAT    reduce using rule 21 (statement -> expression_nont .)
     LPAREN          reduce using rule 21 (statement -> expression_nont .)
     MAIN            reduce using rule 21 (statement -> expression_nont .)
     END             reduce using rule 21 (statement -> expression_nont .)
@@ -453,15 +452,14 @@ state 11
 
     SETOUT          reduce using rule 22 (statement -> condition_nont .)
     GETIN           reduce using rule 22 (statement -> condition_nont .)
-    ID              reduce using rule 22 (statement -> condition_nont .)
     IF              reduce using rule 22 (statement -> condition_nont .)
     FOR             reduce using rule 22 (statement -> condition_nont .)
     WHILE           reduce using rule 22 (statement -> condition_nont .)
     CALL            reduce using rule 22 (statement -> condition_nont .)
+    ID              reduce using rule 22 (statement -> condition_nont .)
     INT             reduce using rule 22 (statement -> condition_nont .)
     FLOAT           reduce using rule 22 (statement -> condition_nont .)
     NUMBER          reduce using rule 22 (statement -> condition_nont .)
-    NUMBER_FLOAT    reduce using rule 22 (statement -> condition_nont .)
     LPAREN          reduce using rule 22 (statement -> condition_nont .)
     MAIN            reduce using rule 22 (statement -> condition_nont .)
     END             reduce using rule 22 (statement -> condition_nont .)
@@ -475,15 +473,14 @@ state 12
 
     SETOUT          reduce using rule 23 (statement -> iteration_nont .)
     GETIN           reduce using rule 23 (statement -> iteration_nont .)
-    ID              reduce using rule 23 (statement -> iteration_nont .)
     IF              reduce using rule 23 (statement -> iteration_nont .)
     FOR             reduce using rule 23 (statement -> iteration_nont .)
     WHILE           reduce using rule 23 (statement -> iteration_nont .)
     CALL            reduce using rule 23 (statement -> iteration_nont .)
+    ID              reduce using rule 23 (statement -> iteration_nont .)
     INT             reduce using rule 23 (statement -> iteration_nont .)
     FLOAT           reduce using rule 23 (statement -> iteration_nont .)
     NUMBER          reduce using rule 23 (statement -> iteration_nont .)
-    NUMBER_FLOAT    reduce using rule 23 (statement -> iteration_nont .)
     LPAREN          reduce using rule 23 (statement -> iteration_nont .)
     MAIN            reduce using rule 23 (statement -> iteration_nont .)
     END             reduce using rule 23 (statement -> iteration_nont .)
@@ -497,15 +494,14 @@ state 13
 
     SETOUT          reduce using rule 24 (statement -> var_declaration .)
     GETIN           reduce using rule 24 (statement -> var_declaration .)
-    ID              reduce using rule 24 (statement -> var_declaration .)
     IF              reduce using rule 24 (statement -> var_declaration .)
     FOR             reduce using rule 24 (statement -> var_declaration .)
     WHILE           reduce using rule 24 (statement -> var_declaration .)
     CALL            reduce using rule 24 (statement -> var_declaration .)
+    ID              reduce using rule 24 (statement -> var_declaration .)
     INT             reduce using rule 24 (statement -> var_declaration .)
     FLOAT           reduce using rule 24 (statement -> var_declaration .)
     NUMBER          reduce using rule 24 (statement -> var_declaration .)
-    NUMBER_FLOAT    reduce using rule 24 (statement -> var_declaration .)
     LPAREN          reduce using rule 24 (statement -> var_declaration .)
     MAIN            reduce using rule 24 (statement -> var_declaration .)
     END             reduce using rule 24 (statement -> var_declaration .)
@@ -519,15 +515,14 @@ state 14
 
     SETOUT          reduce using rule 25 (statement -> call .)
     GETIN           reduce using rule 25 (statement -> call .)
-    ID              reduce using rule 25 (statement -> call .)
     IF              reduce using rule 25 (statement -> call .)
     FOR             reduce using rule 25 (statement -> call .)
     WHILE           reduce using rule 25 (statement -> call .)
     CALL            reduce using rule 25 (statement -> call .)
+    ID              reduce using rule 25 (statement -> call .)
     INT             reduce using rule 25 (statement -> call .)
     FLOAT           reduce using rule 25 (statement -> call .)
     NUMBER          reduce using rule 25 (statement -> call .)
-    NUMBER_FLOAT    reduce using rule 25 (statement -> call .)
     LPAREN          reduce using rule 25 (statement -> call .)
     MAIN            reduce using rule 25 (statement -> call .)
     END             reduce using rule 25 (statement -> call .)
@@ -541,15 +536,14 @@ state 15
 
     SETOUT          reduce using rule 26 (expression_nont -> expression .)
     GETIN           reduce using rule 26 (expression_nont -> expression .)
-    ID              reduce using rule 26 (expression_nont -> expression .)
     IF              reduce using rule 26 (expression_nont -> expression .)
     FOR             reduce using rule 26 (expression_nont -> expression .)
     WHILE           reduce using rule 26 (expression_nont -> expression .)
     CALL            reduce using rule 26 (expression_nont -> expression .)
+    ID              reduce using rule 26 (expression_nont -> expression .)
     INT             reduce using rule 26 (expression_nont -> expression .)
     FLOAT           reduce using rule 26 (expression_nont -> expression .)
     NUMBER          reduce using rule 26 (expression_nont -> expression .)
-    NUMBER_FLOAT    reduce using rule 26 (expression_nont -> expression .)
     LPAREN          reduce using rule 26 (expression_nont -> expression .)
     MAIN            reduce using rule 26 (expression_nont -> expression .)
     END             reduce using rule 26 (expression_nont -> expression .)
@@ -566,7 +560,7 @@ state 16
     (31) expression_nont -> SETOUT . LPAREN var COMMA var COMMA RPAREN
     (32) expression_nont -> SETOUT . LPAREN var COMMA var COMMA ENDL RPAREN
 
-    LPAREN          shift and go to state 42
+    LPAREN          shift and go to state 39
 
 
 state 17
@@ -585,28 +579,32 @@ state 17
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
-    expression                     shift and go to state 43
-    var                            shift and go to state 18
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    expression                     shift and go to state 40
+    var                            shift and go to state 41
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 18
 
+    (35) expression_nont -> var . PLUSPLUS
+    (36) expression_nont -> var . MINUSMINUS
     (41) expression -> var . EQUAL expression
     (43) var -> var . ID LBRACKET expression RBRACKET
     (60) factor -> var .
 
   ! shift/reduce conflict for ID resolved as shift
+    PLUSPLUS        shift and go to state 43
+    MINUSMINUS      shift and go to state 44
     EQUAL           shift and go to state 45
     ID              shift and go to state 46
     TIMES           reduce using rule 60 (factor -> var .)
@@ -628,14 +626,8 @@ state 18
     INT             reduce using rule 60 (factor -> var .)
     FLOAT           reduce using rule 60 (factor -> var .)
     NUMBER          reduce using rule 60 (factor -> var .)
-    NUMBER_FLOAT    reduce using rule 60 (factor -> var .)
     LPAREN          reduce using rule 60 (factor -> var .)
     MAIN            reduce using rule 60 (factor -> var .)
-    RPAREN          reduce using rule 60 (factor -> var .)
-    THEN            reduce using rule 60 (factor -> var .)
-    ARROW           reduce using rule 60 (factor -> var .)
-    DO              reduce using rule 60 (factor -> var .)
-    RBRACKET        reduce using rule 60 (factor -> var .)
     END             reduce using rule 60 (factor -> var .)
     ELSE            reduce using rule 60 (factor -> var .)
     LOOP            reduce using rule 60 (factor -> var .)
@@ -668,20 +660,20 @@ state 20
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 48
-    var                            shift and go to state 18
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    var                            shift and go to state 41
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 21
 
@@ -699,20 +691,20 @@ state 21
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 49
-    var                            shift and go to state 18
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    var                            shift and go to state 41
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 22
 
@@ -730,20 +722,20 @@ state 22
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 50
-    var                            shift and go to state 18
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    var                            shift and go to state 41
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 23
 
@@ -774,15 +766,14 @@ state 24
     MINUS           reduce using rule 61 (factor -> NUMBER .)
     SETOUT          reduce using rule 61 (factor -> NUMBER .)
     GETIN           reduce using rule 61 (factor -> NUMBER .)
-    ID              reduce using rule 61 (factor -> NUMBER .)
     IF              reduce using rule 61 (factor -> NUMBER .)
     FOR             reduce using rule 61 (factor -> NUMBER .)
     WHILE           reduce using rule 61 (factor -> NUMBER .)
     CALL            reduce using rule 61 (factor -> NUMBER .)
+    ID              reduce using rule 61 (factor -> NUMBER .)
     INT             reduce using rule 61 (factor -> NUMBER .)
     FLOAT           reduce using rule 61 (factor -> NUMBER .)
     NUMBER          reduce using rule 61 (factor -> NUMBER .)
-    NUMBER_FLOAT    reduce using rule 61 (factor -> NUMBER .)
     LPAREN          reduce using rule 61 (factor -> NUMBER .)
     MAIN            reduce using rule 61 (factor -> NUMBER .)
     RPAREN          reduce using rule 61 (factor -> NUMBER .)
@@ -797,56 +788,18 @@ state 24
 
 state 25
 
-    (62) factor -> NUMBER_FLOAT .
-
-    TIMES           reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    DIVIDE          reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    LESS            reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    LESSEQUAL       reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    GREATER         reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    GREATEREQUAL    reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    DEQUAL          reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    DISTINT         reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    PLUS            reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    MINUS           reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    SETOUT          reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    GETIN           reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    ID              reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    IF              reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    FOR             reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    WHILE           reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    CALL            reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    INT             reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    FLOAT           reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    NUMBER          reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    NUMBER_FLOAT    reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    LPAREN          reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    MAIN            reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    RPAREN          reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    THEN            reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    ARROW           reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    DO              reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    RBRACKET        reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    END             reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    ELSE            reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    LOOP            reduce using rule 62 (factor -> NUMBER_FLOAT .)
-
-
-state 26
-
     (47) expression -> simple_expression .
 
     SETOUT          reduce using rule 47 (expression -> simple_expression .)
     GETIN           reduce using rule 47 (expression -> simple_expression .)
-    ID              reduce using rule 47 (expression -> simple_expression .)
     IF              reduce using rule 47 (expression -> simple_expression .)
     FOR             reduce using rule 47 (expression -> simple_expression .)
     WHILE           reduce using rule 47 (expression -> simple_expression .)
     CALL            reduce using rule 47 (expression -> simple_expression .)
+    ID              reduce using rule 47 (expression -> simple_expression .)
     INT             reduce using rule 47 (expression -> simple_expression .)
     FLOAT           reduce using rule 47 (expression -> simple_expression .)
     NUMBER          reduce using rule 47 (expression -> simple_expression .)
-    NUMBER_FLOAT    reduce using rule 47 (expression -> simple_expression .)
     LPAREN          reduce using rule 47 (expression -> simple_expression .)
     MAIN            reduce using rule 47 (expression -> simple_expression .)
     RPAREN          reduce using rule 47 (expression -> simple_expression .)
@@ -859,28 +812,56 @@ state 26
     LOOP            reduce using rule 47 (expression -> simple_expression .)
 
 
-state 27
+state 26
 
     (64) call -> CALL . LPAREN ID RPAREN
 
     LPAREN          shift and go to state 52
 
 
-state 28
+state 27
 
     (13) var_type -> INT .
 
     ID              reduce using rule 13 (var_type -> INT .)
 
 
-state 29
+state 28
 
     (14) var_type -> FLOAT .
+    (62) factor -> FLOAT .
 
+  ! reduce/reduce conflict for ID resolved using rule 14 (var_type -> FLOAT .)
     ID              reduce using rule 14 (var_type -> FLOAT .)
+    TIMES           reduce using rule 62 (factor -> FLOAT .)
+    DIVIDE          reduce using rule 62 (factor -> FLOAT .)
+    LESS            reduce using rule 62 (factor -> FLOAT .)
+    LESSEQUAL       reduce using rule 62 (factor -> FLOAT .)
+    GREATER         reduce using rule 62 (factor -> FLOAT .)
+    GREATEREQUAL    reduce using rule 62 (factor -> FLOAT .)
+    DEQUAL          reduce using rule 62 (factor -> FLOAT .)
+    DISTINT         reduce using rule 62 (factor -> FLOAT .)
+    PLUS            reduce using rule 62 (factor -> FLOAT .)
+    MINUS           reduce using rule 62 (factor -> FLOAT .)
+    SETOUT          reduce using rule 62 (factor -> FLOAT .)
+    GETIN           reduce using rule 62 (factor -> FLOAT .)
+    IF              reduce using rule 62 (factor -> FLOAT .)
+    FOR             reduce using rule 62 (factor -> FLOAT .)
+    WHILE           reduce using rule 62 (factor -> FLOAT .)
+    CALL            reduce using rule 62 (factor -> FLOAT .)
+    INT             reduce using rule 62 (factor -> FLOAT .)
+    FLOAT           reduce using rule 62 (factor -> FLOAT .)
+    NUMBER          reduce using rule 62 (factor -> FLOAT .)
+    LPAREN          reduce using rule 62 (factor -> FLOAT .)
+    MAIN            reduce using rule 62 (factor -> FLOAT .)
+    END             reduce using rule 62 (factor -> FLOAT .)
+    ELSE            reduce using rule 62 (factor -> FLOAT .)
+    LOOP            reduce using rule 62 (factor -> FLOAT .)
+
+  ! ID              [ reduce using rule 62 (factor -> FLOAT .) ]
 
 
-state 30
+state 29
 
     (48) simple_expression -> additive_expression . checkop additive_expression
     (49) simple_expression -> additive_expression .
@@ -896,15 +877,14 @@ state 30
 
     SETOUT          reduce using rule 49 (simple_expression -> additive_expression .)
     GETIN           reduce using rule 49 (simple_expression -> additive_expression .)
-    ID              reduce using rule 49 (simple_expression -> additive_expression .)
     IF              reduce using rule 49 (simple_expression -> additive_expression .)
     FOR             reduce using rule 49 (simple_expression -> additive_expression .)
     WHILE           reduce using rule 49 (simple_expression -> additive_expression .)
     CALL            reduce using rule 49 (simple_expression -> additive_expression .)
+    ID              reduce using rule 49 (simple_expression -> additive_expression .)
     INT             reduce using rule 49 (simple_expression -> additive_expression .)
     FLOAT           reduce using rule 49 (simple_expression -> additive_expression .)
     NUMBER          reduce using rule 49 (simple_expression -> additive_expression .)
-    NUMBER_FLOAT    reduce using rule 49 (simple_expression -> additive_expression .)
     LPAREN          reduce using rule 49 (simple_expression -> additive_expression .)
     MAIN            reduce using rule 49 (simple_expression -> additive_expression .)
     RPAREN          reduce using rule 49 (simple_expression -> additive_expression .)
@@ -927,7 +907,7 @@ state 30
     checkop                        shift and go to state 53
     addop                          shift and go to state 54
 
-state 31
+state 30
 
     (57) additive_expression -> term .
     (65) term -> term . mulop factor
@@ -944,15 +924,14 @@ state 31
     MINUS           reduce using rule 57 (additive_expression -> term .)
     SETOUT          reduce using rule 57 (additive_expression -> term .)
     GETIN           reduce using rule 57 (additive_expression -> term .)
-    ID              reduce using rule 57 (additive_expression -> term .)
     IF              reduce using rule 57 (additive_expression -> term .)
     FOR             reduce using rule 57 (additive_expression -> term .)
     WHILE           reduce using rule 57 (additive_expression -> term .)
     CALL            reduce using rule 57 (additive_expression -> term .)
+    ID              reduce using rule 57 (additive_expression -> term .)
     INT             reduce using rule 57 (additive_expression -> term .)
     FLOAT           reduce using rule 57 (additive_expression -> term .)
     NUMBER          reduce using rule 57 (additive_expression -> term .)
-    NUMBER_FLOAT    reduce using rule 57 (additive_expression -> term .)
     LPAREN          reduce using rule 57 (additive_expression -> term .)
     MAIN            reduce using rule 57 (additive_expression -> term .)
     RPAREN          reduce using rule 57 (additive_expression -> term .)
@@ -968,7 +947,7 @@ state 31
 
     mulop                          shift and go to state 63
 
-state 32
+state 31
 
     (66) term -> factor .
 
@@ -984,15 +963,14 @@ state 32
     MINUS           reduce using rule 66 (term -> factor .)
     SETOUT          reduce using rule 66 (term -> factor .)
     GETIN           reduce using rule 66 (term -> factor .)
-    ID              reduce using rule 66 (term -> factor .)
     IF              reduce using rule 66 (term -> factor .)
     FOR             reduce using rule 66 (term -> factor .)
     WHILE           reduce using rule 66 (term -> factor .)
     CALL            reduce using rule 66 (term -> factor .)
+    ID              reduce using rule 66 (term -> factor .)
     INT             reduce using rule 66 (term -> factor .)
     FLOAT           reduce using rule 66 (term -> factor .)
     NUMBER          reduce using rule 66 (term -> factor .)
-    NUMBER_FLOAT    reduce using rule 66 (term -> factor .)
     LPAREN          reduce using rule 66 (term -> factor .)
     MAIN            reduce using rule 66 (term -> factor .)
     RPAREN          reduce using rule 66 (term -> factor .)
@@ -1005,42 +983,41 @@ state 32
     LOOP            reduce using rule 66 (term -> factor .)
 
 
-state 33
+state 32
 
     (1) program -> START program_main END .
 
     $end            reduce using rule 1 (program -> START program_main END .)
 
 
-state 34
+state 33
 
     (2) program_main -> program_sequence main_declaration .
 
     END             reduce using rule 2 (program_main -> program_sequence main_declaration .)
 
 
-state 35
+state 34
 
     (3) main_declaration -> MAIN . COLON statements_nont END
 
     COLON           shift and go to state 66
 
 
-state 36
+state 35
 
     (19) statements_nont -> statements_nont statement .
 
     SETOUT          reduce using rule 19 (statements_nont -> statements_nont statement .)
     GETIN           reduce using rule 19 (statements_nont -> statements_nont statement .)
-    ID              reduce using rule 19 (statements_nont -> statements_nont statement .)
     IF              reduce using rule 19 (statements_nont -> statements_nont statement .)
     FOR             reduce using rule 19 (statements_nont -> statements_nont statement .)
     WHILE           reduce using rule 19 (statements_nont -> statements_nont statement .)
     CALL            reduce using rule 19 (statements_nont -> statements_nont statement .)
+    ID              reduce using rule 19 (statements_nont -> statements_nont statement .)
     INT             reduce using rule 19 (statements_nont -> statements_nont statement .)
     FLOAT           reduce using rule 19 (statements_nont -> statements_nont statement .)
     NUMBER          reduce using rule 19 (statements_nont -> statements_nont statement .)
-    NUMBER_FLOAT    reduce using rule 19 (statements_nont -> statements_nont statement .)
     LPAREN          reduce using rule 19 (statements_nont -> statements_nont statement .)
     MAIN            reduce using rule 19 (statements_nont -> statements_nont statement .)
     END             reduce using rule 19 (statements_nont -> statements_nont statement .)
@@ -1048,62 +1025,20 @@ state 36
     LOOP            reduce using rule 19 (statements_nont -> statements_nont statement .)
 
 
-state 37
+state 36
 
     (18) PROCESS_declaration -> PROCESS ID . DO statements_nont END
 
     DO              shift and go to state 67
 
 
-state 38
-
-    (35) expression_nont -> ID PLUSPLUS .
-
-    SETOUT          reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    GETIN           reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    ID              reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    IF              reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    FOR             reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    WHILE           reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    CALL            reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    INT             reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    FLOAT           reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    NUMBER          reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    NUMBER_FLOAT    reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    LPAREN          reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    MAIN            reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    END             reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    ELSE            reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-    LOOP            reduce using rule 35 (expression_nont -> ID PLUSPLUS .)
-
-
-state 39
-
-    (36) expression_nont -> ID MINUSMINUS .
-
-    SETOUT          reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    GETIN           reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    ID              reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    IF              reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    FOR             reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    WHILE           reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    CALL            reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    INT             reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    FLOAT           reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    NUMBER          reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    NUMBER_FLOAT    reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    LPAREN          reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    MAIN            reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    END             reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    ELSE            reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-    LOOP            reduce using rule 36 (expression_nont -> ID MINUSMINUS .)
-
-
-state 40
+state 37
 
     (44) var -> ID vardimen .
     (45) vardimen -> vardimen . LBRACKET expression RBRACKET
 
+    PLUSPLUS        reduce using rule 44 (var -> ID vardimen .)
+    MINUSMINUS      reduce using rule 44 (var -> ID vardimen .)
     EQUAL           reduce using rule 44 (var -> ID vardimen .)
     ID              reduce using rule 44 (var -> ID vardimen .)
     TIMES           reduce using rule 44 (var -> ID vardimen .)
@@ -1125,7 +1060,6 @@ state 40
     INT             reduce using rule 44 (var -> ID vardimen .)
     FLOAT           reduce using rule 44 (var -> ID vardimen .)
     NUMBER          reduce using rule 44 (var -> ID vardimen .)
-    NUMBER_FLOAT    reduce using rule 44 (var -> ID vardimen .)
     LPAREN          reduce using rule 44 (var -> ID vardimen .)
     MAIN            reduce using rule 44 (var -> ID vardimen .)
     RPAREN          reduce using rule 44 (var -> ID vardimen .)
@@ -1140,7 +1074,7 @@ state 40
     LBRACKET        shift and go to state 68
 
 
-state 41
+state 38
 
     (46) vardimen -> LBRACKET . expression RBRACKET
     (41) expression -> . var EQUAL expression
@@ -1156,22 +1090,22 @@ state 41
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 69
-    var                            shift and go to state 18
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    var                            shift and go to state 41
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
-state 42
+state 39
 
     (27) expression_nont -> SETOUT LPAREN . QUOTES ID QUOTES RPAREN
     (28) expression_nont -> SETOUT LPAREN . QUOTES ID QUOTES COMMA ENDL RPAREN
@@ -1184,60 +1118,136 @@ state 42
     (44) var -> . ID vardimen
 
     QUOTES          shift and go to state 70
-    ID              shift and go to state 44
+    ID              shift and go to state 9
 
     var                            shift and go to state 71
 
-state 43
+state 40
 
     (63) factor -> LPAREN expression . RPAREN
 
     RPAREN          shift and go to state 72
 
 
+state 41
+
+    (41) expression -> var . EQUAL expression
+    (43) var -> var . ID LBRACKET expression RBRACKET
+    (60) factor -> var .
+
+  ! shift/reduce conflict for ID resolved as shift
+    EQUAL           shift and go to state 45
+    ID              shift and go to state 46
+    TIMES           reduce using rule 60 (factor -> var .)
+    DIVIDE          reduce using rule 60 (factor -> var .)
+    LESS            reduce using rule 60 (factor -> var .)
+    LESSEQUAL       reduce using rule 60 (factor -> var .)
+    GREATER         reduce using rule 60 (factor -> var .)
+    GREATEREQUAL    reduce using rule 60 (factor -> var .)
+    DEQUAL          reduce using rule 60 (factor -> var .)
+    DISTINT         reduce using rule 60 (factor -> var .)
+    PLUS            reduce using rule 60 (factor -> var .)
+    MINUS           reduce using rule 60 (factor -> var .)
+    RPAREN          reduce using rule 60 (factor -> var .)
+    THEN            reduce using rule 60 (factor -> var .)
+    ARROW           reduce using rule 60 (factor -> var .)
+    DO              reduce using rule 60 (factor -> var .)
+    RBRACKET        reduce using rule 60 (factor -> var .)
+    SETOUT          reduce using rule 60 (factor -> var .)
+    GETIN           reduce using rule 60 (factor -> var .)
+    IF              reduce using rule 60 (factor -> var .)
+    FOR             reduce using rule 60 (factor -> var .)
+    WHILE           reduce using rule 60 (factor -> var .)
+    CALL            reduce using rule 60 (factor -> var .)
+    INT             reduce using rule 60 (factor -> var .)
+    FLOAT           reduce using rule 60 (factor -> var .)
+    NUMBER          reduce using rule 60 (factor -> var .)
+    LPAREN          reduce using rule 60 (factor -> var .)
+    MAIN            reduce using rule 60 (factor -> var .)
+    END             reduce using rule 60 (factor -> var .)
+    ELSE            reduce using rule 60 (factor -> var .)
+    LOOP            reduce using rule 60 (factor -> var .)
+
+  ! ID              [ reduce using rule 60 (factor -> var .) ]
+
+
+state 42
+
+    (62) factor -> FLOAT .
+
+    TIMES           reduce using rule 62 (factor -> FLOAT .)
+    DIVIDE          reduce using rule 62 (factor -> FLOAT .)
+    LESS            reduce using rule 62 (factor -> FLOAT .)
+    LESSEQUAL       reduce using rule 62 (factor -> FLOAT .)
+    GREATER         reduce using rule 62 (factor -> FLOAT .)
+    GREATEREQUAL    reduce using rule 62 (factor -> FLOAT .)
+    DEQUAL          reduce using rule 62 (factor -> FLOAT .)
+    DISTINT         reduce using rule 62 (factor -> FLOAT .)
+    PLUS            reduce using rule 62 (factor -> FLOAT .)
+    MINUS           reduce using rule 62 (factor -> FLOAT .)
+    RPAREN          reduce using rule 62 (factor -> FLOAT .)
+    THEN            reduce using rule 62 (factor -> FLOAT .)
+    ARROW           reduce using rule 62 (factor -> FLOAT .)
+    DO              reduce using rule 62 (factor -> FLOAT .)
+    RBRACKET        reduce using rule 62 (factor -> FLOAT .)
+    SETOUT          reduce using rule 62 (factor -> FLOAT .)
+    GETIN           reduce using rule 62 (factor -> FLOAT .)
+    IF              reduce using rule 62 (factor -> FLOAT .)
+    FOR             reduce using rule 62 (factor -> FLOAT .)
+    WHILE           reduce using rule 62 (factor -> FLOAT .)
+    CALL            reduce using rule 62 (factor -> FLOAT .)
+    ID              reduce using rule 62 (factor -> FLOAT .)
+    INT             reduce using rule 62 (factor -> FLOAT .)
+    FLOAT           reduce using rule 62 (factor -> FLOAT .)
+    NUMBER          reduce using rule 62 (factor -> FLOAT .)
+    LPAREN          reduce using rule 62 (factor -> FLOAT .)
+    MAIN            reduce using rule 62 (factor -> FLOAT .)
+    END             reduce using rule 62 (factor -> FLOAT .)
+    ELSE            reduce using rule 62 (factor -> FLOAT .)
+    LOOP            reduce using rule 62 (factor -> FLOAT .)
+
+
+state 43
+
+    (35) expression_nont -> var PLUSPLUS .
+
+    SETOUT          reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    GETIN           reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    IF              reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    FOR             reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    WHILE           reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    CALL            reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    ID              reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    INT             reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    FLOAT           reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    NUMBER          reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    LPAREN          reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    MAIN            reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    END             reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    ELSE            reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+    LOOP            reduce using rule 35 (expression_nont -> var PLUSPLUS .)
+
+
 state 44
 
-    (42) var -> ID .
-    (44) var -> ID . vardimen
-    (45) vardimen -> . vardimen LBRACKET expression RBRACKET
-    (46) vardimen -> . LBRACKET expression RBRACKET
+    (36) expression_nont -> var MINUSMINUS .
 
-    EQUAL           reduce using rule 42 (var -> ID .)
-    ID              reduce using rule 42 (var -> ID .)
-    TIMES           reduce using rule 42 (var -> ID .)
-    DIVIDE          reduce using rule 42 (var -> ID .)
-    LESS            reduce using rule 42 (var -> ID .)
-    LESSEQUAL       reduce using rule 42 (var -> ID .)
-    GREATER         reduce using rule 42 (var -> ID .)
-    GREATEREQUAL    reduce using rule 42 (var -> ID .)
-    DEQUAL          reduce using rule 42 (var -> ID .)
-    DISTINT         reduce using rule 42 (var -> ID .)
-    PLUS            reduce using rule 42 (var -> ID .)
-    MINUS           reduce using rule 42 (var -> ID .)
-    RPAREN          reduce using rule 42 (var -> ID .)
-    THEN            reduce using rule 42 (var -> ID .)
-    ARROW           reduce using rule 42 (var -> ID .)
-    DO              reduce using rule 42 (var -> ID .)
-    RBRACKET        reduce using rule 42 (var -> ID .)
-    COMMA           reduce using rule 42 (var -> ID .)
-    SETOUT          reduce using rule 42 (var -> ID .)
-    GETIN           reduce using rule 42 (var -> ID .)
-    IF              reduce using rule 42 (var -> ID .)
-    FOR             reduce using rule 42 (var -> ID .)
-    WHILE           reduce using rule 42 (var -> ID .)
-    CALL            reduce using rule 42 (var -> ID .)
-    INT             reduce using rule 42 (var -> ID .)
-    FLOAT           reduce using rule 42 (var -> ID .)
-    NUMBER          reduce using rule 42 (var -> ID .)
-    NUMBER_FLOAT    reduce using rule 42 (var -> ID .)
-    LPAREN          reduce using rule 42 (var -> ID .)
-    MAIN            reduce using rule 42 (var -> ID .)
-    END             reduce using rule 42 (var -> ID .)
-    ELSE            reduce using rule 42 (var -> ID .)
-    LOOP            reduce using rule 42 (var -> ID .)
-    LBRACKET        shift and go to state 41
+    SETOUT          reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    GETIN           reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    IF              reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    FOR             reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    WHILE           reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    CALL            reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    ID              reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    INT             reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    FLOAT           reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    NUMBER          reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    LPAREN          reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    MAIN            reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    END             reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    ELSE            reduce using rule 36 (expression_nont -> var MINUSMINUS .)
+    LOOP            reduce using rule 36 (expression_nont -> var MINUSMINUS .)
 
-    vardimen                       shift and go to state 40
 
 state 45
 
@@ -1255,20 +1265,20 @@ state 45
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
-    var                            shift and go to state 18
+    var                            shift and go to state 41
     expression                     shift and go to state 73
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 46
 
@@ -1285,7 +1295,7 @@ state 47
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
 
     var                            shift and go to state 75
 
@@ -1325,15 +1335,14 @@ state 51
 
     SETOUT          reduce using rule 7 (var_declaration -> var_type ID .)
     GETIN           reduce using rule 7 (var_declaration -> var_type ID .)
-    ID              reduce using rule 7 (var_declaration -> var_type ID .)
     IF              reduce using rule 7 (var_declaration -> var_type ID .)
     FOR             reduce using rule 7 (var_declaration -> var_type ID .)
     WHILE           reduce using rule 7 (var_declaration -> var_type ID .)
     CALL            reduce using rule 7 (var_declaration -> var_type ID .)
+    ID              reduce using rule 7 (var_declaration -> var_type ID .)
     INT             reduce using rule 7 (var_declaration -> var_type ID .)
     FLOAT           reduce using rule 7 (var_declaration -> var_type ID .)
     NUMBER          reduce using rule 7 (var_declaration -> var_type ID .)
-    NUMBER_FLOAT    reduce using rule 7 (var_declaration -> var_type ID .)
     LPAREN          reduce using rule 7 (var_declaration -> var_type ID .)
     MAIN            reduce using rule 7 (var_declaration -> var_type ID .)
     END             reduce using rule 7 (var_declaration -> var_type ID .)
@@ -1361,20 +1370,20 @@ state 53
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
 
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
-    ID              shift and go to state 44
+    ID              shift and go to state 9
 
     additive_expression            shift and go to state 84
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
     var                            shift and go to state 85
 
 state 54
@@ -1384,19 +1393,19 @@ state 54
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
 
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
-    ID              shift and go to state 44
+    ID              shift and go to state 9
 
     term                           shift and go to state 86
-    factor                         shift and go to state 32
+    factor                         shift and go to state 31
     var                            shift and go to state 85
 
 state 55
@@ -1404,7 +1413,7 @@ state 55
     (50) checkop -> LESS .
 
     NUMBER          reduce using rule 50 (checkop -> LESS .)
-    NUMBER_FLOAT    reduce using rule 50 (checkop -> LESS .)
+    FLOAT           reduce using rule 50 (checkop -> LESS .)
     LPAREN          reduce using rule 50 (checkop -> LESS .)
     ID              reduce using rule 50 (checkop -> LESS .)
 
@@ -1414,7 +1423,7 @@ state 56
     (51) checkop -> LESSEQUAL .
 
     NUMBER          reduce using rule 51 (checkop -> LESSEQUAL .)
-    NUMBER_FLOAT    reduce using rule 51 (checkop -> LESSEQUAL .)
+    FLOAT           reduce using rule 51 (checkop -> LESSEQUAL .)
     LPAREN          reduce using rule 51 (checkop -> LESSEQUAL .)
     ID              reduce using rule 51 (checkop -> LESSEQUAL .)
 
@@ -1424,7 +1433,7 @@ state 57
     (52) checkop -> GREATER .
 
     NUMBER          reduce using rule 52 (checkop -> GREATER .)
-    NUMBER_FLOAT    reduce using rule 52 (checkop -> GREATER .)
+    FLOAT           reduce using rule 52 (checkop -> GREATER .)
     LPAREN          reduce using rule 52 (checkop -> GREATER .)
     ID              reduce using rule 52 (checkop -> GREATER .)
 
@@ -1434,7 +1443,7 @@ state 58
     (53) checkop -> GREATEREQUAL .
 
     NUMBER          reduce using rule 53 (checkop -> GREATEREQUAL .)
-    NUMBER_FLOAT    reduce using rule 53 (checkop -> GREATEREQUAL .)
+    FLOAT           reduce using rule 53 (checkop -> GREATEREQUAL .)
     LPAREN          reduce using rule 53 (checkop -> GREATEREQUAL .)
     ID              reduce using rule 53 (checkop -> GREATEREQUAL .)
 
@@ -1444,7 +1453,7 @@ state 59
     (54) checkop -> DEQUAL .
 
     NUMBER          reduce using rule 54 (checkop -> DEQUAL .)
-    NUMBER_FLOAT    reduce using rule 54 (checkop -> DEQUAL .)
+    FLOAT           reduce using rule 54 (checkop -> DEQUAL .)
     LPAREN          reduce using rule 54 (checkop -> DEQUAL .)
     ID              reduce using rule 54 (checkop -> DEQUAL .)
 
@@ -1454,7 +1463,7 @@ state 60
     (55) checkop -> DISTINT .
 
     NUMBER          reduce using rule 55 (checkop -> DISTINT .)
-    NUMBER_FLOAT    reduce using rule 55 (checkop -> DISTINT .)
+    FLOAT           reduce using rule 55 (checkop -> DISTINT .)
     LPAREN          reduce using rule 55 (checkop -> DISTINT .)
     ID              reduce using rule 55 (checkop -> DISTINT .)
 
@@ -1464,7 +1473,7 @@ state 61
     (58) addop -> PLUS .
 
     NUMBER          reduce using rule 58 (addop -> PLUS .)
-    NUMBER_FLOAT    reduce using rule 58 (addop -> PLUS .)
+    FLOAT           reduce using rule 58 (addop -> PLUS .)
     LPAREN          reduce using rule 58 (addop -> PLUS .)
     ID              reduce using rule 58 (addop -> PLUS .)
 
@@ -1474,7 +1483,7 @@ state 62
     (59) addop -> MINUS .
 
     NUMBER          reduce using rule 59 (addop -> MINUS .)
-    NUMBER_FLOAT    reduce using rule 59 (addop -> MINUS .)
+    FLOAT           reduce using rule 59 (addop -> MINUS .)
     LPAREN          reduce using rule 59 (addop -> MINUS .)
     ID              reduce using rule 59 (addop -> MINUS .)
 
@@ -1484,16 +1493,16 @@ state 63
     (65) term -> term mulop . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
 
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
-    ID              shift and go to state 44
+    ID              shift and go to state 9
 
     factor                         shift and go to state 87
     var                            shift and go to state 85
@@ -1503,7 +1512,7 @@ state 64
     (67) mulop -> TIMES .
 
     NUMBER          reduce using rule 67 (mulop -> TIMES .)
-    NUMBER_FLOAT    reduce using rule 67 (mulop -> TIMES .)
+    FLOAT           reduce using rule 67 (mulop -> TIMES .)
     LPAREN          reduce using rule 67 (mulop -> TIMES .)
     ID              reduce using rule 67 (mulop -> TIMES .)
 
@@ -1513,7 +1522,7 @@ state 65
     (68) mulop -> DIVIDE .
 
     NUMBER          reduce using rule 68 (mulop -> DIVIDE .)
-    NUMBER_FLOAT    reduce using rule 68 (mulop -> DIVIDE .)
+    FLOAT           reduce using rule 68 (mulop -> DIVIDE .)
     LPAREN          reduce using rule 68 (mulop -> DIVIDE .)
     ID              reduce using rule 68 (mulop -> DIVIDE .)
 
@@ -1537,8 +1546,8 @@ state 66
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -1553,11 +1562,11 @@ state 66
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -1566,20 +1575,19 @@ state 66
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     statements_nont                shift and go to state 88
@@ -1592,10 +1600,10 @@ state 66
     expression                     shift and go to state 15
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 67
 
@@ -1616,8 +1624,8 @@ state 67
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -1632,11 +1640,11 @@ state 67
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -1645,20 +1653,19 @@ state 67
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     statements_nont                shift and go to state 89
@@ -1671,10 +1678,10 @@ state 67
     expression                     shift and go to state 15
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 68
 
@@ -1692,20 +1699,20 @@ state 68
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 90
-    var                            shift and go to state 18
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    var                            shift and go to state 41
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 69
 
@@ -1751,15 +1758,14 @@ state 72
     MINUS           reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     SETOUT          reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     GETIN           reduce using rule 63 (factor -> LPAREN expression RPAREN .)
-    ID              reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     IF              reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     FOR             reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     WHILE           reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     CALL            reduce using rule 63 (factor -> LPAREN expression RPAREN .)
+    ID              reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     INT             reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     FLOAT           reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     NUMBER          reduce using rule 63 (factor -> LPAREN expression RPAREN .)
-    NUMBER_FLOAT    reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     LPAREN          reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     MAIN            reduce using rule 63 (factor -> LPAREN expression RPAREN .)
     RPAREN          reduce using rule 63 (factor -> LPAREN expression RPAREN .)
@@ -1778,15 +1784,14 @@ state 73
 
     SETOUT          reduce using rule 41 (expression -> var EQUAL expression .)
     GETIN           reduce using rule 41 (expression -> var EQUAL expression .)
-    ID              reduce using rule 41 (expression -> var EQUAL expression .)
     IF              reduce using rule 41 (expression -> var EQUAL expression .)
     FOR             reduce using rule 41 (expression -> var EQUAL expression .)
     WHILE           reduce using rule 41 (expression -> var EQUAL expression .)
     CALL            reduce using rule 41 (expression -> var EQUAL expression .)
+    ID              reduce using rule 41 (expression -> var EQUAL expression .)
     INT             reduce using rule 41 (expression -> var EQUAL expression .)
     FLOAT           reduce using rule 41 (expression -> var EQUAL expression .)
     NUMBER          reduce using rule 41 (expression -> var EQUAL expression .)
-    NUMBER_FLOAT    reduce using rule 41 (expression -> var EQUAL expression .)
     LPAREN          reduce using rule 41 (expression -> var EQUAL expression .)
     MAIN            reduce using rule 41 (expression -> var EQUAL expression .)
     RPAREN          reduce using rule 41 (expression -> var EQUAL expression .)
@@ -1815,20 +1820,20 @@ state 74
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
-    var                            shift and go to state 18
+    var                            shift and go to state 41
     expression                     shift and go to state 95
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 75
 
@@ -1861,8 +1866,8 @@ state 76
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -1877,11 +1882,11 @@ state 76
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -1890,20 +1895,19 @@ state 76
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 15
@@ -1916,10 +1920,10 @@ state 76
     call                           shift and go to state 14
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 77
 
@@ -1937,20 +1941,20 @@ state 77
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 99
-    var                            shift and go to state 18
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    var                            shift and go to state 41
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 78
 
@@ -1971,8 +1975,8 @@ state 78
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -1987,11 +1991,11 @@ state 78
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -2000,20 +2004,19 @@ state 78
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 15
@@ -2026,10 +2029,10 @@ state 78
     call                           shift and go to state 14
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 79
 
@@ -2055,19 +2058,20 @@ state 80
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     NUMBER          shift and go to state 102
     NUMBER_FLOAT    shift and go to state 103
-    ID              shift and go to state 44
+    ID              shift and go to state 9
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
     var                            shift and go to state 104
     simple_expression              shift and go to state 105
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 81
 
@@ -2076,15 +2080,14 @@ state 81
 
     SETOUT          reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     GETIN           reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
-    ID              reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     IF              reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     FOR             reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     WHILE           reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     CALL            reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
+    ID              reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     INT             reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     FLOAT           reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     NUMBER          reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
-    NUMBER_FLOAT    reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     LPAREN          reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     MAIN            reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
     END             reduce using rule 15 (var_declaration -> var_type ID dimensiones .)
@@ -2109,20 +2112,20 @@ state 82
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 107
-    var                            shift and go to state 18
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    var                            shift and go to state 41
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 83
 
@@ -2140,15 +2143,14 @@ state 84
 
     SETOUT          reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     GETIN           reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
-    ID              reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     IF              reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     FOR             reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     WHILE           reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     CALL            reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
+    ID              reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     INT             reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     FLOAT           reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     NUMBER          reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
-    NUMBER_FLOAT    reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     LPAREN          reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     MAIN            reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
     RPAREN          reduce using rule 48 (simple_expression -> additive_expression checkop additive_expression .)
@@ -2183,7 +2185,6 @@ state 85
     INT             reduce using rule 60 (factor -> var .)
     FLOAT           reduce using rule 60 (factor -> var .)
     NUMBER          reduce using rule 60 (factor -> var .)
-    NUMBER_FLOAT    reduce using rule 60 (factor -> var .)
     LPAREN          reduce using rule 60 (factor -> var .)
     MAIN            reduce using rule 60 (factor -> var .)
     RPAREN          reduce using rule 60 (factor -> var .)
@@ -2222,15 +2223,14 @@ state 86
     MINUS           reduce using rule 56 (additive_expression -> additive_expression addop term .)
     SETOUT          reduce using rule 56 (additive_expression -> additive_expression addop term .)
     GETIN           reduce using rule 56 (additive_expression -> additive_expression addop term .)
-    ID              reduce using rule 56 (additive_expression -> additive_expression addop term .)
     IF              reduce using rule 56 (additive_expression -> additive_expression addop term .)
     FOR             reduce using rule 56 (additive_expression -> additive_expression addop term .)
     WHILE           reduce using rule 56 (additive_expression -> additive_expression addop term .)
     CALL            reduce using rule 56 (additive_expression -> additive_expression addop term .)
+    ID              reduce using rule 56 (additive_expression -> additive_expression addop term .)
     INT             reduce using rule 56 (additive_expression -> additive_expression addop term .)
     FLOAT           reduce using rule 56 (additive_expression -> additive_expression addop term .)
     NUMBER          reduce using rule 56 (additive_expression -> additive_expression addop term .)
-    NUMBER_FLOAT    reduce using rule 56 (additive_expression -> additive_expression addop term .)
     LPAREN          reduce using rule 56 (additive_expression -> additive_expression addop term .)
     MAIN            reduce using rule 56 (additive_expression -> additive_expression addop term .)
     RPAREN          reduce using rule 56 (additive_expression -> additive_expression addop term .)
@@ -2262,15 +2262,14 @@ state 87
     MINUS           reduce using rule 65 (term -> term mulop factor .)
     SETOUT          reduce using rule 65 (term -> term mulop factor .)
     GETIN           reduce using rule 65 (term -> term mulop factor .)
-    ID              reduce using rule 65 (term -> term mulop factor .)
     IF              reduce using rule 65 (term -> term mulop factor .)
     FOR             reduce using rule 65 (term -> term mulop factor .)
     WHILE           reduce using rule 65 (term -> term mulop factor .)
     CALL            reduce using rule 65 (term -> term mulop factor .)
+    ID              reduce using rule 65 (term -> term mulop factor .)
     INT             reduce using rule 65 (term -> term mulop factor .)
     FLOAT           reduce using rule 65 (term -> term mulop factor .)
     NUMBER          reduce using rule 65 (term -> term mulop factor .)
-    NUMBER_FLOAT    reduce using rule 65 (term -> term mulop factor .)
     LPAREN          reduce using rule 65 (term -> term mulop factor .)
     MAIN            reduce using rule 65 (term -> term mulop factor .)
     RPAREN          reduce using rule 65 (term -> term mulop factor .)
@@ -2301,8 +2300,8 @@ state 88
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -2317,11 +2316,11 @@ state 88
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -2330,24 +2329,23 @@ state 88
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     END             shift and go to state 109
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
-    statement                      shift and go to state 36
+    statement                      shift and go to state 35
     expression_nont                shift and go to state 10
     condition_nont                 shift and go to state 11
     iteration_nont                 shift and go to state 12
@@ -2356,10 +2354,10 @@ state 88
     expression                     shift and go to state 15
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 89
 
@@ -2379,8 +2377,8 @@ state 89
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -2395,11 +2393,11 @@ state 89
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -2408,24 +2406,23 @@ state 89
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     END             shift and go to state 110
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
-    statement                      shift and go to state 36
+    statement                      shift and go to state 35
     expression_nont                shift and go to state 10
     condition_nont                 shift and go to state 11
     iteration_nont                 shift and go to state 12
@@ -2434,10 +2431,10 @@ state 89
     expression                     shift and go to state 15
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 90
 
@@ -2451,6 +2448,8 @@ state 91
     (46) vardimen -> LBRACKET expression RBRACKET .
 
     LBRACKET        reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
+    PLUSPLUS        reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
+    MINUSMINUS      reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     EQUAL           reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     ID              reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     TIMES           reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
@@ -2472,18 +2471,17 @@ state 91
     INT             reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     FLOAT           reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     NUMBER          reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
-    NUMBER_FLOAT    reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     LPAREN          reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     MAIN            reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
-    END             reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
-    ELSE            reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
-    LOOP            reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     RPAREN          reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     THEN            reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     ARROW           reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     DO              reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     RBRACKET        reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
     COMMA           reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
+    END             reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
+    ELSE            reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
+    LOOP            reduce using rule 46 (vardimen -> LBRACKET expression RBRACKET .)
 
 
 state 92
@@ -2500,15 +2498,14 @@ state 93
 
     SETOUT          reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     GETIN           reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
-    ID              reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     IF              reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     FOR             reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     WHILE           reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     CALL            reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
+    ID              reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     INT             reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     FLOAT           reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     NUMBER          reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
-    NUMBER_FLOAT    reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     LPAREN          reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     MAIN            reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
     END             reduce using rule 29 (expression_nont -> SETOUT LPAREN var RPAREN .)
@@ -2526,7 +2523,7 @@ state 94
     (44) var -> . ID vardimen
 
     ENDL            shift and go to state 114
-    ID              shift and go to state 44
+    ID              shift and go to state 9
 
     var                            shift and go to state 113
 
@@ -2543,15 +2540,14 @@ state 96
 
     SETOUT          reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     GETIN           reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
-    ID              reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     IF              reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     FOR             reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     WHILE           reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     CALL            reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
+    ID              reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     INT             reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     FLOAT           reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     NUMBER          reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
-    NUMBER_FLOAT    reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     LPAREN          reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     MAIN            reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
     END             reduce using rule 33 (expression_nont -> GETIN LPAREN var RPAREN .)
@@ -2566,7 +2562,7 @@ state 97
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
 
     var                            shift and go to state 116
 
@@ -2589,8 +2585,8 @@ state 98
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -2605,11 +2601,11 @@ state 98
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -2618,26 +2614,25 @@ state 98
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     END             shift and go to state 117
     ELSE            shift and go to state 118
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 15
-    statement                      shift and go to state 36
+    statement                      shift and go to state 35
     expression_nont                shift and go to state 10
     condition_nont                 shift and go to state 11
     iteration_nont                 shift and go to state 12
@@ -2645,10 +2640,10 @@ state 98
     call                           shift and go to state 14
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 99
 
@@ -2675,8 +2670,8 @@ state 100
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -2691,11 +2686,11 @@ state 100
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -2704,25 +2699,24 @@ state 100
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     LOOP            shift and go to state 120
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 15
-    statement                      shift and go to state 36
+    statement                      shift and go to state 35
     expression_nont                shift and go to state 10
     condition_nont                 shift and go to state 11
     iteration_nont                 shift and go to state 12
@@ -2730,10 +2724,10 @@ state 100
     call                           shift and go to state 14
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 101
 
@@ -2741,15 +2735,14 @@ state 101
 
     SETOUT          reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     GETIN           reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
-    ID              reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     IF              reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     FOR             reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     WHILE           reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     CALL            reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
+    ID              reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     INT             reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     FLOAT           reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     NUMBER          reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
-    NUMBER_FLOAT    reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     LPAREN          reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     MAIN            reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
     END             reduce using rule 8 (var_declaration -> var_type ID COMMA ID .)
@@ -2764,15 +2757,14 @@ state 102
 
   ! reduce/reduce conflict for SETOUT resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for GETIN resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
-  ! reduce/reduce conflict for ID resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for IF resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for FOR resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for WHILE resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for CALL resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
+  ! reduce/reduce conflict for ID resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for INT resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for FLOAT resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for NUMBER resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
-  ! reduce/reduce conflict for NUMBER_FLOAT resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for LPAREN resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for MAIN resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
   ! reduce/reduce conflict for END resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
@@ -2780,15 +2772,14 @@ state 102
   ! reduce/reduce conflict for LOOP resolved using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     SETOUT          reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     GETIN           reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
-    ID              reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     IF              reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     FOR             reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     WHILE           reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     CALL            reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
+    ID              reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     INT             reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     FLOAT           reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     NUMBER          reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
-    NUMBER_FLOAT    reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     LPAREN          reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     MAIN            reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
     END             reduce using rule 9 (var_declaration -> var_type ID EQUAL NUMBER .)
@@ -2807,15 +2798,14 @@ state 102
 
   ! SETOUT          [ reduce using rule 61 (factor -> NUMBER .) ]
   ! GETIN           [ reduce using rule 61 (factor -> NUMBER .) ]
-  ! ID              [ reduce using rule 61 (factor -> NUMBER .) ]
   ! IF              [ reduce using rule 61 (factor -> NUMBER .) ]
   ! FOR             [ reduce using rule 61 (factor -> NUMBER .) ]
   ! WHILE           [ reduce using rule 61 (factor -> NUMBER .) ]
   ! CALL            [ reduce using rule 61 (factor -> NUMBER .) ]
+  ! ID              [ reduce using rule 61 (factor -> NUMBER .) ]
   ! INT             [ reduce using rule 61 (factor -> NUMBER .) ]
   ! FLOAT           [ reduce using rule 61 (factor -> NUMBER .) ]
   ! NUMBER          [ reduce using rule 61 (factor -> NUMBER .) ]
-  ! NUMBER_FLOAT    [ reduce using rule 61 (factor -> NUMBER .) ]
   ! LPAREN          [ reduce using rule 61 (factor -> NUMBER .) ]
   ! MAIN            [ reduce using rule 61 (factor -> NUMBER .) ]
   ! END             [ reduce using rule 61 (factor -> NUMBER .) ]
@@ -2826,67 +2816,22 @@ state 102
 state 103
 
     (10) var_declaration -> var_type ID EQUAL NUMBER_FLOAT .
-    (62) factor -> NUMBER_FLOAT .
 
-  ! reduce/reduce conflict for SETOUT resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for GETIN resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for ID resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for IF resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for FOR resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for WHILE resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for CALL resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for INT resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for FLOAT resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for NUMBER resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for NUMBER_FLOAT resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for LPAREN resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for MAIN resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for END resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for ELSE resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-  ! reduce/reduce conflict for LOOP resolved using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     SETOUT          reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     GETIN           reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-    ID              reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     IF              reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     FOR             reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     WHILE           reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     CALL            reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
+    ID              reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     INT             reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     FLOAT           reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     NUMBER          reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-    NUMBER_FLOAT    reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     LPAREN          reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     MAIN            reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     END             reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     ELSE            reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
     LOOP            reduce using rule 10 (var_declaration -> var_type ID EQUAL NUMBER_FLOAT .)
-    TIMES           reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    DIVIDE          reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    LESS            reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    LESSEQUAL       reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    GREATER         reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    GREATEREQUAL    reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    DEQUAL          reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    DISTINT         reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    PLUS            reduce using rule 62 (factor -> NUMBER_FLOAT .)
-    MINUS           reduce using rule 62 (factor -> NUMBER_FLOAT .)
-
-  ! SETOUT          [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! GETIN           [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! ID              [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! IF              [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! FOR             [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! WHILE           [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! CALL            [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! INT             [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! FLOAT           [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! NUMBER          [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! NUMBER_FLOAT    [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! LPAREN          [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! MAIN            [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! END             [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! ELSE            [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
-  ! LOOP            [ reduce using rule 62 (factor -> NUMBER_FLOAT .) ]
 
 
 state 104
@@ -2898,15 +2843,14 @@ state 104
   ! shift/reduce conflict for ID resolved as shift
   ! reduce/reduce conflict for SETOUT resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
   ! reduce/reduce conflict for GETIN resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
-  ! shift/reduce conflict for ID resolved as shift
   ! reduce/reduce conflict for IF resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
   ! reduce/reduce conflict for FOR resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
   ! reduce/reduce conflict for WHILE resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
   ! reduce/reduce conflict for CALL resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
+  ! shift/reduce conflict for ID resolved as shift
   ! reduce/reduce conflict for INT resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
   ! reduce/reduce conflict for FLOAT resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
   ! reduce/reduce conflict for NUMBER resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
-  ! reduce/reduce conflict for NUMBER_FLOAT resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
   ! reduce/reduce conflict for LPAREN resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
   ! reduce/reduce conflict for MAIN resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
   ! reduce/reduce conflict for END resolved using rule 11 (var_declaration -> var_type ID EQUAL var .)
@@ -2921,7 +2865,6 @@ state 104
     INT             reduce using rule 11 (var_declaration -> var_type ID EQUAL var .)
     FLOAT           reduce using rule 11 (var_declaration -> var_type ID EQUAL var .)
     NUMBER          reduce using rule 11 (var_declaration -> var_type ID EQUAL var .)
-    NUMBER_FLOAT    reduce using rule 11 (var_declaration -> var_type ID EQUAL var .)
     LPAREN          reduce using rule 11 (var_declaration -> var_type ID EQUAL var .)
     MAIN            reduce using rule 11 (var_declaration -> var_type ID EQUAL var .)
     END             reduce using rule 11 (var_declaration -> var_type ID EQUAL var .)
@@ -2942,15 +2885,14 @@ state 104
   ! ID              [ reduce using rule 11 (var_declaration -> var_type ID EQUAL var .) ]
   ! SETOUT          [ reduce using rule 60 (factor -> var .) ]
   ! GETIN           [ reduce using rule 60 (factor -> var .) ]
-  ! ID              [ reduce using rule 60 (factor -> var .) ]
   ! IF              [ reduce using rule 60 (factor -> var .) ]
   ! FOR             [ reduce using rule 60 (factor -> var .) ]
   ! WHILE           [ reduce using rule 60 (factor -> var .) ]
   ! CALL            [ reduce using rule 60 (factor -> var .) ]
+  ! ID              [ reduce using rule 60 (factor -> var .) ]
   ! INT             [ reduce using rule 60 (factor -> var .) ]
   ! FLOAT           [ reduce using rule 60 (factor -> var .) ]
   ! NUMBER          [ reduce using rule 60 (factor -> var .) ]
-  ! NUMBER_FLOAT    [ reduce using rule 60 (factor -> var .) ]
   ! LPAREN          [ reduce using rule 60 (factor -> var .) ]
   ! MAIN            [ reduce using rule 60 (factor -> var .) ]
   ! END             [ reduce using rule 60 (factor -> var .) ]
@@ -2964,15 +2906,14 @@ state 105
 
     SETOUT          reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     GETIN           reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
-    ID              reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     IF              reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     FOR             reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     WHILE           reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     CALL            reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
+    ID              reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     INT             reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     FLOAT           reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     NUMBER          reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
-    NUMBER_FLOAT    reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     LPAREN          reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     MAIN            reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
     END             reduce using rule 12 (var_declaration -> var_type ID EQUAL simple_expression .)
@@ -2996,20 +2937,20 @@ state 106
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
-    ID              shift and go to state 44
+    ID              shift and go to state 9
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
+    FLOAT           shift and go to state 42
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 121
-    var                            shift and go to state 18
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    var                            shift and go to state 41
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 107
 
@@ -3024,15 +2965,14 @@ state 108
 
     SETOUT          reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     GETIN           reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
-    ID              reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     IF              reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     FOR             reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     WHILE           reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     CALL            reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
+    ID              reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     INT             reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     FLOAT           reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     NUMBER          reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
-    NUMBER_FLOAT    reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     LPAREN          reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     MAIN            reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
     END             reduce using rule 64 (call -> CALL LPAREN ID RPAREN .)
@@ -3059,6 +2999,8 @@ state 111
     (45) vardimen -> vardimen LBRACKET expression RBRACKET .
 
     LBRACKET        reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
+    PLUSPLUS        reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
+    MINUSMINUS      reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     EQUAL           reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     ID              reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     TIMES           reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
@@ -3080,18 +3022,17 @@ state 111
     INT             reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     FLOAT           reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     NUMBER          reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
-    NUMBER_FLOAT    reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     LPAREN          reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     MAIN            reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
-    END             reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
-    ELSE            reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
-    LOOP            reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     RPAREN          reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     THEN            reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     ARROW           reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     DO              reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     RBRACKET        reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
     COMMA           reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
+    END             reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
+    ELSE            reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
+    LOOP            reduce using rule 45 (vardimen -> vardimen LBRACKET expression RBRACKET .)
 
 
 state 112
@@ -3124,6 +3065,8 @@ state 115
 
     (43) var -> var ID LBRACKET expression RBRACKET .
 
+    PLUSPLUS        reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
+    MINUSMINUS      reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
     EQUAL           reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
     ID              reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
     TIMES           reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
@@ -3145,7 +3088,6 @@ state 115
     INT             reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
     FLOAT           reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
     NUMBER          reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
-    NUMBER_FLOAT    reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
     LPAREN          reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
     MAIN            reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
     RPAREN          reduce using rule 43 (var -> var ID LBRACKET expression RBRACKET .)
@@ -3174,15 +3116,14 @@ state 117
 
     SETOUT          reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     GETIN           reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
-    ID              reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     IF              reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     FOR             reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     WHILE           reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     CALL            reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
+    ID              reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     INT             reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     FLOAT           reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     NUMBER          reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
-    NUMBER_FLOAT    reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     LPAREN          reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     MAIN            reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
     END             reduce using rule 37 (condition_nont -> IF expression THEN statements_nont END .)
@@ -3209,8 +3150,8 @@ state 118
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -3225,11 +3166,11 @@ state 118
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -3238,20 +3179,19 @@ state 118
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 15
@@ -3264,10 +3204,10 @@ state 118
     call                           shift and go to state 14
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 119
 
@@ -3288,8 +3228,8 @@ state 119
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -3304,11 +3244,11 @@ state 119
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -3317,20 +3257,19 @@ state 119
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 15
@@ -3343,10 +3282,10 @@ state 119
     call                           shift and go to state 14
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 120
 
@@ -3354,15 +3293,14 @@ state 120
 
     SETOUT          reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     GETIN           reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
-    ID              reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     IF              reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     FOR             reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     WHILE           reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     CALL            reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
+    ID              reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     INT             reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     FLOAT           reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     NUMBER          reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
-    NUMBER_FLOAT    reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     LPAREN          reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     MAIN            reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
     END             reduce using rule 40 (iteration_nont -> WHILE expression DO statements_nont LOOP .)
@@ -3384,15 +3322,14 @@ state 122
     LBRACKET        reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     SETOUT          reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     GETIN           reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
-    ID              reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     IF              reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     FOR             reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     WHILE           reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     CALL            reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
+    ID              reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     INT             reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     FLOAT           reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     NUMBER          reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
-    NUMBER_FLOAT    reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     LPAREN          reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     MAIN            reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
     END             reduce using rule 17 (dimensiones -> LBRACKET expression RBRACKET .)
@@ -3406,15 +3343,14 @@ state 123
 
     SETOUT          reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     GETIN           reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
-    ID              reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     IF              reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     FOR             reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     WHILE           reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     CALL            reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
+    ID              reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     INT             reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     FLOAT           reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     NUMBER          reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
-    NUMBER_FLOAT    reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     LPAREN          reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     MAIN            reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
     END             reduce using rule 27 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES RPAREN .)
@@ -3444,15 +3380,14 @@ state 126
 
     SETOUT          reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     GETIN           reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
-    ID              reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     IF              reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     FOR             reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     WHILE           reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     CALL            reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
+    ID              reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     INT             reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     FLOAT           reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     NUMBER          reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
-    NUMBER_FLOAT    reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     LPAREN          reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     MAIN            reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
     END             reduce using rule 30 (expression_nont -> SETOUT LPAREN var COMMA ENDL RPAREN .)
@@ -3466,15 +3401,14 @@ state 127
 
     SETOUT          reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     GETIN           reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
-    ID              reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     IF              reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     FOR             reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     WHILE           reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     CALL            reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
+    ID              reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     INT             reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     FLOAT           reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     NUMBER          reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
-    NUMBER_FLOAT    reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     LPAREN          reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     MAIN            reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
     END             reduce using rule 34 (expression_nont -> GETIN LPAREN var COMMA var RPAREN .)
@@ -3500,8 +3434,8 @@ state 128
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -3516,11 +3450,11 @@ state 128
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -3529,25 +3463,24 @@ state 128
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     END             shift and go to state 134
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 15
-    statement                      shift and go to state 36
+    statement                      shift and go to state 35
     expression_nont                shift and go to state 10
     condition_nont                 shift and go to state 11
     iteration_nont                 shift and go to state 12
@@ -3555,10 +3488,10 @@ state 128
     call                           shift and go to state 14
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 129
 
@@ -3578,8 +3511,8 @@ state 129
     (32) expression_nont -> . SETOUT LPAREN var COMMA var COMMA ENDL RPAREN
     (33) expression_nont -> . GETIN LPAREN var RPAREN
     (34) expression_nont -> . GETIN LPAREN var COMMA var RPAREN
-    (35) expression_nont -> . ID PLUSPLUS
-    (36) expression_nont -> . ID MINUSMINUS
+    (35) expression_nont -> . var PLUSPLUS
+    (36) expression_nont -> . var MINUSMINUS
     (37) condition_nont -> . IF expression THEN statements_nont END
     (38) condition_nont -> . IF expression THEN statements_nont ELSE statements_nont END
     (39) iteration_nont -> . FOR expression ARROW expression DO statements_nont LOOP
@@ -3594,11 +3527,11 @@ state 129
     (64) call -> . CALL LPAREN ID RPAREN
     (41) expression -> . var EQUAL expression
     (47) expression -> . simple_expression
-    (13) var_type -> . INT
-    (14) var_type -> . FLOAT
     (42) var -> . ID
     (43) var -> . var ID LBRACKET expression RBRACKET
     (44) var -> . ID vardimen
+    (13) var_type -> . INT
+    (14) var_type -> . FLOAT
     (48) simple_expression -> . additive_expression checkop additive_expression
     (49) simple_expression -> . additive_expression
     (56) additive_expression -> . additive_expression addop term
@@ -3607,25 +3540,24 @@ state 129
     (66) term -> . factor
     (60) factor -> . var
     (61) factor -> . NUMBER
-    (62) factor -> . NUMBER_FLOAT
+    (62) factor -> . FLOAT
     (63) factor -> . LPAREN expression RPAREN
 
     LOOP            shift and go to state 135
     SETOUT          shift and go to state 16
     GETIN           shift and go to state 19
-    ID              shift and go to state 9
     IF              shift and go to state 20
     FOR             shift and go to state 21
     WHILE           shift and go to state 22
-    CALL            shift and go to state 27
-    INT             shift and go to state 28
-    FLOAT           shift and go to state 29
+    CALL            shift and go to state 26
+    ID              shift and go to state 9
+    INT             shift and go to state 27
+    FLOAT           shift and go to state 28
     NUMBER          shift and go to state 24
-    NUMBER_FLOAT    shift and go to state 25
     LPAREN          shift and go to state 17
 
     expression                     shift and go to state 15
-    statement                      shift and go to state 36
+    statement                      shift and go to state 35
     expression_nont                shift and go to state 10
     condition_nont                 shift and go to state 11
     iteration_nont                 shift and go to state 12
@@ -3633,10 +3565,10 @@ state 129
     call                           shift and go to state 14
     var                            shift and go to state 18
     var_type                       shift and go to state 23
-    simple_expression              shift and go to state 26
-    additive_expression            shift and go to state 30
-    term                           shift and go to state 31
-    factor                         shift and go to state 32
+    simple_expression              shift and go to state 25
+    additive_expression            shift and go to state 29
+    term                           shift and go to state 30
+    factor                         shift and go to state 31
 
 state 130
 
@@ -3645,15 +3577,14 @@ state 130
     LBRACKET        reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     SETOUT          reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     GETIN           reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
-    ID              reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     IF              reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     FOR             reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     WHILE           reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     CALL            reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
+    ID              reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     INT             reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     FLOAT           reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     NUMBER          reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
-    NUMBER_FLOAT    reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     LPAREN          reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     MAIN            reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
     END             reduce using rule 16 (dimensiones -> dimensiones LBRACKET expression RBRACKET .)
@@ -3674,15 +3605,14 @@ state 132
 
     SETOUT          reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     GETIN           reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
-    ID              reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     IF              reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     FOR             reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     WHILE           reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     CALL            reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
+    ID              reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     INT             reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     FLOAT           reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     NUMBER          reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
-    NUMBER_FLOAT    reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     LPAREN          reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     MAIN            reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
     END             reduce using rule 31 (expression_nont -> SETOUT LPAREN var COMMA var COMMA RPAREN .)
@@ -3703,15 +3633,14 @@ state 134
 
     SETOUT          reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     GETIN           reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
-    ID              reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     IF              reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     FOR             reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     WHILE           reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     CALL            reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
+    ID              reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     INT             reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     FLOAT           reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     NUMBER          reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
-    NUMBER_FLOAT    reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     LPAREN          reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     MAIN            reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
     END             reduce using rule 38 (condition_nont -> IF expression THEN statements_nont ELSE statements_nont END .)
@@ -3725,15 +3654,14 @@ state 135
 
     SETOUT          reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     GETIN           reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
-    ID              reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     IF              reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     FOR             reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     WHILE           reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     CALL            reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
+    ID              reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     INT             reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     FLOAT           reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     NUMBER          reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
-    NUMBER_FLOAT    reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     LPAREN          reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     MAIN            reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
     END             reduce using rule 39 (iteration_nont -> FOR expression ARROW expression DO statements_nont LOOP .)
@@ -3747,15 +3675,14 @@ state 136
 
     SETOUT          reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     GETIN           reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
-    ID              reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     IF              reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     FOR             reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     WHILE           reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     CALL            reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
+    ID              reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     INT             reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     FLOAT           reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     NUMBER          reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
-    NUMBER_FLOAT    reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     LPAREN          reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     MAIN            reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
     END             reduce using rule 28 (expression_nont -> SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN .)
@@ -3769,15 +3696,14 @@ state 137
 
     SETOUT          reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     GETIN           reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
-    ID              reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     IF              reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     FOR             reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     WHILE           reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     CALL            reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
+    ID              reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     INT             reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     FLOAT           reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     NUMBER          reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
-    NUMBER_FLOAT    reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     LPAREN          reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     MAIN            reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
     END             reduce using rule 32 (expression_nont -> SETOUT LPAREN var COMMA var COMMA ENDL RPAREN .)
@@ -3789,12 +3715,13 @@ WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for MAIN in state 4 resolved as shift
 WARNING: shift/reduce conflict for ID in state 18 resolved as shift
+WARNING: shift/reduce conflict for ID in state 41 resolved as shift
 WARNING: shift/reduce conflict for ID in state 85 resolved as shift
 WARNING: shift/reduce conflict for ID in state 104 resolved as shift
 WARNING: shift/reduce conflict for ID in state 104 resolved as shift
+WARNING: reduce/reduce conflict in state 28 resolved using rule (var_type -> FLOAT)
+WARNING: rejected rule (factor -> FLOAT) in state 28
 WARNING: reduce/reduce conflict in state 102 resolved using rule (var_declaration -> var_type ID EQUAL NUMBER)
 WARNING: rejected rule (factor -> NUMBER) in state 102
-WARNING: reduce/reduce conflict in state 103 resolved using rule (var_declaration -> var_type ID EQUAL NUMBER_FLOAT)
-WARNING: rejected rule (factor -> NUMBER_FLOAT) in state 103
 WARNING: reduce/reduce conflict in state 104 resolved using rule (var_declaration -> var_type ID EQUAL var)
 WARNING: rejected rule (factor -> var) in state 104

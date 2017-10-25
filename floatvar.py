@@ -6,7 +6,9 @@ class Float(object):
         """Crear una variable int
         """
         self.id = id
-        self.value = value
+        if(isinstance(value,floats)):
+            self.value = value
+        return "ASSIGNING TO " + self.id + " A NON-FLOAT VALUE!"
 
     def getId(self):
         return self.id

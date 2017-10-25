@@ -9,7 +9,7 @@ class Int(object):
         if(isinstance(value,int)):
             self.value = value
         else:
-            print("ASSIGNING " + self.id + " A NON-INT VALUE!")
+            print("ASSIGNING TO" + self.id + " A NON-INT VALUE!")
             exit()
 
     def getId(self):

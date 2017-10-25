@@ -3,7 +3,10 @@ START
 	setIn(Hola)
 	END
 	Main:
-		int imain = (9*(3+3)*(31-3)+10)*2
-		int perrito = 123
+		int a = 1
+		int b = 2
+		int c = 3
+		int d = 4
+		int imain = a * b * c * d  
 	END
 END

@@ -2,7 +2,6 @@ from tinybit_lex import tokens
 from intvar import *
 from floatvar import *
 
-
 VERBOSE = 1
 vtable = {}
 ints = []
@@ -24,7 +23,7 @@ def p_error(p):
         raise Exception('Syntax', 'error')
 
 def p_error_repeat_var(p):
-    print("Error, la variable " + str(p) + " está repetida")
+    print("Error, la variable \"" + str(p) + "\" está repetida")
 
 def p_program(p):
     'program : START program_main END'
@@ -147,10 +146,13 @@ def p_expression_GETIN(p):
 
 
 def p_expression_overload(p):
-    '''expression_nont : ID PLUSPLUS
-    | ID MINUSMINUS
-    '''
-    pass
+    '''expression_nont : var PLUSPLUS
+    | var MINUSMINUS
+    '''                       
+    if p[2] == '++':
+        p[1].setValue(p[1].getValue()+1)
+    else:
+        p[1].setValue(p[1].getValue()-1)
 
 def p_condition_if(p):
     'condition_nont : IF expression THEN statements_nont END'
@@ -174,12 +176,22 @@ def p_iteration_while(p):
 
 def p_expression_equal(p):
     '''expression : var EQUAL expression'''
-    pass
+    p[1].setValue(p[3])
 
 
 def p_var_ID(p):
     'var : ID'
-    pass
+    if p[1] in vtable:
+        if vtable[p[1]] == 'INT':
+            for var in ints:
+                if var.getId() == p[1]:
+                    p[0] = var
+        if vtable[p[1]] == 'FLOAT':
+            for var in floats:
+                if var.getId() == p[1]:
+                    p[0] = var
+
+
 
 def p_var_bracket(p):
     """
@@ -225,11 +237,14 @@ def p_additive_expression_1(p):
     """
     additive_expression : additive_expression addop term
     """
-    if p[2] == '+' : 
-        p[0] = p[1] + p[3]
+    if isinstance(p[3],Int):
+        p[3] = p[3].getValue()
+    if isinstance(p[1],Int):
+        p[1] = p[1].getValue()   
+    if p[2] == '+':
+        p[0] = p[1] * p[3]
     elif p[2] == '-': 
-        p[0] = p[1] - p[3]
-    print(str(p[2]) + " " + str(p[1]) + " " + str(p[3]) + " " + str(p[0]))
+        p[0] = p[1] / p[3]
 
 
 def p_additive_justerm(p):
@@ -246,7 +261,7 @@ def p_factor(p):
     """
     factor : var
            | NUMBER
-           | NUMBER_FLOAT
+           | FLOAT
     """
     p[0] = p[1]
 
@@ -263,11 +278,15 @@ def p_term_mulop(p):
     """
     term : term mulop factor
     """
+    if isinstance(p[3],Int):
+        p[3] = p[3].getValue()
+    if isinstance(p[1],Int):
+        p[1] = p[1].getValue()  
     if p[2] == '*':
         p[0] = p[1] * p[3]
     elif p[2] == '/': 
         p[0] = p[1] / p[3]
-    print(str(p[2]) + " " + str(p[1]) + " " + str(p[3]) + " " + str(p[0]))
+    
 
 def p_term_mulop1(p):
     'term : factor'
