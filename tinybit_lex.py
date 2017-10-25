@@ -12,6 +12,7 @@ tokens = (
     'START',
     'END',
     'SETOUT',
+    'SETIN',    
     'ARROW',
     'GETIN',
     'ELSE',
@@ -33,6 +34,9 @@ tokens = (
     'MINUS',
     'MINUSMINUS',
     'TIMES',
+    'OR',
+    'AND',
+    'NOTEQUAL',
     'DIVIDE',
     'LESS',
     'LESSEQUAL',
@@ -74,6 +78,10 @@ t_ignore = " \t"
 
 def t_SETOUT(t):
     r'setOut'
+    return t
+
+def t_SETIN(t):
+    r'setIn'
     return t
 
 def t_START(t):
@@ -157,22 +165,32 @@ def t_PLUSPLUS(t):
     r'\+\+'
     return t
 
-
-def t_LESSEQUAL(t):
-    r'<='
-    return t
-
-
 def t_LESS(t):
     r'<'
     return t
 
+def t_OR(t):
+    r'\|\|'
+    return t
+
+def t_AND(t):
+    r'&&'
+    return t
+
 def t_GREATEREQUAL(t):
-    r'>='
+    r'\>\='
     return t
 
 def t_GREATER(t):
     r'>'
+    return t
+
+def t_NOTEQUAL(t):
+    r'!='
+    return t
+
+def t_LESSEQUAL(t):
+    r'<='
     return t
 
 def t_DEQUAL(t):

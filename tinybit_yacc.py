@@ -7,6 +7,10 @@ vtable = {}
 ints = []
 floats = []
 precedence = (
+    ('left', 'OR'),
+    ('left', 'AND'),
+    ('left', 'EQUAL',),
+    ('left', 'GREATER', 'GREATEREQUAL', 'LESS', 'LESSEQUAL', 'DEQUAL', 'NOTEQUAL'),
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE')
 )
@@ -51,9 +55,6 @@ def p_program_begin(p):
     pass   
 
 
-def p_var_declare_novalue(p):
-    'var_declaration : var_type ID'
-
 def p_var_declaration(p):
     '''var_declaration : var_type ID COMMA ID
     | var_type ID EQUAL NUMBER
@@ -61,6 +62,9 @@ def p_var_declaration(p):
     | var_type ID EQUAL var
     | var_type ID EQUAL simple_expression
     '''
+    if isinstance(p[4],Int):
+        p[4] = p[4].getValue()
+
     if p[2] in vtable:
         p_error_repeat_var(p[2])
         exit()
@@ -124,19 +128,21 @@ def p_statement(p):
 
 def p_expression_simple(p):
     '''expression_nont : expression'''
-    pass
 
 
 def p_expression_SETOUT(p):
     '''expression_nont : SETOUT LPAREN QUOTES ID QUOTES RPAREN 
     | SETOUT LPAREN QUOTES ID QUOTES COMMA ENDL RPAREN 
     | SETOUT LPAREN var RPAREN
+    | SETOUT LPAREN expression RPAREN
     | SETOUT LPAREN var COMMA ENDL RPAREN 
-    | SETOUT LPAREN var COMMA var COMMA RPAREN 
+    | SETOUT LPAREN var COMMA var RPAREN 
     | SETOUT LPAREN var COMMA var COMMA ENDL RPAREN 
     '''
-    pass
-
+    if isinstance(p[3],Int):
+        print(p[3].getValue())
+    else:
+        print(p[3])
 
 def p_expression_GETIN(p):
     '''expression_nont : GETIN LPAREN var RPAREN
@@ -146,9 +152,9 @@ def p_expression_GETIN(p):
 
 
 def p_expression_overload(p):
-    '''expression_nont : var PLUSPLUS
+    '''expression : var PLUSPLUS
     | var MINUSMINUS
-    '''                       
+    '''
     if p[2] == '++':
         p[1].setValue(p[1].getValue()+1)
     else:
@@ -156,6 +162,9 @@ def p_expression_overload(p):
 
 def p_condition_if(p):
     'condition_nont : IF expression THEN statements_nont END'
+    if p[2] == True:
+        print("SE ARMO!")
+
     pass
 
 
@@ -186,11 +195,14 @@ def p_var_ID(p):
             for var in ints:
                 if var.getId() == p[1]:
                     p[0] = var
-        if vtable[p[1]] == 'FLOAT':
+        elif vtable[p[1]] == 'FLOAT':
             for var in floats:
                 if var.getId() == p[1]:
                     p[0] = var
-
+    else:
+        print("VARIABLE \"" + p[1] + '\" NO DECLARADA')
+        exit()
+        
 
 
 def p_var_bracket(p):
@@ -215,7 +227,22 @@ def p_expression_2(p):
 
 def p_simple_expression_1(p):
     'simple_expression : additive_expression checkop additive_expression'
-
+    if p[2] == '&&':
+        p[0] = p[1] and p[3]
+    elif p[2] == '<':
+        p[0] = p[1] < p[3]
+    elif p[2] == '==':
+        p[0] = p[1] == p[3]
+    elif p[2] == '>=':
+        p[0] = p[1] >= p[3]
+    elif p[2] == '<=':
+        p[0] = p[1] <= p[3]
+    elif p[2] == '!=':
+        p[0] = not(p[1] == p[3])
+    elif p[2] == '>':
+        p[0] = p[1] > p[3]
+    elif p[2] == '\|\|': 
+        p[0] = p[1] or p[3]
 
 def p_simple_expression_2(p):
     'simple_expression : additive_expression'
@@ -228,9 +255,11 @@ def p_checkop(p):
         | GREATER
         | GREATEREQUAL
         | DEQUAL
-        | DISTINT
+        | AND
+        | OR
+        | NOTEQUAL
     '''
-    pass
+    p[0] = p[1]
 
 
 def p_additive_expression_1(p):
@@ -242,9 +271,9 @@ def p_additive_expression_1(p):
     if isinstance(p[1],Int):
         p[1] = p[1].getValue()   
     if p[2] == '+':
-        p[0] = p[1] * p[3]
+        p[0] = p[1] + p[3]
     elif p[2] == '-': 
-        p[0] = p[1] / p[3]
+        p[0] = p[1] - p[3]
 
 
 def p_additive_justerm(p):
@@ -261,7 +290,7 @@ def p_factor(p):
     """
     factor : var
            | NUMBER
-           | FLOAT
+           | NUMBER_FLOAT
     """
     p[0] = p[1]
 
@@ -305,7 +334,7 @@ parser = yacc.yacc()
 
 while True:
     try:
-        s = open('cuadruplos.txt', 'r').read()
+        s = open('cuadruplos.ty', 'r').read()
         input("OUTPUT:")
         vtable = {}       
         ints = []
