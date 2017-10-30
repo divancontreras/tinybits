@@ -162,6 +162,7 @@ def p_expression_overload(p):
 
 def p_condition_if(p):
     'condition_nont : IF expression THEN statements_nont END'
+    print(str(p[2]))
     if p[2] == True:
         print("SE ARMO!")
 

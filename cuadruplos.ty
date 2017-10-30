@@ -8,8 +8,8 @@ START
 		int c = 5034923940
 		setOut(a)
 		int d = 4
-		if 3==3 then
-			4+4 
+		if 3>4 then
+			int x = 4+4
 		END
 		int imain = a * b * c * d
 	END
