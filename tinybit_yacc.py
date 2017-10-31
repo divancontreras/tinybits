@@ -35,11 +35,8 @@ def p_program(p):
 
 def p_force_main(p):
     'program_main : program_sequence main_declaration '
-    #p[0] = p[1] + p[2]
-    print(vtable)
     for var in ints:
         print("ID: " + var.getId() + " VALUE: " + str(var.getValue()))
-
     pass
 
 def p_main_declaration(p):
