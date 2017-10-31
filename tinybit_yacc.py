@@ -15,6 +15,7 @@ precedence = (
     ('left', 'TIMES', 'DIVIDE')
 )
 
+
 def p_error(p):
     #print str(dir(p))
     #print str(dir(c_lexer))

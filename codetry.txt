@@ -1,10 +1,10 @@
-START
-for Holax -> hola2 do
-
-getIn(In)
-
-loop
-Main:
-setOut(OUT)
-END
-END
+begin
+a = 3
+c = 4
+b = a * c
+setout(b)
+b++
+setout(b)
+if b > a then{
+setout("hola")}
+end
