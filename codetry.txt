@@ -1,10 +1,27 @@
 begin
-a = 3
-c = 4
-b = a * c
-setout(b)
-b++
-setout(b)
-if b > a then{
-setout("hola")}
+a = 10
+c = 1
+
+while c < a do{
+setout(c)
+c = c + 1
+setout("\n")
+}
+
+b = a * a
+if 2 > 1 then{
+    setout("True1")
+    if 1 > 2 then{
+        setout("True2")}
+    else{
+        setout("False2")
+        if 1<2 then{
+            setout("True3")
+        }else{
+            setout("Flase3")
+        }
+        }
+}else{
+    setout("True2")
+}
 end

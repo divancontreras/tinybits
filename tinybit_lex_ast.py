@@ -51,8 +51,8 @@ tokens = [
     'BIT_XOR',
     'BIT_NEG',
 
-    'DOUBLE_PLUS',
-    'DOUBLE_MINUS',
+    'PLUS_EQUAL',
+    'MINUS_EQUAL',
 
     'PLUS_EQ',
     'MINUS_EQ',
@@ -115,8 +115,8 @@ t_BIT_OR = r'\|'
 t_BIT_XOR = r'\^'
 t_BIT_NEG = r'~'
 
-t_DOUBLE_PLUS = r'\+\+'
-t_DOUBLE_MINUS = '--'
+t_PLUS_EQUAL = r'\+\='
+t_MINUS_EQUAL = '-='
 
 
 def t_NEWLINE(t):
@@ -172,13 +172,13 @@ def t_error(t):
 
 lexer = lex.lex()
 
-# data = input(">>")
+data = input(">>")
 
-# # Give the lexer some input
-# lexer.input(data)
+# Give the lexer some input
+lexer.input(data)
 
-# while True:
-#     tok = lexer.token()
-#     if not tok: 
-#         break      # No more input
-#     print(tok)
+while True:
+    tok = lexer.token()
+    if not tok: 
+        break      # No more input
+    print(tok)

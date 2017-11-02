@@ -97,7 +97,6 @@ class Identifier(BaseExpression):
     def eval(self):
         if self.is_function:
             return context.get_func(self.name)
-
         return context.get_sym(self.name)
 
 
@@ -205,7 +204,7 @@ class BinaryOperation(BaseExpression):
 
     def __repr__(self):
         return '<BinaryOperation left ={0} right={1} operation="{2}">'.format(self.left, self.right, self.op)
-
+        
     def __init__(self, left, right, op):
         self.left = left
         self.right = right
@@ -292,6 +291,9 @@ class If(BaseExpression):
         self.condition = condition
         self.truepart = truepart
         self.elsepart = elsepart
+        print(condition)
+        print(truepart)
+        print(elsepart)
 
     def __repr__(self):
         return '<If condition={0} then={1} else={2}>'.format(self.condition, self.truepart, self.elsepart)

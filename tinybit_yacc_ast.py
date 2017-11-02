@@ -19,16 +19,15 @@ precedence = (
 
 def p_program(p):
     'program : BEGIN statement_list END'
-    actions = p[2]
     res = p[2]
     environment.declare_env(context)
-    for node in res.children:
+    for node in res:
         node.eval()
-    if False:
+    if True:
         print("\n\n" + '=' * 80, ' == Syntax tree ==')
         pp = pprint.PrettyPrinter()
         pp.pprint(res.children)
-        pp.pprint(context.table())
+        #pp.pprint(context.table())
 
 def p_statement_list(p):
     '''
@@ -106,7 +105,6 @@ def p_boolean_operators(p):
             | expression OR expression
     '''
     p[0] = ast.BinaryOperation(p[1], p[3], p[2])
-    print(p[0].eval)
 
 def p_unary_operation(p):
     '''
@@ -206,21 +204,21 @@ def p_ifstatement(p):
     '''
     if_statement : IF expression THEN LBRACK statement_list RBRACK
     '''
-    p[0] = ast.If(p[2], p[4])
+    p[0] = ast.If(p[2], p[5])
 
 
 def p_ifstatement_else(p):
     '''
     if_statement : IF expression THEN LBRACK statement_list RBRACK ELSE LBRACK statement_list RBRACK
     '''
-    p[0] = ast.If(p[2], p[4], p[8])
+    p[0] = ast.If(p[2], p[5], p[9])
 
 
 def p_ifstatement_else_if(p):
     '''
     if_statement : IF expression THEN LBRACK statement_list RBRACK ELSE if_statement
     '''
-    p[0] = ast.If(p[2], p[4], p[7])
+    p[0] = ast.If(p[2], p[5], p[8])
 
 
 def p_in_expression(p):
@@ -254,13 +252,13 @@ def p_compound_operations(p):
 
 def p_increment_decrement_identifiers(p):
     '''
-    expression : identifier DOUBLE_PLUS
-               | identifier DOUBLE_MINUS
+    expression : identifier PLUS_EQUAL primitive
+               | identifier MINUS_EQUAL primitive
     '''
-    if p[2] == '++':
-        p[0] = ast.BinaryOperation(p[1], ast.Primitive(1), '+')
+    if p[2] == '+=':
+        p[0] = ast.BinaryOperation(p[1], ast.Primitive(p[3]), '+')
     else:
-        p[0] = ast.BinaryOperation(p[1], ast.Primitive(1), '-')
+        p[0] = ast.BinaryOperation(p[1], ast.Primitive(p[3]), '-')
 
 
 def p_expression(p):
@@ -291,7 +289,7 @@ def p_while_loop(p):
     '''
     statement : WHILE expression DO LBRACK statement_list RBRACK
     '''
-    p[0] = ast.While(p[2], p[4])
+    p[0] = ast.While(p[2], p[5])
 
 
 def p_function_declaration(p):
