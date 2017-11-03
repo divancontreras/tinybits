@@ -70,8 +70,8 @@ Rule 60    statement -> identifier MUL_EQ expression
 Rule 61    statement -> identifier DIV_EQ expression
 Rule 62    statement -> identifier EXP_EQ expression
 Rule 63    statement -> identifier MOD_EQ expression
-Rule 64    expression -> identifier PLUS_EQUAL primitive
-Rule 65    expression -> identifier MINUS_EQUAL primitive
+Rule 64    expression -> identifier PLUS_EQUAL NUM_INT
+Rule 65    expression -> identifier MINUS_EQUAL NUM_INT
 Rule 66    expression -> primitive
 Rule 67    expression -> STRING
 Rule 68    expression -> identifier
@@ -129,7 +129,7 @@ NEQ                  : 25
 NEWLINE              : 
 NOT                  : 35 56
 NUM_FLOAT            : 10
-NUM_INT              : 9
+NUM_INT              : 9 64 65
 OR                   : 31
 PLUS                 : 13 33
 PLUS_EQ              : 58
@@ -154,7 +154,7 @@ boolean              : 12
 expression           : 5 13 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 30 31 31 32 33 34 35 36 40 41 42 45 46 46 47 48 50 50 52 53 54 55 55 56 56 58 59 60 61 62 63 69 69 70 70 71 72
 identifier           : 4 45 46 47 48 49 50 51 58 59 60 61 62 63 64 65 68 69 70 71 73 74 75
 if_statement         : 6 54
-primitive            : 39 64 65 66
+primitive            : 39 66
 program              : 0
 statement            : 2 3
 statement_list       : 1 3 52 53 53 54 69 70 71 72 73
@@ -225,8 +225,8 @@ state 2
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -261,9 +261,9 @@ state 2
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -273,7 +273,7 @@ state 2
     identifier                     shift and go to state 5
     expression                     shift and go to state 6
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 3
@@ -324,8 +324,8 @@ state 3
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -361,9 +361,9 @@ state 3
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -372,7 +372,7 @@ state 3
     identifier                     shift and go to state 5
     expression                     shift and go to state 6
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 4
@@ -418,8 +418,8 @@ state 5
     (48) expression -> identifier . LSQBRACK expression COLON RSQBRACK
     (49) expression -> identifier . LSQBRACK COLON RSQBRACK
     (51) expression -> identifier . EQUALS assignable
-    (64) expression -> identifier . PLUS_EQUAL primitive
-    (65) expression -> identifier . MINUS_EQUAL primitive
+    (64) expression -> identifier . PLUS_EQUAL NUM_INT
+    (65) expression -> identifier . MINUS_EQUAL NUM_INT
     (68) expression -> identifier .
     (74) expression -> identifier . LPAREN arguments RPAREN
 
@@ -672,8 +672,8 @@ state 9
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -702,9 +702,9 @@ state 9
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -712,7 +712,7 @@ state 9
     arguments                      shift and go to state 62
     expression                     shift and go to state 63
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 10
@@ -750,8 +750,8 @@ state 11
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -778,16 +778,16 @@ state 11
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     expression                     shift and go to state 66
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 12
@@ -829,8 +829,8 @@ state 13
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -857,16 +857,16 @@ state 13
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     expression                     shift and go to state 68
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 14
@@ -968,8 +968,8 @@ state 16
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -996,16 +996,16 @@ state 16
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     expression                     shift and go to state 70
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 17
@@ -1036,8 +1036,8 @@ state 17
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -1064,16 +1064,16 @@ state 17
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     expression                     shift and go to state 71
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 18
@@ -1104,8 +1104,8 @@ state 18
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -1132,16 +1132,16 @@ state 18
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     expression                     shift and go to state 72
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 19
@@ -1172,8 +1172,8 @@ state 19
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -1200,19 +1200,72 @@ state 19
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     expression                     shift and go to state 73
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 20
+
+    (9) primitive -> NUM_INT .
+
+    PLUS            reduce using rule 9 (primitive -> NUM_INT .)
+    MINUS           reduce using rule 9 (primitive -> NUM_INT .)
+    MUL             reduce using rule 9 (primitive -> NUM_INT .)
+    DIV             reduce using rule 9 (primitive -> NUM_INT .)
+    EXP             reduce using rule 9 (primitive -> NUM_INT .)
+    MOD             reduce using rule 9 (primitive -> NUM_INT .)
+    BIT_AND         reduce using rule 9 (primitive -> NUM_INT .)
+    BIT_OR          reduce using rule 9 (primitive -> NUM_INT .)
+    BIT_XOR         reduce using rule 9 (primitive -> NUM_INT .)
+    LSHIFT          reduce using rule 9 (primitive -> NUM_INT .)
+    RSHIFT          reduce using rule 9 (primitive -> NUM_INT .)
+    IN              reduce using rule 9 (primitive -> NUM_INT .)
+    NOT             reduce using rule 9 (primitive -> NUM_INT .)
+    EQ              reduce using rule 9 (primitive -> NUM_INT .)
+    NEQ             reduce using rule 9 (primitive -> NUM_INT .)
+    GT              reduce using rule 9 (primitive -> NUM_INT .)
+    GTE             reduce using rule 9 (primitive -> NUM_INT .)
+    LT              reduce using rule 9 (primitive -> NUM_INT .)
+    LTE             reduce using rule 9 (primitive -> NUM_INT .)
+    AND             reduce using rule 9 (primitive -> NUM_INT .)
+    OR              reduce using rule 9 (primitive -> NUM_INT .)
+    END             reduce using rule 9 (primitive -> NUM_INT .)
+    EXIT            reduce using rule 9 (primitive -> NUM_INT .)
+    SETOUT          reduce using rule 9 (primitive -> NUM_INT .)
+    FOR             reduce using rule 9 (primitive -> NUM_INT .)
+    WHILE           reduce using rule 9 (primitive -> NUM_INT .)
+    PROCESS         reduce using rule 9 (primitive -> NUM_INT .)
+    IDENTIFIER      reduce using rule 9 (primitive -> NUM_INT .)
+    BIT_NEG         reduce using rule 9 (primitive -> NUM_INT .)
+    LPAREN          reduce using rule 9 (primitive -> NUM_INT .)
+    LSQBRACK        reduce using rule 9 (primitive -> NUM_INT .)
+    STRING          reduce using rule 9 (primitive -> NUM_INT .)
+    IF              reduce using rule 9 (primitive -> NUM_INT .)
+    NUM_INT         reduce using rule 9 (primitive -> NUM_INT .)
+    NUM_FLOAT       reduce using rule 9 (primitive -> NUM_INT .)
+    TRUE            reduce using rule 9 (primitive -> NUM_INT .)
+    FALSE           reduce using rule 9 (primitive -> NUM_INT .)
+    RSQBRACK        reduce using rule 9 (primitive -> NUM_INT .)
+    COMMA           reduce using rule 9 (primitive -> NUM_INT .)
+    RPAREN          reduce using rule 9 (primitive -> NUM_INT .)
+    DO              reduce using rule 9 (primitive -> NUM_INT .)
+    THEN            reduce using rule 9 (primitive -> NUM_INT .)
+    COLON           reduce using rule 9 (primitive -> NUM_INT .)
+    RBRACK          reduce using rule 9 (primitive -> NUM_INT .)
+    ARROW_LTR       reduce using rule 9 (primitive -> NUM_INT .)
+    ARROW_RTL       reduce using rule 9 (primitive -> NUM_INT .)
+    LBRACK          reduce using rule 9 (primitive -> NUM_INT .)
+
+
+state 21
 
     (66) expression -> primitive .
 
@@ -1265,7 +1318,7 @@ state 20
     LBRACK          reduce using rule 66 (expression -> primitive .)
 
 
-state 21
+state 22
 
     (67) expression -> STRING .
     (11) primitive -> STRING .
@@ -1414,7 +1467,7 @@ state 21
   ! LBRACK          [ reduce using rule 67 (expression -> STRING .) ]
 
 
-state 22
+state 23
 
     (52) if_statement -> IF . expression THEN LBRACK statement_list RBRACK
     (53) if_statement -> IF . expression THEN LBRACK statement_list RBRACK ELSE LBRACK statement_list RBRACK
@@ -1444,8 +1497,8 @@ state 22
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -1472,70 +1525,17 @@ state 22
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     expression                     shift and go to state 74
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
-
-state 23
-
-    (9) primitive -> NUM_INT .
-
-    PLUS            reduce using rule 9 (primitive -> NUM_INT .)
-    MINUS           reduce using rule 9 (primitive -> NUM_INT .)
-    MUL             reduce using rule 9 (primitive -> NUM_INT .)
-    DIV             reduce using rule 9 (primitive -> NUM_INT .)
-    EXP             reduce using rule 9 (primitive -> NUM_INT .)
-    MOD             reduce using rule 9 (primitive -> NUM_INT .)
-    BIT_AND         reduce using rule 9 (primitive -> NUM_INT .)
-    BIT_OR          reduce using rule 9 (primitive -> NUM_INT .)
-    BIT_XOR         reduce using rule 9 (primitive -> NUM_INT .)
-    LSHIFT          reduce using rule 9 (primitive -> NUM_INT .)
-    RSHIFT          reduce using rule 9 (primitive -> NUM_INT .)
-    IN              reduce using rule 9 (primitive -> NUM_INT .)
-    NOT             reduce using rule 9 (primitive -> NUM_INT .)
-    EQ              reduce using rule 9 (primitive -> NUM_INT .)
-    NEQ             reduce using rule 9 (primitive -> NUM_INT .)
-    GT              reduce using rule 9 (primitive -> NUM_INT .)
-    GTE             reduce using rule 9 (primitive -> NUM_INT .)
-    LT              reduce using rule 9 (primitive -> NUM_INT .)
-    LTE             reduce using rule 9 (primitive -> NUM_INT .)
-    AND             reduce using rule 9 (primitive -> NUM_INT .)
-    OR              reduce using rule 9 (primitive -> NUM_INT .)
-    END             reduce using rule 9 (primitive -> NUM_INT .)
-    EXIT            reduce using rule 9 (primitive -> NUM_INT .)
-    SETOUT          reduce using rule 9 (primitive -> NUM_INT .)
-    FOR             reduce using rule 9 (primitive -> NUM_INT .)
-    WHILE           reduce using rule 9 (primitive -> NUM_INT .)
-    PROCESS         reduce using rule 9 (primitive -> NUM_INT .)
-    IDENTIFIER      reduce using rule 9 (primitive -> NUM_INT .)
-    BIT_NEG         reduce using rule 9 (primitive -> NUM_INT .)
-    LPAREN          reduce using rule 9 (primitive -> NUM_INT .)
-    LSQBRACK        reduce using rule 9 (primitive -> NUM_INT .)
-    STRING          reduce using rule 9 (primitive -> NUM_INT .)
-    IF              reduce using rule 9 (primitive -> NUM_INT .)
-    NUM_INT         reduce using rule 9 (primitive -> NUM_INT .)
-    NUM_FLOAT       reduce using rule 9 (primitive -> NUM_INT .)
-    TRUE            reduce using rule 9 (primitive -> NUM_INT .)
-    FALSE           reduce using rule 9 (primitive -> NUM_INT .)
-    RSQBRACK        reduce using rule 9 (primitive -> NUM_INT .)
-    COMMA           reduce using rule 9 (primitive -> NUM_INT .)
-    RPAREN          reduce using rule 9 (primitive -> NUM_INT .)
-    DO              reduce using rule 9 (primitive -> NUM_INT .)
-    THEN            reduce using rule 9 (primitive -> NUM_INT .)
-    COLON           reduce using rule 9 (primitive -> NUM_INT .)
-    RBRACK          reduce using rule 9 (primitive -> NUM_INT .)
-    ARROW_LTR       reduce using rule 9 (primitive -> NUM_INT .)
-    ARROW_RTL       reduce using rule 9 (primitive -> NUM_INT .)
-    LBRACK          reduce using rule 9 (primitive -> NUM_INT .)
-
 
 state 24
 
@@ -1815,8 +1815,8 @@ state 30
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -1844,16 +1844,16 @@ state 30
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
     expression                     shift and go to state 75
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 31
@@ -1890,8 +1890,8 @@ state 31
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -1908,7 +1908,7 @@ state 31
     (38) boolean -> . FALSE
     (7) identifier -> . IDENTIFIER
 
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     STRING          shift and go to state 80
     MINUS           shift and go to state 17
@@ -1955,8 +1955,8 @@ state 32
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -1983,16 +1983,16 @@ state 32
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
     expression                     shift and go to state 81
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 33
@@ -2023,8 +2023,8 @@ state 33
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2051,16 +2051,16 @@ state 33
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
     expression                     shift and go to state 82
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 34
@@ -2091,8 +2091,8 @@ state 34
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2119,16 +2119,16 @@ state 34
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
     expression                     shift and go to state 83
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 35
@@ -2159,8 +2159,8 @@ state 35
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2187,16 +2187,16 @@ state 35
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
     expression                     shift and go to state 84
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 36
@@ -2227,8 +2227,8 @@ state 36
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2255,16 +2255,16 @@ state 36
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
     expression                     shift and go to state 85
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 37
@@ -2295,8 +2295,8 @@ state 37
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2323,16 +2323,16 @@ state 37
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
     expression                     shift and go to state 86
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 38
@@ -2367,8 +2367,8 @@ state 38
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2397,9 +2397,9 @@ state 38
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -2407,144 +2407,22 @@ state 38
     identifier                     shift and go to state 64
     arguments                      shift and go to state 87
     expression                     shift and go to state 63
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 39
 
-    (64) expression -> identifier PLUS_EQUAL . primitive
-    (9) primitive -> . NUM_INT
-    (10) primitive -> . NUM_FLOAT
-    (11) primitive -> . STRING
-    (12) primitive -> . boolean
-    (24) boolean -> . expression EQ expression
-    (25) boolean -> . expression NEQ expression
-    (26) boolean -> . expression GT expression
-    (27) boolean -> . expression GTE expression
-    (28) boolean -> . expression LT expression
-    (29) boolean -> . expression LTE expression
-    (30) boolean -> . expression AND expression
-    (31) boolean -> . expression OR expression
-    (37) boolean -> . TRUE
-    (38) boolean -> . FALSE
-    (13) expression -> . expression PLUS expression
-    (14) expression -> . expression MINUS expression
-    (15) expression -> . expression MUL expression
-    (16) expression -> . expression DIV expression
-    (17) expression -> . expression EXP expression
-    (18) expression -> . expression MOD expression
-    (19) expression -> . expression BIT_AND expression
-    (20) expression -> . expression BIT_OR expression
-    (21) expression -> . expression BIT_XOR expression
-    (22) expression -> . expression LSHIFT expression
-    (23) expression -> . expression RSHIFT expression
-    (32) expression -> . MINUS expression
-    (33) expression -> . PLUS expression
-    (34) expression -> . BIT_NEG expression
-    (35) expression -> . NOT expression
-    (36) expression -> . LPAREN expression RPAREN
-    (44) expression -> . LSQBRACK arguments RSQBRACK
-    (45) expression -> . identifier LSQBRACK expression RSQBRACK
-    (46) expression -> . identifier LSQBRACK expression COLON expression RSQBRACK
-    (47) expression -> . identifier LSQBRACK COLON expression RSQBRACK
-    (48) expression -> . identifier LSQBRACK expression COLON RSQBRACK
-    (49) expression -> . identifier LSQBRACK COLON RSQBRACK
-    (51) expression -> . identifier EQUALS assignable
-    (55) expression -> . expression IN expression
-    (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
-    (66) expression -> . primitive
-    (67) expression -> . STRING
-    (68) expression -> . identifier
-    (74) expression -> . identifier LPAREN arguments RPAREN
-    (7) identifier -> . IDENTIFIER
+    (64) expression -> identifier PLUS_EQUAL . NUM_INT
 
-    NUM_INT         shift and go to state 23
-    NUM_FLOAT       shift and go to state 24
-    STRING          shift and go to state 80
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    MINUS           shift and go to state 17
-    PLUS            shift and go to state 16
-    BIT_NEG         shift and go to state 18
-    NOT             shift and go to state 19
-    LPAREN          shift and go to state 11
-    LSQBRACK        shift and go to state 9
-    IDENTIFIER      shift and go to state 15
+    NUM_INT         shift and go to state 88
 
-    identifier                     shift and go to state 64
-    primitive                      shift and go to state 88
-    boolean                        shift and go to state 25
-    expression                     shift and go to state 89
 
 state 40
 
-    (65) expression -> identifier MINUS_EQUAL . primitive
-    (9) primitive -> . NUM_INT
-    (10) primitive -> . NUM_FLOAT
-    (11) primitive -> . STRING
-    (12) primitive -> . boolean
-    (24) boolean -> . expression EQ expression
-    (25) boolean -> . expression NEQ expression
-    (26) boolean -> . expression GT expression
-    (27) boolean -> . expression GTE expression
-    (28) boolean -> . expression LT expression
-    (29) boolean -> . expression LTE expression
-    (30) boolean -> . expression AND expression
-    (31) boolean -> . expression OR expression
-    (37) boolean -> . TRUE
-    (38) boolean -> . FALSE
-    (13) expression -> . expression PLUS expression
-    (14) expression -> . expression MINUS expression
-    (15) expression -> . expression MUL expression
-    (16) expression -> . expression DIV expression
-    (17) expression -> . expression EXP expression
-    (18) expression -> . expression MOD expression
-    (19) expression -> . expression BIT_AND expression
-    (20) expression -> . expression BIT_OR expression
-    (21) expression -> . expression BIT_XOR expression
-    (22) expression -> . expression LSHIFT expression
-    (23) expression -> . expression RSHIFT expression
-    (32) expression -> . MINUS expression
-    (33) expression -> . PLUS expression
-    (34) expression -> . BIT_NEG expression
-    (35) expression -> . NOT expression
-    (36) expression -> . LPAREN expression RPAREN
-    (44) expression -> . LSQBRACK arguments RSQBRACK
-    (45) expression -> . identifier LSQBRACK expression RSQBRACK
-    (46) expression -> . identifier LSQBRACK expression COLON expression RSQBRACK
-    (47) expression -> . identifier LSQBRACK COLON expression RSQBRACK
-    (48) expression -> . identifier LSQBRACK expression COLON RSQBRACK
-    (49) expression -> . identifier LSQBRACK COLON RSQBRACK
-    (51) expression -> . identifier EQUALS assignable
-    (55) expression -> . expression IN expression
-    (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
-    (66) expression -> . primitive
-    (67) expression -> . STRING
-    (68) expression -> . identifier
-    (74) expression -> . identifier LPAREN arguments RPAREN
-    (7) identifier -> . IDENTIFIER
+    (65) expression -> identifier MINUS_EQUAL . NUM_INT
 
-    NUM_INT         shift and go to state 23
-    NUM_FLOAT       shift and go to state 24
-    STRING          shift and go to state 80
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    MINUS           shift and go to state 17
-    PLUS            shift and go to state 16
-    BIT_NEG         shift and go to state 18
-    NOT             shift and go to state 19
-    LPAREN          shift and go to state 11
-    LSQBRACK        shift and go to state 9
-    IDENTIFIER      shift and go to state 15
+    NUM_INT         shift and go to state 89
 
-    identifier                     shift and go to state 64
-    primitive                      shift and go to state 90
-    boolean                        shift and go to state 25
-    expression                     shift and go to state 89
 
 state 41
 
@@ -2574,8 +2452,8 @@ state 41
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2602,16 +2480,16 @@ state 41
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 91
+    expression                     shift and go to state 90
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 42
@@ -2642,8 +2520,8 @@ state 42
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2670,16 +2548,16 @@ state 42
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 92
+    expression                     shift and go to state 91
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 43
@@ -2710,8 +2588,8 @@ state 43
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2738,16 +2616,16 @@ state 43
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 93
+    expression                     shift and go to state 92
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 44
@@ -2778,8 +2656,8 @@ state 44
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2806,16 +2684,16 @@ state 44
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 94
+    expression                     shift and go to state 93
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 45
@@ -2846,8 +2724,8 @@ state 45
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2874,16 +2752,16 @@ state 45
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 95
+    expression                     shift and go to state 94
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 46
@@ -2914,8 +2792,8 @@ state 46
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -2942,16 +2820,16 @@ state 46
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 96
+    expression                     shift and go to state 95
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 47
@@ -2982,8 +2860,8 @@ state 47
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3010,16 +2888,16 @@ state 47
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 97
+    expression                     shift and go to state 96
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 48
@@ -3050,8 +2928,8 @@ state 48
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3078,16 +2956,16 @@ state 48
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 98
+    expression                     shift and go to state 97
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 49
@@ -3118,8 +2996,8 @@ state 49
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3146,16 +3024,16 @@ state 49
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 99
+    expression                     shift and go to state 98
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 50
@@ -3186,8 +3064,8 @@ state 50
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3214,16 +3092,16 @@ state 50
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 100
+    expression                     shift and go to state 99
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 51
@@ -3254,8 +3132,8 @@ state 51
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3282,16 +3160,16 @@ state 51
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 101
+    expression                     shift and go to state 100
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 52
@@ -3322,8 +3200,8 @@ state 52
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3350,23 +3228,23 @@ state 52
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 102
+    expression                     shift and go to state 101
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 53
 
     (56) expression -> expression NOT . IN expression
 
-    IN              shift and go to state 103
+    IN              shift and go to state 102
 
 
 state 54
@@ -3397,8 +3275,8 @@ state 54
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3425,16 +3303,16 @@ state 54
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 104
+    expression                     shift and go to state 103
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 55
@@ -3465,8 +3343,8 @@ state 55
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3493,16 +3371,16 @@ state 55
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 105
+    expression                     shift and go to state 104
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 56
@@ -3533,8 +3411,8 @@ state 56
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3561,16 +3439,16 @@ state 56
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 106
+    expression                     shift and go to state 105
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 57
@@ -3601,8 +3479,8 @@ state 57
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3629,16 +3507,16 @@ state 57
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 107
+    expression                     shift and go to state 106
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 58
@@ -3669,8 +3547,8 @@ state 58
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3697,16 +3575,16 @@ state 58
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 108
+    expression                     shift and go to state 107
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 59
@@ -3737,8 +3615,8 @@ state 59
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3765,16 +3643,16 @@ state 59
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 109
+    expression                     shift and go to state 108
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 60
@@ -3805,8 +3683,8 @@ state 60
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3833,16 +3711,16 @@ state 60
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 110
+    expression                     shift and go to state 109
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 61
@@ -3873,8 +3751,8 @@ state 61
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -3901,16 +3779,16 @@ state 61
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 111
+    expression                     shift and go to state 110
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 62
@@ -3918,8 +3796,8 @@ state 62
     (44) expression -> LSQBRACK arguments . RSQBRACK
     (41) arguments -> arguments . COMMA expression
 
-    RSQBRACK        shift and go to state 112
-    COMMA           shift and go to state 113
+    RSQBRACK        shift and go to state 111
+    COMMA           shift and go to state 112
 
 
 state 63
@@ -3981,14 +3859,14 @@ state 64
     (48) expression -> identifier . LSQBRACK expression COLON RSQBRACK
     (49) expression -> identifier . LSQBRACK COLON RSQBRACK
     (51) expression -> identifier . EQUALS assignable
-    (64) expression -> identifier . PLUS_EQUAL primitive
-    (65) expression -> identifier . MINUS_EQUAL primitive
+    (64) expression -> identifier . PLUS_EQUAL NUM_INT
+    (65) expression -> identifier . MINUS_EQUAL NUM_INT
     (68) expression -> identifier .
     (74) expression -> identifier . LPAREN arguments RPAREN
 
   ! shift/reduce conflict for LSQBRACK resolved as shift
   ! shift/reduce conflict for LPAREN resolved as shift
-    LSQBRACK        shift and go to state 114
+    LSQBRACK        shift and go to state 113
     EQUALS          shift and go to state 31
     PLUS_EQUAL      shift and go to state 39
     MINUS_EQUAL     shift and go to state 40
@@ -4037,7 +3915,7 @@ state 64
     ARROW_LTR       reduce using rule 68 (expression -> identifier .)
     ARROW_RTL       reduce using rule 68 (expression -> identifier .)
     LBRACK          reduce using rule 68 (expression -> identifier .)
-    LPAREN          shift and go to state 115
+    LPAREN          shift and go to state 114
 
   ! LPAREN          [ reduce using rule 68 (expression -> identifier .) ]
   ! LSQBRACK        [ reduce using rule 68 (expression -> identifier .) ]
@@ -4074,8 +3952,8 @@ state 65
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -4104,17 +3982,17 @@ state 65
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    arguments                      shift and go to state 116
+    arguments                      shift and go to state 115
     expression                     shift and go to state 63
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 66
@@ -4142,7 +4020,7 @@ state 66
     (30) boolean -> expression . AND expression
     (31) boolean -> expression . OR expression
 
-    RPAREN          shift and go to state 117
+    RPAREN          shift and go to state 116
     PLUS            shift and go to state 41
     MINUS           shift and go to state 42
     MUL             shift and go to state 43
@@ -4172,7 +4050,7 @@ state 67
     (70) statement -> FOR identifier . IN expression ARROW_RTL expression DO LBRACK statement_list RBRACK
     (71) statement -> FOR identifier . IN expression LBRACK statement_list RBRACK
 
-    IN              shift and go to state 118
+    IN              shift and go to state 117
 
 
 state 68
@@ -4200,7 +4078,7 @@ state 68
     (30) boolean -> expression . AND expression
     (31) boolean -> expression . OR expression
 
-    DO              shift and go to state 119
+    DO              shift and go to state 118
     PLUS            shift and go to state 41
     MINUS           shift and go to state 42
     MUL             shift and go to state 43
@@ -4228,7 +4106,7 @@ state 69
 
     (73) statement -> PROCESS identifier . DO LBRACK statement_list RBRACK
 
-    DO              shift and go to state 120
+    DO              shift and go to state 119
 
 
 state 70
@@ -4663,7 +4541,7 @@ state 74
     (30) boolean -> expression . AND expression
     (31) boolean -> expression . OR expression
 
-    THEN            shift and go to state 121
+    THEN            shift and go to state 120
     PLUS            shift and go to state 41
     MINUS           shift and go to state 42
     MUL             shift and go to state 43
@@ -4715,8 +4593,8 @@ state 75
     (30) boolean -> expression . AND expression
     (31) boolean -> expression . OR expression
 
-    RSQBRACK        shift and go to state 122
-    COLON           shift and go to state 123
+    RSQBRACK        shift and go to state 121
+    COLON           shift and go to state 122
     PLUS            shift and go to state 41
     MINUS           shift and go to state 42
     MUL             shift and go to state 43
@@ -4769,8 +4647,8 @@ state 76
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -4791,23 +4669,23 @@ state 76
     (37) boolean -> . TRUE
     (38) boolean -> . FALSE
 
-    RSQBRACK        shift and go to state 125
+    RSQBRACK        shift and go to state 124
     MINUS           shift and go to state 17
     PLUS            shift and go to state 16
     BIT_NEG         shift and go to state 18
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
-    expression                     shift and go to state 124
-    primitive                      shift and go to state 20
+    expression                     shift and go to state 123
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
 state 77
@@ -5716,252 +5594,117 @@ state 87
     (74) expression -> identifier LPAREN arguments . RPAREN
     (41) arguments -> arguments . COMMA expression
 
-    RPAREN          shift and go to state 126
-    COMMA           shift and go to state 113
+    RPAREN          shift and go to state 125
+    COMMA           shift and go to state 112
 
 
 state 88
 
-    (64) expression -> identifier PLUS_EQUAL primitive .
-    (66) expression -> primitive .
+    (64) expression -> identifier PLUS_EQUAL NUM_INT .
 
-  ! reduce/reduce conflict for EQ resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for NEQ resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for GT resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for GTE resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for LT resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for LTE resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for AND resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for OR resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for PLUS resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for MINUS resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for MUL resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for DIV resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for EXP resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for MOD resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for BIT_AND resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for BIT_OR resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for BIT_XOR resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for LSHIFT resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for RSHIFT resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for IN resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-  ! reduce/reduce conflict for NOT resolved using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    PLUS            reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    MINUS           reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    MUL             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    DIV             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    EXP             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    MOD             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    BIT_AND         reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    BIT_OR          reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    BIT_XOR         reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    LSHIFT          reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    RSHIFT          reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    IN              reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    NOT             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    EQ              reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    NEQ             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    GT              reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    GTE             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    LT              reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    LTE             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    AND             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    OR              reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    END             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    EXIT            reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    SETOUT          reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    FOR             reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    WHILE           reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    PROCESS         reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    IDENTIFIER      reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    BIT_NEG         reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    LPAREN          reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    LSQBRACK        reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    STRING          reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    IF              reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    NUM_INT         reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    NUM_FLOAT       reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    TRUE            reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    FALSE           reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    RSQBRACK        reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    COMMA           reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    RPAREN          reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    DO              reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    THEN            reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    COLON           reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    RBRACK          reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    ARROW_LTR       reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    ARROW_RTL       reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-    LBRACK          reduce using rule 64 (expression -> identifier PLUS_EQUAL primitive .)
-
-  ! EQ              [ reduce using rule 66 (expression -> primitive .) ]
-  ! NEQ             [ reduce using rule 66 (expression -> primitive .) ]
-  ! GT              [ reduce using rule 66 (expression -> primitive .) ]
-  ! GTE             [ reduce using rule 66 (expression -> primitive .) ]
-  ! LT              [ reduce using rule 66 (expression -> primitive .) ]
-  ! LTE             [ reduce using rule 66 (expression -> primitive .) ]
-  ! AND             [ reduce using rule 66 (expression -> primitive .) ]
-  ! OR              [ reduce using rule 66 (expression -> primitive .) ]
-  ! PLUS            [ reduce using rule 66 (expression -> primitive .) ]
-  ! MINUS           [ reduce using rule 66 (expression -> primitive .) ]
-  ! MUL             [ reduce using rule 66 (expression -> primitive .) ]
-  ! DIV             [ reduce using rule 66 (expression -> primitive .) ]
-  ! EXP             [ reduce using rule 66 (expression -> primitive .) ]
-  ! MOD             [ reduce using rule 66 (expression -> primitive .) ]
-  ! BIT_AND         [ reduce using rule 66 (expression -> primitive .) ]
-  ! BIT_OR          [ reduce using rule 66 (expression -> primitive .) ]
-  ! BIT_XOR         [ reduce using rule 66 (expression -> primitive .) ]
-  ! LSHIFT          [ reduce using rule 66 (expression -> primitive .) ]
-  ! RSHIFT          [ reduce using rule 66 (expression -> primitive .) ]
-  ! IN              [ reduce using rule 66 (expression -> primitive .) ]
-  ! NOT             [ reduce using rule 66 (expression -> primitive .) ]
+    PLUS            reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    MINUS           reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    MUL             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    DIV             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    EXP             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    MOD             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    BIT_AND         reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    BIT_OR          reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    BIT_XOR         reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    LSHIFT          reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    RSHIFT          reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    IN              reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    NOT             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    EQ              reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    NEQ             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    GT              reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    GTE             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    LT              reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    LTE             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    AND             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    OR              reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    END             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    EXIT            reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    SETOUT          reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    FOR             reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    WHILE           reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    PROCESS         reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    IDENTIFIER      reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    BIT_NEG         reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    LPAREN          reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    LSQBRACK        reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    STRING          reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    IF              reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    NUM_INT         reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    NUM_FLOAT       reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    TRUE            reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    FALSE           reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    RSQBRACK        reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    COMMA           reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    RPAREN          reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    DO              reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    THEN            reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    COLON           reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    RBRACK          reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    ARROW_LTR       reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    ARROW_RTL       reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
+    LBRACK          reduce using rule 64 (expression -> identifier PLUS_EQUAL NUM_INT .)
 
 
 state 89
 
-    (24) boolean -> expression . EQ expression
-    (25) boolean -> expression . NEQ expression
-    (26) boolean -> expression . GT expression
-    (27) boolean -> expression . GTE expression
-    (28) boolean -> expression . LT expression
-    (29) boolean -> expression . LTE expression
-    (30) boolean -> expression . AND expression
-    (31) boolean -> expression . OR expression
-    (13) expression -> expression . PLUS expression
-    (14) expression -> expression . MINUS expression
-    (15) expression -> expression . MUL expression
-    (16) expression -> expression . DIV expression
-    (17) expression -> expression . EXP expression
-    (18) expression -> expression . MOD expression
-    (19) expression -> expression . BIT_AND expression
-    (20) expression -> expression . BIT_OR expression
-    (21) expression -> expression . BIT_XOR expression
-    (22) expression -> expression . LSHIFT expression
-    (23) expression -> expression . RSHIFT expression
-    (55) expression -> expression . IN expression
-    (56) expression -> expression . NOT IN expression
+    (65) expression -> identifier MINUS_EQUAL NUM_INT .
 
-    EQ              shift and go to state 54
-    NEQ             shift and go to state 55
-    GT              shift and go to state 56
-    GTE             shift and go to state 57
-    LT              shift and go to state 58
-    LTE             shift and go to state 59
-    AND             shift and go to state 60
-    OR              shift and go to state 61
-    PLUS            shift and go to state 41
-    MINUS           shift and go to state 42
-    MUL             shift and go to state 43
-    DIV             shift and go to state 44
-    EXP             shift and go to state 45
-    MOD             shift and go to state 46
-    BIT_AND         shift and go to state 47
-    BIT_OR          shift and go to state 48
-    BIT_XOR         shift and go to state 49
-    LSHIFT          shift and go to state 50
-    RSHIFT          shift and go to state 51
-    IN              shift and go to state 52
-    NOT             shift and go to state 53
+    PLUS            reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    MINUS           reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    MUL             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    DIV             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    EXP             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    MOD             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    BIT_AND         reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    BIT_OR          reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    BIT_XOR         reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    LSHIFT          reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    RSHIFT          reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    IN              reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    NOT             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    EQ              reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    NEQ             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    GT              reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    GTE             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    LT              reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    LTE             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    AND             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    OR              reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    END             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    EXIT            reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    SETOUT          reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    FOR             reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    WHILE           reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    PROCESS         reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    IDENTIFIER      reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    BIT_NEG         reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    LPAREN          reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    LSQBRACK        reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    STRING          reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    IF              reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    NUM_INT         reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    NUM_FLOAT       reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    TRUE            reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    FALSE           reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    RSQBRACK        reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    COMMA           reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    RPAREN          reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    DO              reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    THEN            reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    COLON           reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    RBRACK          reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    ARROW_LTR       reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    ARROW_RTL       reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
+    LBRACK          reduce using rule 65 (expression -> identifier MINUS_EQUAL NUM_INT .)
 
 
 state 90
-
-    (65) expression -> identifier MINUS_EQUAL primitive .
-    (66) expression -> primitive .
-
-  ! reduce/reduce conflict for EQ resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for NEQ resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for GT resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for GTE resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for LT resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for LTE resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for AND resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for OR resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for PLUS resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for MINUS resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for MUL resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for DIV resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for EXP resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for MOD resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for BIT_AND resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for BIT_OR resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for BIT_XOR resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for LSHIFT resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for RSHIFT resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for IN resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-  ! reduce/reduce conflict for NOT resolved using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    PLUS            reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    MINUS           reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    MUL             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    DIV             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    EXP             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    MOD             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    BIT_AND         reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    BIT_OR          reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    BIT_XOR         reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    LSHIFT          reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    RSHIFT          reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    IN              reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    NOT             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    EQ              reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    NEQ             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    GT              reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    GTE             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    LT              reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    LTE             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    AND             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    OR              reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    END             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    EXIT            reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    SETOUT          reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    FOR             reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    WHILE           reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    PROCESS         reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    IDENTIFIER      reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    BIT_NEG         reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    LPAREN          reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    LSQBRACK        reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    STRING          reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    IF              reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    NUM_INT         reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    NUM_FLOAT       reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    TRUE            reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    FALSE           reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    RSQBRACK        reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    COMMA           reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    RPAREN          reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    DO              reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    THEN            reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    COLON           reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    RBRACK          reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    ARROW_LTR       reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    ARROW_RTL       reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-    LBRACK          reduce using rule 65 (expression -> identifier MINUS_EQUAL primitive .)
-
-  ! EQ              [ reduce using rule 66 (expression -> primitive .) ]
-  ! NEQ             [ reduce using rule 66 (expression -> primitive .) ]
-  ! GT              [ reduce using rule 66 (expression -> primitive .) ]
-  ! GTE             [ reduce using rule 66 (expression -> primitive .) ]
-  ! LT              [ reduce using rule 66 (expression -> primitive .) ]
-  ! LTE             [ reduce using rule 66 (expression -> primitive .) ]
-  ! AND             [ reduce using rule 66 (expression -> primitive .) ]
-  ! OR              [ reduce using rule 66 (expression -> primitive .) ]
-  ! PLUS            [ reduce using rule 66 (expression -> primitive .) ]
-  ! MINUS           [ reduce using rule 66 (expression -> primitive .) ]
-  ! MUL             [ reduce using rule 66 (expression -> primitive .) ]
-  ! DIV             [ reduce using rule 66 (expression -> primitive .) ]
-  ! EXP             [ reduce using rule 66 (expression -> primitive .) ]
-  ! MOD             [ reduce using rule 66 (expression -> primitive .) ]
-  ! BIT_AND         [ reduce using rule 66 (expression -> primitive .) ]
-  ! BIT_OR          [ reduce using rule 66 (expression -> primitive .) ]
-  ! BIT_XOR         [ reduce using rule 66 (expression -> primitive .) ]
-  ! LSHIFT          [ reduce using rule 66 (expression -> primitive .) ]
-  ! RSHIFT          [ reduce using rule 66 (expression -> primitive .) ]
-  ! IN              [ reduce using rule 66 (expression -> primitive .) ]
-  ! NOT             [ reduce using rule 66 (expression -> primitive .) ]
-
-
-state 91
 
     (13) expression -> expression PLUS expression .
     (13) expression -> expression . PLUS expression
@@ -6057,7 +5800,7 @@ state 91
   ! OR              [ shift and go to state 61 ]
 
 
-state 92
+state 91
 
     (14) expression -> expression MINUS expression .
     (13) expression -> expression . PLUS expression
@@ -6153,7 +5896,7 @@ state 92
   ! OR              [ shift and go to state 61 ]
 
 
-state 93
+state 92
 
     (15) expression -> expression MUL expression .
     (13) expression -> expression . PLUS expression
@@ -6249,7 +5992,7 @@ state 93
   ! OR              [ shift and go to state 61 ]
 
 
-state 94
+state 93
 
     (16) expression -> expression DIV expression .
     (13) expression -> expression . PLUS expression
@@ -6345,7 +6088,7 @@ state 94
   ! OR              [ shift and go to state 61 ]
 
 
-state 95
+state 94
 
     (17) expression -> expression EXP expression .
     (13) expression -> expression . PLUS expression
@@ -6441,7 +6184,7 @@ state 95
   ! OR              [ shift and go to state 61 ]
 
 
-state 96
+state 95
 
     (18) expression -> expression MOD expression .
     (13) expression -> expression . PLUS expression
@@ -6537,7 +6280,7 @@ state 96
   ! OR              [ shift and go to state 61 ]
 
 
-state 97
+state 96
 
     (19) expression -> expression BIT_AND expression .
     (13) expression -> expression . PLUS expression
@@ -6654,7 +6397,7 @@ state 97
   ! OR              [ reduce using rule 19 (expression -> expression BIT_AND expression .) ]
 
 
-state 98
+state 97
 
     (20) expression -> expression BIT_OR expression .
     (13) expression -> expression . PLUS expression
@@ -6771,7 +6514,7 @@ state 98
   ! OR              [ reduce using rule 20 (expression -> expression BIT_OR expression .) ]
 
 
-state 99
+state 98
 
     (21) expression -> expression BIT_XOR expression .
     (13) expression -> expression . PLUS expression
@@ -6888,7 +6631,7 @@ state 99
   ! OR              [ reduce using rule 21 (expression -> expression BIT_XOR expression .) ]
 
 
-state 100
+state 99
 
     (22) expression -> expression LSHIFT expression .
     (13) expression -> expression . PLUS expression
@@ -7005,7 +6748,7 @@ state 100
   ! OR              [ reduce using rule 22 (expression -> expression LSHIFT expression .) ]
 
 
-state 101
+state 100
 
     (23) expression -> expression RSHIFT expression .
     (13) expression -> expression . PLUS expression
@@ -7122,7 +6865,7 @@ state 101
   ! OR              [ reduce using rule 23 (expression -> expression RSHIFT expression .) ]
 
 
-state 102
+state 101
 
     (55) expression -> expression IN expression .
     (13) expression -> expression . PLUS expression
@@ -7239,7 +6982,7 @@ state 102
   ! OR              [ reduce using rule 55 (expression -> expression IN expression .) ]
 
 
-state 103
+state 102
 
     (56) expression -> expression NOT IN . expression
     (13) expression -> . expression PLUS expression
@@ -7267,8 +7010,8 @@ state 103
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -7295,19 +7038,19 @@ state 103
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 127
+    expression                     shift and go to state 126
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 104
+state 103
 
     (24) boolean -> expression EQ expression .
     (13) expression -> expression . PLUS expression
@@ -7424,7 +7167,7 @@ state 104
   ! OR              [ reduce using rule 24 (boolean -> expression EQ expression .) ]
 
 
-state 105
+state 104
 
     (25) boolean -> expression NEQ expression .
     (13) expression -> expression . PLUS expression
@@ -7541,7 +7284,7 @@ state 105
   ! OR              [ reduce using rule 25 (boolean -> expression NEQ expression .) ]
 
 
-state 106
+state 105
 
     (26) boolean -> expression GT expression .
     (13) expression -> expression . PLUS expression
@@ -7658,7 +7401,7 @@ state 106
   ! OR              [ reduce using rule 26 (boolean -> expression GT expression .) ]
 
 
-state 107
+state 106
 
     (27) boolean -> expression GTE expression .
     (13) expression -> expression . PLUS expression
@@ -7775,7 +7518,7 @@ state 107
   ! OR              [ reduce using rule 27 (boolean -> expression GTE expression .) ]
 
 
-state 108
+state 107
 
     (28) boolean -> expression LT expression .
     (13) expression -> expression . PLUS expression
@@ -7892,7 +7635,7 @@ state 108
   ! OR              [ reduce using rule 28 (boolean -> expression LT expression .) ]
 
 
-state 109
+state 108
 
     (29) boolean -> expression LTE expression .
     (13) expression -> expression . PLUS expression
@@ -8009,7 +7752,7 @@ state 109
   ! OR              [ reduce using rule 29 (boolean -> expression LTE expression .) ]
 
 
-state 110
+state 109
 
     (30) boolean -> expression AND expression .
     (13) expression -> expression . PLUS expression
@@ -8126,7 +7869,7 @@ state 110
   ! OR              [ reduce using rule 30 (boolean -> expression AND expression .) ]
 
 
-state 111
+state 110
 
     (31) boolean -> expression OR expression .
     (13) expression -> expression . PLUS expression
@@ -8243,7 +7986,7 @@ state 111
   ! OR              [ reduce using rule 31 (boolean -> expression OR expression .) ]
 
 
-state 112
+state 111
 
     (44) expression -> LSQBRACK arguments RSQBRACK .
 
@@ -8296,7 +8039,7 @@ state 112
     LBRACK          reduce using rule 44 (expression -> LSQBRACK arguments RSQBRACK .)
 
 
-state 113
+state 112
 
     (41) arguments -> arguments COMMA . expression
     (13) expression -> . expression PLUS expression
@@ -8324,8 +8067,8 @@ state 113
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -8352,19 +8095,19 @@ state 113
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
-    expression                     shift and go to state 128
+    expression                     shift and go to state 127
     identifier                     shift and go to state 64
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 114
+state 113
 
     (45) expression -> identifier LSQBRACK . expression RSQBRACK
     (46) expression -> identifier LSQBRACK . expression COLON expression RSQBRACK
@@ -8396,8 +8139,8 @@ state 114
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -8425,19 +8168,19 @@ state 114
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
-    expression                     shift and go to state 129
-    primitive                      shift and go to state 20
+    expression                     shift and go to state 128
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 115
+state 114
 
     (74) expression -> identifier LPAREN . arguments RPAREN
     (41) arguments -> . arguments COMMA expression
@@ -8468,8 +8211,8 @@ state 115
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -8498,29 +8241,29 @@ state 115
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
-    arguments                      shift and go to state 130
+    arguments                      shift and go to state 129
     expression                     shift and go to state 63
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 116
+state 115
 
     (57) statement -> SETOUT LPAREN arguments . RPAREN
     (41) arguments -> arguments . COMMA expression
 
-    RPAREN          shift and go to state 131
-    COMMA           shift and go to state 113
+    RPAREN          shift and go to state 130
+    COMMA           shift and go to state 112
 
 
-state 117
+state 116
 
     (36) expression -> LPAREN expression RPAREN .
 
@@ -8573,7 +8316,7 @@ state 117
     LBRACK          reduce using rule 36 (expression -> LPAREN expression RPAREN .)
 
 
-state 118
+state 117
 
     (69) statement -> FOR identifier IN . expression ARROW_LTR expression DO LBRACK statement_list RBRACK
     (70) statement -> FOR identifier IN . expression ARROW_RTL expression DO LBRACK statement_list RBRACK
@@ -8603,8 +8346,8 @@ state 118
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -8631,47 +8374,47 @@ state 118
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
-    expression                     shift and go to state 132
-    primitive                      shift and go to state 20
+    expression                     shift and go to state 131
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
+
+state 118
+
+    (72) statement -> WHILE expression DO . LBRACK statement_list RBRACK
+
+    LBRACK          shift and go to state 132
+
 
 state 119
 
-    (72) statement -> WHILE expression DO . LBRACK statement_list RBRACK
+    (73) statement -> PROCESS identifier DO . LBRACK statement_list RBRACK
 
     LBRACK          shift and go to state 133
 
 
 state 120
 
-    (73) statement -> PROCESS identifier DO . LBRACK statement_list RBRACK
+    (52) if_statement -> IF expression THEN . LBRACK statement_list RBRACK
+    (53) if_statement -> IF expression THEN . LBRACK statement_list RBRACK ELSE LBRACK statement_list RBRACK
+    (54) if_statement -> IF expression THEN . LBRACK statement_list RBRACK ELSE if_statement
 
     LBRACK          shift and go to state 134
 
 
 state 121
 
-    (52) if_statement -> IF expression THEN . LBRACK statement_list RBRACK
-    (53) if_statement -> IF expression THEN . LBRACK statement_list RBRACK ELSE LBRACK statement_list RBRACK
-    (54) if_statement -> IF expression THEN . LBRACK statement_list RBRACK ELSE if_statement
-
-    LBRACK          shift and go to state 135
-
-
-state 122
-
     (50) statement -> identifier LSQBRACK expression RSQBRACK . EQUALS expression
     (45) expression -> identifier LSQBRACK expression RSQBRACK .
 
-    EQUALS          shift and go to state 136
+    EQUALS          shift and go to state 135
     PLUS            reduce using rule 45 (expression -> identifier LSQBRACK expression RSQBRACK .)
     MINUS           reduce using rule 45 (expression -> identifier LSQBRACK expression RSQBRACK .)
     MUL             reduce using rule 45 (expression -> identifier LSQBRACK expression RSQBRACK .)
@@ -8712,7 +8455,7 @@ state 122
     RBRACK          reduce using rule 45 (expression -> identifier LSQBRACK expression RSQBRACK .)
 
 
-state 123
+state 122
 
     (46) expression -> identifier LSQBRACK expression COLON . expression RSQBRACK
     (48) expression -> identifier LSQBRACK expression COLON . RSQBRACK
@@ -8741,8 +8484,8 @@ state 123
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -8763,26 +8506,26 @@ state 123
     (37) boolean -> . TRUE
     (38) boolean -> . FALSE
 
-    RSQBRACK        shift and go to state 138
+    RSQBRACK        shift and go to state 137
     MINUS           shift and go to state 17
     PLUS            shift and go to state 16
     BIT_NEG         shift and go to state 18
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
-    expression                     shift and go to state 137
-    primitive                      shift and go to state 20
+    expression                     shift and go to state 136
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 124
+state 123
 
     (47) expression -> identifier LSQBRACK COLON expression . RSQBRACK
     (13) expression -> expression . PLUS expression
@@ -8807,7 +8550,7 @@ state 124
     (30) boolean -> expression . AND expression
     (31) boolean -> expression . OR expression
 
-    RSQBRACK        shift and go to state 139
+    RSQBRACK        shift and go to state 138
     PLUS            shift and go to state 41
     MINUS           shift and go to state 42
     MUL             shift and go to state 43
@@ -8831,7 +8574,7 @@ state 124
     OR              shift and go to state 61
 
 
-state 125
+state 124
 
     (49) expression -> identifier LSQBRACK COLON RSQBRACK .
 
@@ -8884,7 +8627,7 @@ state 125
     LBRACK          reduce using rule 49 (expression -> identifier LSQBRACK COLON RSQBRACK .)
 
 
-state 126
+state 125
 
     (75) statement -> identifier LPAREN arguments RPAREN .
     (74) expression -> identifier LPAREN arguments RPAREN .
@@ -8970,7 +8713,7 @@ state 126
   ! RBRACK          [ reduce using rule 75 (statement -> identifier LPAREN arguments RPAREN .) ]
 
 
-state 127
+state 126
 
     (56) expression -> expression NOT IN expression .
     (13) expression -> expression . PLUS expression
@@ -9087,7 +8830,7 @@ state 127
   ! OR              [ reduce using rule 56 (expression -> expression NOT IN expression .) ]
 
 
-state 128
+state 127
 
     (41) arguments -> arguments COMMA expression .
     (13) expression -> expression . PLUS expression
@@ -9138,7 +8881,7 @@ state 128
     OR              shift and go to state 61
 
 
-state 129
+state 128
 
     (45) expression -> identifier LSQBRACK expression . RSQBRACK
     (46) expression -> identifier LSQBRACK expression . COLON expression RSQBRACK
@@ -9165,8 +8908,8 @@ state 129
     (30) boolean -> expression . AND expression
     (31) boolean -> expression . OR expression
 
-    RSQBRACK        shift and go to state 140
-    COLON           shift and go to state 123
+    RSQBRACK        shift and go to state 139
+    COLON           shift and go to state 122
     PLUS            shift and go to state 41
     MINUS           shift and go to state 42
     MUL             shift and go to state 43
@@ -9190,16 +8933,16 @@ state 129
     OR              shift and go to state 61
 
 
-state 130
+state 129
 
     (74) expression -> identifier LPAREN arguments . RPAREN
     (41) arguments -> arguments . COMMA expression
 
-    RPAREN          shift and go to state 141
-    COMMA           shift and go to state 113
+    RPAREN          shift and go to state 140
+    COMMA           shift and go to state 112
 
 
-state 131
+state 130
 
     (57) statement -> SETOUT LPAREN arguments RPAREN .
 
@@ -9225,7 +8968,7 @@ state 131
     RBRACK          reduce using rule 57 (statement -> SETOUT LPAREN arguments RPAREN .)
 
 
-state 132
+state 131
 
     (69) statement -> FOR identifier IN expression . ARROW_LTR expression DO LBRACK statement_list RBRACK
     (70) statement -> FOR identifier IN expression . ARROW_RTL expression DO LBRACK statement_list RBRACK
@@ -9252,9 +8995,9 @@ state 132
     (30) boolean -> expression . AND expression
     (31) boolean -> expression . OR expression
 
-    ARROW_LTR       shift and go to state 142
-    ARROW_RTL       shift and go to state 144
-    LBRACK          shift and go to state 143
+    ARROW_LTR       shift and go to state 141
+    ARROW_RTL       shift and go to state 143
+    LBRACK          shift and go to state 142
     PLUS            shift and go to state 41
     MINUS           shift and go to state 42
     MUL             shift and go to state 43
@@ -9278,7 +9021,7 @@ state 132
     OR              shift and go to state 61
 
 
-state 133
+state 132
 
     (72) statement -> WHILE expression DO LBRACK . statement_list RBRACK
     (2) statement_list -> . statement
@@ -9327,8 +9070,8 @@ state 133
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -9363,22 +9106,22 @@ state 133
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     expression                     shift and go to state 6
-    statement_list                 shift and go to state 145
+    statement_list                 shift and go to state 144
     statement                      shift and go to state 4
     identifier                     shift and go to state 5
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 134
+state 133
 
     (73) statement -> PROCESS identifier DO LBRACK . statement_list RBRACK
     (2) statement_list -> . statement
@@ -9427,8 +9170,8 @@ state 134
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -9463,22 +9206,22 @@ state 134
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 5
-    statement_list                 shift and go to state 146
+    statement_list                 shift and go to state 145
     statement                      shift and go to state 4
     expression                     shift and go to state 6
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 135
+state 134
 
     (52) if_statement -> IF expression THEN LBRACK . statement_list RBRACK
     (53) if_statement -> IF expression THEN LBRACK . statement_list RBRACK ELSE LBRACK statement_list RBRACK
@@ -9529,8 +9272,8 @@ state 135
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -9565,22 +9308,22 @@ state 135
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     expression                     shift and go to state 6
-    statement_list                 shift and go to state 147
+    statement_list                 shift and go to state 146
     if_statement                   shift and go to state 7
     statement                      shift and go to state 4
     identifier                     shift and go to state 5
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 136
+state 135
 
     (50) statement -> identifier LSQBRACK expression RSQBRACK EQUALS . expression
     (13) expression -> . expression PLUS expression
@@ -9608,8 +9351,8 @@ state 136
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -9636,19 +9379,19 @@ state 136
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
-    expression                     shift and go to state 148
-    primitive                      shift and go to state 20
+    expression                     shift and go to state 147
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 137
+state 136
 
     (46) expression -> identifier LSQBRACK expression COLON expression . RSQBRACK
     (13) expression -> expression . PLUS expression
@@ -9673,7 +9416,7 @@ state 137
     (30) boolean -> expression . AND expression
     (31) boolean -> expression . OR expression
 
-    RSQBRACK        shift and go to state 149
+    RSQBRACK        shift and go to state 148
     PLUS            shift and go to state 41
     MINUS           shift and go to state 42
     MUL             shift and go to state 43
@@ -9697,7 +9440,7 @@ state 137
     OR              shift and go to state 61
 
 
-state 138
+state 137
 
     (48) expression -> identifier LSQBRACK expression COLON RSQBRACK .
 
@@ -9750,7 +9493,7 @@ state 138
     LBRACK          reduce using rule 48 (expression -> identifier LSQBRACK expression COLON RSQBRACK .)
 
 
-state 139
+state 138
 
     (47) expression -> identifier LSQBRACK COLON expression RSQBRACK .
 
@@ -9803,7 +9546,7 @@ state 139
     LBRACK          reduce using rule 47 (expression -> identifier LSQBRACK COLON expression RSQBRACK .)
 
 
-state 140
+state 139
 
     (45) expression -> identifier LSQBRACK expression RSQBRACK .
 
@@ -9856,7 +9599,7 @@ state 140
     LBRACK          reduce using rule 45 (expression -> identifier LSQBRACK expression RSQBRACK .)
 
 
-state 141
+state 140
 
     (74) expression -> identifier LPAREN arguments RPAREN .
 
@@ -9909,7 +9652,7 @@ state 141
     LBRACK          reduce using rule 74 (expression -> identifier LPAREN arguments RPAREN .)
 
 
-state 142
+state 141
 
     (69) statement -> FOR identifier IN expression ARROW_LTR . expression DO LBRACK statement_list RBRACK
     (13) expression -> . expression PLUS expression
@@ -9937,8 +9680,8 @@ state 142
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -9965,19 +9708,19 @@ state 142
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
-    expression                     shift and go to state 150
-    primitive                      shift and go to state 20
+    expression                     shift and go to state 149
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 143
+state 142
 
     (71) statement -> FOR identifier IN expression LBRACK . statement_list RBRACK
     (2) statement_list -> . statement
@@ -10026,8 +9769,8 @@ state 143
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -10062,22 +9805,22 @@ state 143
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 5
     expression                     shift and go to state 6
-    statement_list                 shift and go to state 151
+    statement_list                 shift and go to state 150
     statement                      shift and go to state 4
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 144
+state 143
 
     (70) statement -> FOR identifier IN expression ARROW_RTL . expression DO LBRACK statement_list RBRACK
     (13) expression -> . expression PLUS expression
@@ -10105,8 +9848,8 @@ state 144
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -10133,19 +9876,19 @@ state 144
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
+    STRING          shift and go to state 22
     IDENTIFIER      shift and go to state 15
-    NUM_INT         shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 64
-    expression                     shift and go to state 152
-    primitive                      shift and go to state 20
+    expression                     shift and go to state 151
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 145
+state 144
 
     (72) statement -> WHILE expression DO LBRACK statement_list . RBRACK
     (3) statement_list -> statement_list . statement
@@ -10193,8 +9936,8 @@ state 145
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -10217,7 +9960,7 @@ state 145
     (37) boolean -> . TRUE
     (38) boolean -> . FALSE
 
-    RBRACK          shift and go to state 153
+    RBRACK          shift and go to state 152
     EXIT            shift and go to state 8
     SETOUT          shift and go to state 10
     FOR             shift and go to state 12
@@ -10230,9 +9973,9 @@ state 145
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -10241,10 +9984,10 @@ state 145
     statement                      shift and go to state 29
     identifier                     shift and go to state 5
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 146
+state 145
 
     (73) statement -> PROCESS identifier DO LBRACK statement_list . RBRACK
     (3) statement_list -> statement_list . statement
@@ -10292,8 +10035,8 @@ state 146
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -10316,7 +10059,7 @@ state 146
     (37) boolean -> . TRUE
     (38) boolean -> . FALSE
 
-    RBRACK          shift and go to state 154
+    RBRACK          shift and go to state 153
     EXIT            shift and go to state 8
     SETOUT          shift and go to state 10
     FOR             shift and go to state 12
@@ -10329,9 +10072,9 @@ state 146
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -10340,10 +10083,10 @@ state 146
     statement                      shift and go to state 29
     expression                     shift and go to state 6
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 147
+state 146
 
     (52) if_statement -> IF expression THEN LBRACK statement_list . RBRACK
     (53) if_statement -> IF expression THEN LBRACK statement_list . RBRACK ELSE LBRACK statement_list RBRACK
@@ -10393,8 +10136,8 @@ state 147
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -10417,7 +10160,7 @@ state 147
     (37) boolean -> . TRUE
     (38) boolean -> . FALSE
 
-    RBRACK          shift and go to state 155
+    RBRACK          shift and go to state 154
     EXIT            shift and go to state 8
     SETOUT          shift and go to state 10
     FOR             shift and go to state 12
@@ -10430,9 +10173,9 @@ state 147
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -10441,10 +10184,10 @@ state 147
     if_statement                   shift and go to state 7
     statement                      shift and go to state 29
     identifier                     shift and go to state 5
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 148
+state 147
 
     (50) statement -> identifier LSQBRACK expression RSQBRACK EQUALS expression .
     (13) expression -> expression . PLUS expression
@@ -10516,7 +10259,7 @@ state 148
   ! NOT             [ reduce using rule 50 (statement -> identifier LSQBRACK expression RSQBRACK EQUALS expression .) ]
 
 
-state 149
+state 148
 
     (46) expression -> identifier LSQBRACK expression COLON expression RSQBRACK .
 
@@ -10569,7 +10312,7 @@ state 149
     LBRACK          reduce using rule 46 (expression -> identifier LSQBRACK expression COLON expression RSQBRACK .)
 
 
-state 150
+state 149
 
     (69) statement -> FOR identifier IN expression ARROW_LTR expression . DO LBRACK statement_list RBRACK
     (13) expression -> expression . PLUS expression
@@ -10594,7 +10337,7 @@ state 150
     (30) boolean -> expression . AND expression
     (31) boolean -> expression . OR expression
 
-    DO              shift and go to state 156
+    DO              shift and go to state 155
     PLUS            shift and go to state 41
     MINUS           shift and go to state 42
     MUL             shift and go to state 43
@@ -10618,7 +10361,7 @@ state 150
     OR              shift and go to state 61
 
 
-state 151
+state 150
 
     (71) statement -> FOR identifier IN expression LBRACK statement_list . RBRACK
     (3) statement_list -> statement_list . statement
@@ -10666,8 +10409,8 @@ state 151
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -10690,7 +10433,7 @@ state 151
     (37) boolean -> . TRUE
     (38) boolean -> . FALSE
 
-    RBRACK          shift and go to state 157
+    RBRACK          shift and go to state 156
     EXIT            shift and go to state 8
     SETOUT          shift and go to state 10
     FOR             shift and go to state 12
@@ -10703,9 +10446,9 @@ state 151
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -10714,10 +10457,10 @@ state 151
     expression                     shift and go to state 6
     statement                      shift and go to state 29
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 152
+state 151
 
     (70) statement -> FOR identifier IN expression ARROW_RTL expression . DO LBRACK statement_list RBRACK
     (13) expression -> expression . PLUS expression
@@ -10742,7 +10485,7 @@ state 152
     (30) boolean -> expression . AND expression
     (31) boolean -> expression . OR expression
 
-    DO              shift and go to state 158
+    DO              shift and go to state 157
     PLUS            shift and go to state 41
     MINUS           shift and go to state 42
     MUL             shift and go to state 43
@@ -10766,7 +10509,7 @@ state 152
     OR              shift and go to state 61
 
 
-state 153
+state 152
 
     (72) statement -> WHILE expression DO LBRACK statement_list RBRACK .
 
@@ -10792,7 +10535,7 @@ state 153
     RBRACK          reduce using rule 72 (statement -> WHILE expression DO LBRACK statement_list RBRACK .)
 
 
-state 154
+state 153
 
     (73) statement -> PROCESS identifier DO LBRACK statement_list RBRACK .
 
@@ -10818,7 +10561,7 @@ state 154
     RBRACK          reduce using rule 73 (statement -> PROCESS identifier DO LBRACK statement_list RBRACK .)
 
 
-state 155
+state 154
 
     (52) if_statement -> IF expression THEN LBRACK statement_list RBRACK .
     (53) if_statement -> IF expression THEN LBRACK statement_list RBRACK . ELSE LBRACK statement_list RBRACK
@@ -10844,17 +10587,17 @@ state 155
     TRUE            reduce using rule 52 (if_statement -> IF expression THEN LBRACK statement_list RBRACK .)
     FALSE           reduce using rule 52 (if_statement -> IF expression THEN LBRACK statement_list RBRACK .)
     RBRACK          reduce using rule 52 (if_statement -> IF expression THEN LBRACK statement_list RBRACK .)
-    ELSE            shift and go to state 159
+    ELSE            shift and go to state 158
 
 
-state 156
+state 155
 
     (69) statement -> FOR identifier IN expression ARROW_LTR expression DO . LBRACK statement_list RBRACK
 
-    LBRACK          shift and go to state 160
+    LBRACK          shift and go to state 159
 
 
-state 157
+state 156
 
     (71) statement -> FOR identifier IN expression LBRACK statement_list RBRACK .
 
@@ -10880,14 +10623,14 @@ state 157
     RBRACK          reduce using rule 71 (statement -> FOR identifier IN expression LBRACK statement_list RBRACK .)
 
 
-state 158
+state 157
 
     (70) statement -> FOR identifier IN expression ARROW_RTL expression DO . LBRACK statement_list RBRACK
 
-    LBRACK          shift and go to state 161
+    LBRACK          shift and go to state 160
 
 
-state 159
+state 158
 
     (53) if_statement -> IF expression THEN LBRACK statement_list RBRACK ELSE . LBRACK statement_list RBRACK
     (54) if_statement -> IF expression THEN LBRACK statement_list RBRACK ELSE . if_statement
@@ -10895,12 +10638,12 @@ state 159
     (53) if_statement -> . IF expression THEN LBRACK statement_list RBRACK ELSE LBRACK statement_list RBRACK
     (54) if_statement -> . IF expression THEN LBRACK statement_list RBRACK ELSE if_statement
 
-    LBRACK          shift and go to state 162
-    IF              shift and go to state 22
+    LBRACK          shift and go to state 161
+    IF              shift and go to state 23
 
-    if_statement                   shift and go to state 163
+    if_statement                   shift and go to state 162
 
-state 160
+state 159
 
     (69) statement -> FOR identifier IN expression ARROW_LTR expression DO LBRACK . statement_list RBRACK
     (2) statement_list -> . statement
@@ -10949,8 +10692,8 @@ state 160
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -10985,22 +10728,22 @@ state 160
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 5
     expression                     shift and go to state 6
-    statement_list                 shift and go to state 164
+    statement_list                 shift and go to state 163
     statement                      shift and go to state 4
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 161
+state 160
 
     (70) statement -> FOR identifier IN expression ARROW_RTL expression DO LBRACK . statement_list RBRACK
     (2) statement_list -> . statement
@@ -11049,8 +10792,8 @@ state 161
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -11085,22 +10828,22 @@ state 161
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     identifier                     shift and go to state 5
     expression                     shift and go to state 6
-    statement_list                 shift and go to state 165
+    statement_list                 shift and go to state 164
     statement                      shift and go to state 4
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 162
+state 161
 
     (53) if_statement -> IF expression THEN LBRACK statement_list RBRACK ELSE LBRACK . statement_list RBRACK
     (2) statement_list -> . statement
@@ -11149,8 +10892,8 @@ state 162
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -11185,22 +10928,22 @@ state 162
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
 
     expression                     shift and go to state 6
-    statement_list                 shift and go to state 166
+    statement_list                 shift and go to state 165
     statement                      shift and go to state 4
     identifier                     shift and go to state 5
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 163
+state 162
 
     (54) if_statement -> IF expression THEN LBRACK statement_list RBRACK ELSE if_statement .
 
@@ -11226,7 +10969,7 @@ state 163
     RBRACK          reduce using rule 54 (if_statement -> IF expression THEN LBRACK statement_list RBRACK ELSE if_statement .)
 
 
-state 164
+state 163
 
     (69) statement -> FOR identifier IN expression ARROW_LTR expression DO LBRACK statement_list . RBRACK
     (3) statement_list -> statement_list . statement
@@ -11274,8 +11017,8 @@ state 164
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -11298,7 +11041,7 @@ state 164
     (37) boolean -> . TRUE
     (38) boolean -> . FALSE
 
-    RBRACK          shift and go to state 167
+    RBRACK          shift and go to state 166
     EXIT            shift and go to state 8
     SETOUT          shift and go to state 10
     FOR             shift and go to state 12
@@ -11311,9 +11054,9 @@ state 164
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -11322,10 +11065,10 @@ state 164
     expression                     shift and go to state 6
     statement                      shift and go to state 29
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 165
+state 164
 
     (70) statement -> FOR identifier IN expression ARROW_RTL expression DO LBRACK statement_list . RBRACK
     (3) statement_list -> statement_list . statement
@@ -11373,8 +11116,8 @@ state 165
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -11397,7 +11140,7 @@ state 165
     (37) boolean -> . TRUE
     (38) boolean -> . FALSE
 
-    RBRACK          shift and go to state 168
+    RBRACK          shift and go to state 167
     EXIT            shift and go to state 8
     SETOUT          shift and go to state 10
     FOR             shift and go to state 12
@@ -11410,9 +11153,9 @@ state 165
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -11421,10 +11164,10 @@ state 165
     expression                     shift and go to state 6
     statement                      shift and go to state 29
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 166
+state 165
 
     (53) if_statement -> IF expression THEN LBRACK statement_list RBRACK ELSE LBRACK statement_list . RBRACK
     (3) statement_list -> statement_list . statement
@@ -11472,8 +11215,8 @@ state 166
     (51) expression -> . identifier EQUALS assignable
     (55) expression -> . expression IN expression
     (56) expression -> . expression NOT IN expression
-    (64) expression -> . identifier PLUS_EQUAL primitive
-    (65) expression -> . identifier MINUS_EQUAL primitive
+    (64) expression -> . identifier PLUS_EQUAL NUM_INT
+    (65) expression -> . identifier MINUS_EQUAL NUM_INT
     (66) expression -> . primitive
     (67) expression -> . STRING
     (68) expression -> . identifier
@@ -11496,7 +11239,7 @@ state 166
     (37) boolean -> . TRUE
     (38) boolean -> . FALSE
 
-    RBRACK          shift and go to state 169
+    RBRACK          shift and go to state 168
     EXIT            shift and go to state 8
     SETOUT          shift and go to state 10
     FOR             shift and go to state 12
@@ -11509,9 +11252,9 @@ state 166
     NOT             shift and go to state 19
     LPAREN          shift and go to state 11
     LSQBRACK        shift and go to state 9
-    STRING          shift and go to state 21
-    IF              shift and go to state 22
-    NUM_INT         shift and go to state 23
+    STRING          shift and go to state 22
+    IF              shift and go to state 23
+    NUM_INT         shift and go to state 20
     NUM_FLOAT       shift and go to state 24
     TRUE            shift and go to state 26
     FALSE           shift and go to state 27
@@ -11520,10 +11263,10 @@ state 166
     statement                      shift and go to state 29
     identifier                     shift and go to state 5
     if_statement                   shift and go to state 7
-    primitive                      shift and go to state 20
+    primitive                      shift and go to state 21
     boolean                        shift and go to state 25
 
-state 167
+state 166
 
     (69) statement -> FOR identifier IN expression ARROW_LTR expression DO LBRACK statement_list RBRACK .
 
@@ -11549,7 +11292,7 @@ state 167
     RBRACK          reduce using rule 69 (statement -> FOR identifier IN expression ARROW_LTR expression DO LBRACK statement_list RBRACK .)
 
 
-state 168
+state 167
 
     (70) statement -> FOR identifier IN expression ARROW_RTL expression DO LBRACK statement_list RBRACK .
 
@@ -11575,7 +11318,7 @@ state 168
     RBRACK          reduce using rule 70 (statement -> FOR identifier IN expression ARROW_RTL expression DO LBRACK statement_list RBRACK .)
 
 
-state 169
+state 168
 
     (53) if_statement -> IF expression THEN LBRACK statement_list RBRACK ELSE LBRACK statement_list RBRACK .
 
@@ -11672,6 +11415,27 @@ WARNING: shift/reduce conflict for NOT in state 85 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 86 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 86 resolved as shift
 WARNING: shift/reduce conflict for NOT in state 86 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 96 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 96 resolved as shift
+WARNING: shift/reduce conflict for MUL in state 96 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 96 resolved as shift
+WARNING: shift/reduce conflict for EXP in state 96 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 96 resolved as shift
+WARNING: shift/reduce conflict for BIT_AND in state 96 resolved as shift
+WARNING: shift/reduce conflict for BIT_OR in state 96 resolved as shift
+WARNING: shift/reduce conflict for BIT_XOR in state 96 resolved as shift
+WARNING: shift/reduce conflict for LSHIFT in state 96 resolved as shift
+WARNING: shift/reduce conflict for RSHIFT in state 96 resolved as shift
+WARNING: shift/reduce conflict for IN in state 96 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 96 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 96 resolved as shift
+WARNING: shift/reduce conflict for NEQ in state 96 resolved as shift
+WARNING: shift/reduce conflict for GT in state 96 resolved as shift
+WARNING: shift/reduce conflict for GTE in state 96 resolved as shift
+WARNING: shift/reduce conflict for LT in state 96 resolved as shift
+WARNING: shift/reduce conflict for LTE in state 96 resolved as shift
+WARNING: shift/reduce conflict for AND in state 96 resolved as shift
+WARNING: shift/reduce conflict for OR in state 96 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 97 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 97 resolved as shift
 WARNING: shift/reduce conflict for MUL in state 97 resolved as shift
@@ -11777,27 +11541,27 @@ WARNING: shift/reduce conflict for LT in state 101 resolved as shift
 WARNING: shift/reduce conflict for LTE in state 101 resolved as shift
 WARNING: shift/reduce conflict for AND in state 101 resolved as shift
 WARNING: shift/reduce conflict for OR in state 101 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 102 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 102 resolved as shift
-WARNING: shift/reduce conflict for MUL in state 102 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 102 resolved as shift
-WARNING: shift/reduce conflict for EXP in state 102 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 102 resolved as shift
-WARNING: shift/reduce conflict for BIT_AND in state 102 resolved as shift
-WARNING: shift/reduce conflict for BIT_OR in state 102 resolved as shift
-WARNING: shift/reduce conflict for BIT_XOR in state 102 resolved as shift
-WARNING: shift/reduce conflict for LSHIFT in state 102 resolved as shift
-WARNING: shift/reduce conflict for RSHIFT in state 102 resolved as shift
-WARNING: shift/reduce conflict for IN in state 102 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 102 resolved as shift
-WARNING: shift/reduce conflict for EQ in state 102 resolved as shift
-WARNING: shift/reduce conflict for NEQ in state 102 resolved as shift
-WARNING: shift/reduce conflict for GT in state 102 resolved as shift
-WARNING: shift/reduce conflict for GTE in state 102 resolved as shift
-WARNING: shift/reduce conflict for LT in state 102 resolved as shift
-WARNING: shift/reduce conflict for LTE in state 102 resolved as shift
-WARNING: shift/reduce conflict for AND in state 102 resolved as shift
-WARNING: shift/reduce conflict for OR in state 102 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 103 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 103 resolved as shift
+WARNING: shift/reduce conflict for MUL in state 103 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 103 resolved as shift
+WARNING: shift/reduce conflict for EXP in state 103 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 103 resolved as shift
+WARNING: shift/reduce conflict for BIT_AND in state 103 resolved as shift
+WARNING: shift/reduce conflict for BIT_OR in state 103 resolved as shift
+WARNING: shift/reduce conflict for BIT_XOR in state 103 resolved as shift
+WARNING: shift/reduce conflict for LSHIFT in state 103 resolved as shift
+WARNING: shift/reduce conflict for RSHIFT in state 103 resolved as shift
+WARNING: shift/reduce conflict for IN in state 103 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 103 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 103 resolved as shift
+WARNING: shift/reduce conflict for NEQ in state 103 resolved as shift
+WARNING: shift/reduce conflict for GT in state 103 resolved as shift
+WARNING: shift/reduce conflict for GTE in state 103 resolved as shift
+WARNING: shift/reduce conflict for LT in state 103 resolved as shift
+WARNING: shift/reduce conflict for LTE in state 103 resolved as shift
+WARNING: shift/reduce conflict for AND in state 103 resolved as shift
+WARNING: shift/reduce conflict for OR in state 103 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 104 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 104 resolved as shift
 WARNING: shift/reduce conflict for MUL in state 104 resolved as shift
@@ -11945,64 +11709,39 @@ WARNING: shift/reduce conflict for LT in state 110 resolved as shift
 WARNING: shift/reduce conflict for LTE in state 110 resolved as shift
 WARNING: shift/reduce conflict for AND in state 110 resolved as shift
 WARNING: shift/reduce conflict for OR in state 110 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 111 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 111 resolved as shift
-WARNING: shift/reduce conflict for MUL in state 111 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 111 resolved as shift
-WARNING: shift/reduce conflict for EXP in state 111 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 111 resolved as shift
-WARNING: shift/reduce conflict for BIT_AND in state 111 resolved as shift
-WARNING: shift/reduce conflict for BIT_OR in state 111 resolved as shift
-WARNING: shift/reduce conflict for BIT_XOR in state 111 resolved as shift
-WARNING: shift/reduce conflict for LSHIFT in state 111 resolved as shift
-WARNING: shift/reduce conflict for RSHIFT in state 111 resolved as shift
-WARNING: shift/reduce conflict for IN in state 111 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 111 resolved as shift
-WARNING: shift/reduce conflict for EQ in state 111 resolved as shift
-WARNING: shift/reduce conflict for NEQ in state 111 resolved as shift
-WARNING: shift/reduce conflict for GT in state 111 resolved as shift
-WARNING: shift/reduce conflict for GTE in state 111 resolved as shift
-WARNING: shift/reduce conflict for LT in state 111 resolved as shift
-WARNING: shift/reduce conflict for LTE in state 111 resolved as shift
-WARNING: shift/reduce conflict for AND in state 111 resolved as shift
-WARNING: shift/reduce conflict for OR in state 111 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 127 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 127 resolved as shift
-WARNING: shift/reduce conflict for MUL in state 127 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 127 resolved as shift
-WARNING: shift/reduce conflict for EXP in state 127 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 127 resolved as shift
-WARNING: shift/reduce conflict for BIT_AND in state 127 resolved as shift
-WARNING: shift/reduce conflict for BIT_OR in state 127 resolved as shift
-WARNING: shift/reduce conflict for BIT_XOR in state 127 resolved as shift
-WARNING: shift/reduce conflict for LSHIFT in state 127 resolved as shift
-WARNING: shift/reduce conflict for RSHIFT in state 127 resolved as shift
-WARNING: shift/reduce conflict for IN in state 127 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 127 resolved as shift
-WARNING: shift/reduce conflict for EQ in state 127 resolved as shift
-WARNING: shift/reduce conflict for NEQ in state 127 resolved as shift
-WARNING: shift/reduce conflict for GT in state 127 resolved as shift
-WARNING: shift/reduce conflict for GTE in state 127 resolved as shift
-WARNING: shift/reduce conflict for LT in state 127 resolved as shift
-WARNING: shift/reduce conflict for LTE in state 127 resolved as shift
-WARNING: shift/reduce conflict for AND in state 127 resolved as shift
-WARNING: shift/reduce conflict for OR in state 127 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 148 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 148 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 148 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 126 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 126 resolved as shift
+WARNING: shift/reduce conflict for MUL in state 126 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 126 resolved as shift
+WARNING: shift/reduce conflict for EXP in state 126 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 126 resolved as shift
+WARNING: shift/reduce conflict for BIT_AND in state 126 resolved as shift
+WARNING: shift/reduce conflict for BIT_OR in state 126 resolved as shift
+WARNING: shift/reduce conflict for BIT_XOR in state 126 resolved as shift
+WARNING: shift/reduce conflict for LSHIFT in state 126 resolved as shift
+WARNING: shift/reduce conflict for RSHIFT in state 126 resolved as shift
+WARNING: shift/reduce conflict for IN in state 126 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 126 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 126 resolved as shift
+WARNING: shift/reduce conflict for NEQ in state 126 resolved as shift
+WARNING: shift/reduce conflict for GT in state 126 resolved as shift
+WARNING: shift/reduce conflict for GTE in state 126 resolved as shift
+WARNING: shift/reduce conflict for LT in state 126 resolved as shift
+WARNING: shift/reduce conflict for LTE in state 126 resolved as shift
+WARNING: shift/reduce conflict for AND in state 126 resolved as shift
+WARNING: shift/reduce conflict for OR in state 126 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 147 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 147 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 147 resolved as shift
 WARNING: reduce/reduce conflict in state 5 resolved using rule (statement -> identifier)
 WARNING: rejected rule (expression -> identifier) in state 5
-WARNING: reduce/reduce conflict in state 21 resolved using rule (primitive -> STRING)
-WARNING: rejected rule (expression -> STRING) in state 21
+WARNING: reduce/reduce conflict in state 22 resolved using rule (primitive -> STRING)
+WARNING: rejected rule (expression -> STRING) in state 22
 WARNING: reduce/reduce conflict in state 78 resolved using rule (assignable -> primitive)
 WARNING: rejected rule (expression -> primitive) in state 78
 WARNING: reduce/reduce conflict in state 80 resolved using rule (primitive -> STRING)
 WARNING: rejected rule (expression -> STRING) in state 80
-WARNING: reduce/reduce conflict in state 88 resolved using rule (expression -> identifier PLUS_EQUAL primitive)
-WARNING: rejected rule (expression -> primitive) in state 88
-WARNING: reduce/reduce conflict in state 90 resolved using rule (expression -> identifier MINUS_EQUAL primitive)
-WARNING: rejected rule (expression -> primitive) in state 90
-WARNING: reduce/reduce conflict in state 126 resolved using rule (expression -> identifier LPAREN arguments RPAREN)
-WARNING: rejected rule (statement -> identifier LPAREN arguments RPAREN) in state 126
+WARNING: reduce/reduce conflict in state 125 resolved using rule (expression -> identifier LPAREN arguments RPAREN)
+WARNING: rejected rule (statement -> identifier LPAREN arguments RPAREN) in state 125
 WARNING: Rule (expression -> STRING) is never reduced
 WARNING: Rule (statement -> identifier LPAREN arguments RPAREN) is never reduced

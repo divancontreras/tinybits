@@ -6,7 +6,6 @@ from tinybit_errors import *
 
 context = contextos.SymbolTable()
 
-
 class InstructionList:
     def __init__(self, children=None):
         if children is None:
@@ -192,7 +191,7 @@ class BinaryOperation(BaseExpression):
         '==': operator.eq,
         '!=': operator.ne,
 
-        'and': lambda a, b: a.eval() and b.eval(),
+        'and': lambda a, b: a.eval() and b.eval,
         'or': lambda a, b: a.eval() or b.eval(),
 
         '&': operator.and_,
@@ -217,7 +216,6 @@ class BinaryOperation(BaseExpression):
         try:
             # find the operation that needs to be performed
             op = self.__operations[self.op]
-
             # The only lambda operations are logical and/or
             # Pass the arguments unevaluated as they will be during the lambda execution
             # This implements short circuit boolean evaluation
@@ -228,6 +226,7 @@ class BinaryOperation(BaseExpression):
             # in case they are to be used for the exception block
             left = self.left.eval()
             right = self.right.eval()
+            print(f"{self.op} {left} {right} {op(left,right)}")
             return op(left, right)
         except TypeError:
             fmt = (left.__class__.__name__, left, self.op, right.__class__.__name__, right)
@@ -291,20 +290,18 @@ class If(BaseExpression):
         self.condition = condition
         self.truepart = truepart
         self.elsepart = elsepart
-        print(condition)
-        print(truepart)
-        print(elsepart)
-
     def __repr__(self):
         return '<If condition={0} then={1} else={2}>'.format(self.condition, self.truepart, self.elsepart)
 
     def eval(self):
         if self.condition.eval():
+            print("GOTO TRUEPART")            
             if isinstance(self.truepart, str):
                 return self.truepart
             else:
                 return self.truepart.eval()
         elif self.elsepart is not None:
+            print("GOTO FALSEPART")            
             return self.elsepart.eval()
 
 
@@ -363,6 +360,7 @@ class While(BaseExpression):
         return '<While cond={0} body={1}>'.format(self.condition, self.body)
 
     def eval(self):
+        print("GOTO F BREAK")
         while self.condition.eval():
             if isinstance(self.body.eval(), ExitStatement):
                 break

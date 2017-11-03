@@ -252,13 +252,13 @@ def p_compound_operations(p):
 
 def p_increment_decrement_identifiers(p):
     '''
-    expression : identifier PLUS_EQUAL primitive
-               | identifier MINUS_EQUAL primitive
+    expression : identifier PLUS_EQUAL NUM_INT
+               | identifier MINUS_EQUAL NUM_INT
     '''
     if p[2] == '+=':
-        p[0] = ast.BinaryOperation(p[1], ast.Primitive(p[3]), '+')
+        p[0] = ast.Assignment(p[1], ast.BinaryOperation(p[1], ast.Primitive(p[3]), '+'))
     else:
-        p[0] = ast.BinaryOperation(p[1], ast.Primitive(p[3]), '-')
+        p[0] = ast.Assignment(p[1], ast.BinaryOperation(p[1], ast.Primitive(p[3]), '-'))
 
 
 def p_expression(p):
