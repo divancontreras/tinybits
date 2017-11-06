@@ -23,7 +23,7 @@ def p_program(p):
     environment.declare_env(context)
     for node in res:
         node.eval()
-    if True:
+    if False:
         print("\n\n" + '=' * 80, ' == Syntax tree ==')
         pp = pprint.PrettyPrinter()
         pp.pprint(res.children)
@@ -238,6 +238,14 @@ def p_print_statement(p):
     '''
     p[0] = ast.PrintStatement(p[3])
 
+
+def p_input_statement(p):
+    '''
+    statement : GETIN LPAREN identifier RPAREN
+    '''
+    p[0] = ast.InputStatement(p[3])
+
+
 def p_compound_operations(p):
     '''
     statement : identifier PLUS_EQ expression 
@@ -275,8 +283,7 @@ def p_for_loop(p):
     statement : FOR identifier IN expression ARROW_LTR expression DO LBRACK statement_list RBRACK
               | FOR identifier IN expression ARROW_RTL expression DO LBRACK statement_list RBRACK
     '''
-    p[0] = ast.For(p[2], p[4], p[6], p[5] == '->', p[8])
-
+    p[0] = ast.For(p[2], p[4], p[6], p[5] == '->', p[9])
 
 def p_for_in_loop(p):
     '''
@@ -324,6 +331,6 @@ def p_error(p):
 
 parser = yacc.yacc()
 
-s = open('codetry.txt', 'r').read()
+s = open('codetry.tb', 'r').read()
     
 parser.parse(s) 

@@ -19,6 +19,7 @@ reserved = {
     'and': 'AND',
     'or': 'OR',
     'not': 'NOT',
+    'getin': 'GETIN',
 }
 
 tokens = [
@@ -172,13 +173,13 @@ def t_error(t):
 
 lexer = lex.lex()
 
-data = input(">>")
+# data = input(">>")
 
-# Give the lexer some input
-lexer.input(data)
+# # Give the lexer some input
+# lexer.input(data)
 
-while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok)
+# while True:
+#     tok = lexer.token()
+#     if not tok: 
+#         break      # No more input
+#     print(tok)

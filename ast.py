@@ -121,6 +121,13 @@ class ArrayAccess(BaseExpression):
     def eval(self):
         return self.array.eval()[self.index.eval()]
 
+class InputStatement(BaseExpression):
+    def __init__(self, Identifier: Identifier):
+        self.Identifier = Identifier
+    
+    def eval(self):
+        indata = input()
+        self.Identifier.assign(indata)
 
 class ArrayAssign(BaseExpression):
     def __init__(self, array: Identifier, index: BaseExpression, value: BaseExpression):
@@ -303,6 +310,8 @@ class If(BaseExpression):
         elif self.elsepart is not None:
             print("GOTO FALSEPART")            
             return self.elsepart.eval()
+        else:
+            print("GOTO SKIP")
 
 
 class For(BaseExpression):
@@ -326,11 +335,26 @@ class For(BaseExpression):
             lo = self.start.eval()
             hi = self.end.eval() - 1
             sign = -1
-
         for i in range(lo, hi, sign):
             self.variable.assign(i)
-
-            # in case of exit statement prematurely break the loop
+            if i == hi-1:
+                if sign == 1:
+                    print(f"<= {i} {hi} {False}")
+                    print("GOTO F END")                    
+                if sign == -1:
+                    print(f">= {i} {hi} {False}")
+                    print("GOTO F END")
+                break
+            if sign == 1:   
+                a = i + 1
+                print(f"< {i} {hi} {i<hi}")
+                print(f"+ {self.variable} {1} {a}")
+            if sign == -1:
+                a = i - 1                
+                print(f">= count {i} {hi} {i>=hi}")
+                print(f"- {self.variable} {i} {1} {a}")                          
+            print("GOTO START")
+                # in case of exit statement prematurely break the loop
             if isinstance(self.body.eval(), ExitStatement):
                 break
 
