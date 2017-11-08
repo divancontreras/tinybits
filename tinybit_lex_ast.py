@@ -15,7 +15,7 @@ reserved = {
     'then' : 'THEN',
     'do' : 'DO',
     'setout': 'SETOUT',
-
+    'Init': 'INIT',
     'and': 'AND',
     'or': 'OR',
     'not': 'NOT',

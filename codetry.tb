@@ -1,12 +1,7 @@
 begin
-perrito = 0
-if 1 < 3 then{
-    perrito = 3
-    if 3<3 then{
-    perrito =9
-    }else if 3 == 3 then{
-        setout("correcto")
-    }
-} 
-setout(perrito)
+Init a[5][5]
+a[0][0] = 39201
+setout(a[0][0])
+setout(a[0][4])
+
 end

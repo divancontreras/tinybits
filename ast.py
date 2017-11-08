@@ -3,7 +3,8 @@ from types import LambdaType
 import tinybit_errors
 import contextos
 from tinybit_errors import *
-
+import numpy as np
+import pprint
 context = contextos.SymbolTable()
 
 class InstructionList:
@@ -109,17 +110,38 @@ class Array(BaseExpression):
     def eval(self):
         return self.values.eval()
 
-
-class ArrayAccess(BaseExpression):
-    def __init__(self, array: Identifier, index: BaseExpression):
+class ArrayInit(BaseExpression):
+    def __init__(self, array: Identifier, dimensionx: Primitive, dimensiony = None):
+        self.dimensionx = dimensionx
+        self.dimensiony = dimensiony
         self.array = array
-        self.index = index
-
-    def __repr__(self):
-        return '<Array index={0}>'.format(self.index)
 
     def eval(self):
-        return self.array.eval()[self.index.eval()]
+        array_data = []
+        aux = []
+        for x in range(0,self.dimensionx):
+            for y in range(0,self.dimensiony):
+                aux.append(Primitive(0))
+            array_data.append(aux)
+            aux = []
+        return self.array.assign(array_data)
+
+
+class ArrayAccess(BaseExpression):
+    def __init__(self, array: Identifier, index1: BaseExpression, index2 = None):
+        self.array = array
+        self.index1 = index1
+        self.index2 = index2        
+
+    def __repr__(self):
+        if self.index2 is not None:
+            return '<Array index1={0} index2={1}>'.format(self.index1.eval(), self.index2.eval())
+        return '<Array index={0}>'.format(self.index1)
+
+    def eval(self):
+        if self.index2 is not None:
+            return self.array.eval()[self.index1.eval()][self.index2.eval()]            
+        return self.array.eval()[self.index1.eval()]
 
 class InputStatement(BaseExpression):
     def __init__(self, Identifier: Identifier):
@@ -130,16 +152,20 @@ class InputStatement(BaseExpression):
         self.Identifier.assign(indata)
 
 class ArrayAssign(BaseExpression):
-    def __init__(self, array: Identifier, index: BaseExpression, value: BaseExpression):
+    def __init__(self, array: Identifier, index: BaseExpression, value: BaseExpression, index2 = None):
         self.array = array
         self.index = index
         self.value = value
-
+        self. index2 = index2
+        
     def __repr__(self):
         return '<Array arr={0} index={1} value={2}>'.format(self.array, self.index, self.value)
 
     def eval(self):
-        self.array.eval()[self.index.eval()] = self.value.eval()
+        if self.index2 is not None:
+            self.array.eval()[self.index.eval()][self.index2.eval()] = self.value
+        else:
+            self.array.eval()[self.index.eval()] = self.value.eval()
 
 
 class ArraySlice(BaseExpression):
@@ -337,26 +363,19 @@ class For(BaseExpression):
             sign = -1
         for i in range(lo, hi, sign):
             self.variable.assign(i)
-            if i == hi-1:
-                if sign == 1:
-                    print(f"<= {i} {hi} {False}")
-                    print("GOTO F END")                    
-                if sign == -1:
-                    print(f">= {i} {hi} {False}")
-                    print("GOTO F END")
-                break
             if sign == 1:   
                 a = i + 1
-                print(f"< {i} {hi} {i<hi}")
+                print(f"<= {i} {hi-1} {i<hi}")
                 print(f"+ {self.variable} {1} {a}")
             if sign == -1:
                 a = i - 1                
-                print(f">= count {i} {hi} {i>=hi}")
+                print(f">= count {i} {hi-1} {i>=hi}")
                 print(f"- {self.variable} {i} {1} {a}")                          
             print("GOTO START")
                 # in case of exit statement prematurely break the loop
             if isinstance(self.body.eval(), ExitStatement):
                 break
+        print("GOTO END")
 
 
 class ForIn(BaseExpression):
@@ -398,7 +417,18 @@ class PrintStatement(BaseExpression):
         return '<Print {0}>'.format(self.items)
 
     def eval(self):
-        print(*self.items.eval(), end='', sep='')
+        if isinstance(self.items.eval(),list):
+            tupple = self.items.eval()
+            aux = []
+            if isinstance(tupple[0], Primitive):
+                    print(tupple[0].eval())
+            else:
+                for x in range(len(self.items.eval())):
+                    for y in range(len(self.items.eval()[x])):
+                        tupple[x][y] = (self.items.eval()[x][y])
+                    print(tupple)
+        else:        
+            print(*self.items.eval(), end='', sep='')
 
 
 class FunctionCall(BaseExpression):

@@ -159,12 +159,23 @@ def p_arrays(p):
     '''
     p[0] = ast.Array(p[2])
 
+def p_arrays_2(p):
+    '''
+    statement : INIT identifier LSQBRACK NUM_INT RSQBRACK LSQBRACK NUM_INT RSQBRACK 
+    '''
+    p[0] = ast.ArrayInit(p[2],p[4],p[7])
 
 def p_array_access(p):
     '''
-    expression : identifier LSQBRACK expression RSQBRACK
+    expression : INIT identifier LSQBRACK expression RSQBRACK
     '''
-    p[0] = ast.ArrayAccess(p[1], p[3])
+    p[0] = ast.ArrayAccess(p[2], p[4])
+
+def p_array_access_2(p):
+    '''
+    expression : identifier LSQBRACK expression RSQBRACK LSQBRACK expression RSQBRACK
+    '''
+    p[0] = ast.ArrayAccess(p[1], p[3], p[6])
 
 
 def p_slice(p):
@@ -191,6 +202,13 @@ def p_array_access_assign(p):
     statement : identifier LSQBRACK expression RSQBRACK EQUALS expression 
     '''
     p[0] = ast.ArrayAssign(p[1], p[3], p[6])
+
+def p_array_access_assign_2(p):
+    '''
+    statement : identifier LSQBRACK expression RSQBRACK LSQBRACK expression RSQBRACK EQUALS expression
+    '''
+    p[0] = ast.ArrayAssign(p[1], p[3], p[9], p[6])
+
 
 
 def p_assign(p):
