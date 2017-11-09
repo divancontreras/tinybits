@@ -149,7 +149,10 @@ class InputStatement(BaseExpression):
     
     def eval(self):
         indata = input()
-        self.Identifier.assign(indata)
+        try:
+            self.Identifier.assign(int(indata))            
+        except:
+            self.Identifier.assign(indata)
 
 class ArrayAssign(BaseExpression):
     def __init__(self, array: Identifier, index: BaseExpression, value: BaseExpression, index2 = None):
@@ -418,7 +421,7 @@ class PrintStatement(BaseExpression):
 
     def eval(self):
         if not isinstance(*self.items.eval(),list):
-            print(*self.items.eval(), end='', sep='')
+            print(*self.items.eval(), end='\n', sep='')
         else:
             tupple = self.items.eval()
             aux = []
@@ -428,7 +431,7 @@ class PrintStatement(BaseExpression):
                     aux.append(y.eval())
                 array.append(aux)
                 aux = []
-            print(array)
+            print(np.matrix(array))
 
 class FunctionCall(BaseExpression):
     def __init__(self, name: Identifier, params: InstructionList):

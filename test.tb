@@ -4,6 +4,7 @@ Init a[3][3]
 Init b[3][3]
 Init Resu[3][3]
 
+
 process getMatrix1 do{
 for x in 0->2 do{
     for y in 0->2 do{
@@ -14,7 +15,9 @@ for x in 0->2 do{
         }
     }
 }
-process getMatrix2 do{
+
+
+process getMatrix1 do{
 for x in 0->2 do{
     for y in 0->2 do{
 
@@ -39,8 +42,5 @@ for x in 0->2 do{
 getMatrix1()
 getMatrix2()
 sumMatrix()
-setout(a)
-setout(b)
 setout("Resu:")
-setout(Resu)
 end

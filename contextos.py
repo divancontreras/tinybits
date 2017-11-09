@@ -15,7 +15,7 @@ class SymbolTable:
         a function rather than the global scope
         :return: bool
         '''
-        return len(self.__table[self.__local]) > 0
+        return False
 
     def table(self):
         return self.__table
