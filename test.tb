@@ -1,0 +1,46 @@
+begin
+
+Init a[3][3]
+Init b[3][3]
+Init Resu[3][3]
+
+
+process getMatrix1 do{
+for x in 0->2 do{
+    for y in 0->2 do{
+
+        getin(aux)
+        a[x][y] = aux
+
+        }
+    }
+}
+
+
+process getMatrix1 do{
+for x in 0->2 do{
+    for y in 0->2 do{
+
+        getin(aux)
+        b[x][y] = aux
+
+        }
+    }
+}
+
+
+process sumMatrix do{
+for x in 0->2 do{
+    for y in 0->2 do{
+
+        Resu[x][y] = a[x][y] + b[x][y]
+
+        }
+    }
+}
+
+getMatrix1()
+getMatrix2()
+sumMatrix()
+setout("Resu:")
+end
