@@ -9,7 +9,7 @@ reserved = {
     'in': 'IN',
     'while': 'WHILE',
     'exit': 'EXIT',
-    'fn': 'PROCESS',
+    'process': 'PROCESS',
     'begin': 'BEGIN',
     'end': 'END',
     'then' : 'THEN',

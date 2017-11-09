@@ -1,12 +1,24 @@
 begin
+
+
 Init a[3][3]
 aux = 0
-for x in 0->2 do{
-    for y in 0->2 do{
-    getin(aux)
-    a[x][y] = aux
-}
+
+process make do{
+    setout("xdxd")
 }
 
+for x in 0->2 do{
+    for y in 0->2 do{
+
+        getin(aux)
+        a[x][y] = aux
+
+        }
+    }
+setout("hola")
+make()
 setout(a)
+
+
 end

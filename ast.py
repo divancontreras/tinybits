@@ -433,40 +433,24 @@ class PrintStatement(BaseExpression):
 class FunctionCall(BaseExpression):
     def __init__(self, name: Identifier, params: InstructionList):
         self.name = name
-        self.params = params
 
     def __repr__(self):
         return '<Function call name={0} params={1}>'.format(self.name, self.params)
 
     def __eval_builtin_func(self):
         func = self.name.eval()
-        args = []
 
-        for p in self.params:
-            args.append(full_eval(p))
 
-        return func.eval(args)
+        return func.eval()
 
     def __eval_udf(self):
         func = self.name.eval()
-        args = {}
-
-        # check param count
-        l1 = len(func.params)
-        l2 = len(self.params)
-
-        if l1 != l2:
-            msg = "Invalid number of arguments for function {0}. Expected {1} got {2}"
-            raise InvalidParamCount(msg.format(self.name.name, l1, l2))
-
         # pair the defined parameters in the function signature with
         # whatever is being passed on.
         #
         # On the parameters we only need the name rather than fully evaluating them
-        for p, v in zip(func.params, self.params):
-            args[p.name] = full_eval(v)
 
-        return func.eval(args)
+        return func.eval()
 
     def eval(self):
         if isinstance(self.name.eval(), BuiltInFunction):
@@ -483,17 +467,12 @@ class Function(BaseExpression):
     def __repr__(self):
         return '<Function params={0} body={1}>'.format(self.params, self.body)
 
-    def eval(self, args):
+    def eval(self):
         context.set_local(True)
-
-        for k, v in args.items():
-            context.set_sym(k, v)
 
         try:
             ret = self.body.eval()
 
-            if isinstance(ret, ReturnStatement):
-                return ret.eval()
         finally:
             context.set_local(False)
 

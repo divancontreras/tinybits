@@ -45,7 +45,7 @@ class SymbolTable:
         # if not found check the global scope
         if sym in self.__table[self.__sym]:
             return self.__table[self.__sym][sym]
-
+        
         # nope... sorry :(
         raise SymbolNotFound("Undefined variable '%s'" % sym)
 
