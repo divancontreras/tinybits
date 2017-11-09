@@ -140,7 +140,7 @@ class ArrayAccess(BaseExpression):
 
     def eval(self):
         if self.index2 is not None:
-            return self.array.eval()[self.index1.eval()][self.index2.eval()]            
+            return self.array.eval()[self.index1.eval()][self.index2.eval()].eval()  
         return self.array.eval()[self.index1.eval()]
 
 class InputStatement(BaseExpression):
@@ -163,7 +163,7 @@ class ArrayAssign(BaseExpression):
 
     def eval(self):
         if self.index2 is not None:
-            self.array.eval()[self.index.eval()][self.index2.eval()] = self.value
+            self.array.eval()[self.index.eval()][self.index2.eval()] = Primitive(self.value.eval())
         else:
             self.array.eval()[self.index.eval()] = self.value.eval()
 
@@ -417,19 +417,18 @@ class PrintStatement(BaseExpression):
         return '<Print {0}>'.format(self.items)
 
     def eval(self):
-        if isinstance(self.items.eval(),list):
+        if not isinstance(*self.items.eval(),list):
+            print(*self.items.eval(), end='', sep='')
+        else:
             tupple = self.items.eval()
             aux = []
-            if isinstance(tupple[0], Primitive):
-                    print(tupple[0].eval())
-            else:
-                for x in range(len(self.items.eval())):
-                    for y in range(len(self.items.eval()[x])):
-                        tupple[x][y] = (self.items.eval()[x][y])
-                    print(tupple)
-        else:        
-            print(*self.items.eval(), end='', sep='')
-
+            array = []
+            for x in tupple[0]:
+                for y in x:
+                    aux.append(y.eval())
+                array.append(aux)
+                aux = []
+            print(array)
 
 class FunctionCall(BaseExpression):
     def __init__(self, name: Identifier, params: InstructionList):

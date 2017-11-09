@@ -1,7 +1,12 @@
 begin
-Init a[5][5]
-a[0][0] = 39201
-setout(a[0][0])
-setout(a[0][4])
+Init a[3][3]
+aux = 0
+for x in 0->2 do{
+    for y in 0->2 do{
+    getin(aux)
+    a[x][y] = aux
+}
+}
 
+setout(a)
 end
