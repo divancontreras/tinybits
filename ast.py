@@ -443,7 +443,6 @@ class FunctionCall(BaseExpression):
     def __eval_builtin_func(self):
         func = self.name.eval()
 
-
         return func.eval()
 
     def __eval_udf(self):

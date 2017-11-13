@@ -1,0 +1,79 @@
+begin
+
+loop = true
+
+process factorial do{
+    for x in 1 -> valor-1 do{
+        valor = valor * x
+    }
+    setout(valor)
+    
+}
+
+process potencia do{
+    setout(base)
+    setout(pot)
+    valor = 1
+    for x in 1 -> pot do{
+        valor = valor * base
+    }
+    setout(valor)
+}
+
+process porcentaje do{
+
+    valor = base * (porcen/100)
+    setout(valor)
+}
+
+while loop do{
+
+    selector = 0
+    control = 0
+    valor = 0
+    aux = 0
+    setout("Introduzca la operacion a realizar")
+    setout("1.-Calcular Factorial de un numero")
+    setout("2.-Calcular X elevado a la potencia Y")
+    setout("3.-Calcular X + Y%")
+
+    getin(selector)
+
+    if selector == 1 then{
+        setout("Introduce un numero para la funcion de factorial")
+        getin(valor)
+        aux = valor
+        factorial()
+
+    }else if selector == 2 then{
+
+        setout("Introduce un numero para la base:")
+        getin(base)
+        setout("Introduce un numero para la potencia:")
+        getin(pot)        
+        potencia()
+
+    }else if selector == 3 then{
+
+        setout("Introduce un numero:")
+        getin(base)
+        setout("Introduce el porcentaje deseado:")
+        getin(porcen)        
+        porcentaje()
+
+    }else{
+
+        setout("Intruccion no valida")
+
+    }
+
+    setout("Desea introduccir una nueva instruccion? (y/n)")
+    getin(control)
+    if control == "n" then{
+        loop = false
+        setout("Hasta Pronto!")
+    }
+    
+}
+
+end

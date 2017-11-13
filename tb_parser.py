@@ -7,6 +7,9 @@ import environment
 disable_warnings = False
 import pprint
 VERBOSE = 1
+import sys
+program_name = sys.argv[0]
+arguments = sys.argv[1:]
 
 precedence = (
     ('left', 'NOT'),
@@ -345,7 +348,6 @@ def p_error(p):
         raise Exception('Syntax', 'error')
 
 parser = yacc.yacc()
-
-s = open('codetry.tb', 'r').read()
+s = open(arguments[0], 'r').read()
     
 parser.parse(s) 

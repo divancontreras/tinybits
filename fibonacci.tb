@@ -1,0 +1,18 @@
+begin
+
+process fact do{
+if n > 0 then{
+    f = f*n
+    n = n - 1
+    fact()
+    }
+}
+
+setout("introduzca n")
+getin(n)
+f=1
+fact()
+setout("esta es f")
+setout(f)
+
+end
