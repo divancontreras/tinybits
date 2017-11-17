@@ -1,0 +1,11 @@
+begin
+aux = 0
+serialport("COM3",9600)
+setout("introduce el valor a mandar")
+while 1 do{
+    getin(aux)
+    serialport write(aux)
+    serialport read
+}
+
+end

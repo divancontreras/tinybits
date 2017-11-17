@@ -6,6 +6,9 @@ from tinybit_errors import *
 import numpy as np
 import pprint
 context = contextos.SymbolTable()
+import serial
+import time
+global ser
 
 class InstructionList:
     def __init__(self, children=None):
@@ -154,6 +157,35 @@ class InputStatement(BaseExpression):
         except:
             self.Identifier.assign(indata)
 
+class InitSerialPort(BaseExpression):
+    def __init__(self, port: Primitive, baud: Primitive):
+        self.port = port
+        self.baud = baud
+
+    def eval(self):
+        global ser
+        print(str(self.port) +" AND " +str(self.baud))
+        ser = serial.Serial(self.port, self.baud)
+
+class writeSerialPort(BaseExpression):
+    def __init__(self, message: Identifier):
+        self.message = message
+
+    def eval(self):
+        global ser
+        ser.write(str(self.message.eval()).encode())
+
+class readSerialPort(BaseExpression):
+    def __init__(self):
+        self
+
+    def eval(self):
+        global ser
+        time.sleep(.5)
+        response = str(ser.readline()).split('\\')
+        response = response[0][2:]
+        print(f"Arduino Responded: {response}")
+        
 class ArrayAssign(BaseExpression):
     def __init__(self, array: Identifier, index: BaseExpression, value: BaseExpression, index2 = None):
         self.array = array

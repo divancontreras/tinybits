@@ -29,15 +29,18 @@ for x in 0->2 do{
 process sumMatrix do{
 for x in 0->2 do{
     for y in 0->2 do{
-
-        Resu[x][y] = a[x][y] + b[x][y]
-
+        for z in 0->2 do{
+            Resu[x][z] = Resu[x][z] + a[x][y] * b[y][z]
+            
+            }
         }
     }
 }
 
 getMatrix1()
 getMatrix2()
+setout(a)
+setout(b)
 sumMatrix()
 setout(a)
 setout(b)

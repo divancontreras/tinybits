@@ -18,8 +18,11 @@ reserved = {
     'Init': 'INIT',
     'and': 'AND',
     'or': 'OR',
+    'write' : 'WRITE',
+    'read' : 'READ',
     'not': 'NOT',
     'getin': 'GETIN',
+    'serialport': 'SERIALPORT'
 }
 
 tokens = [

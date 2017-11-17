@@ -28,9 +28,6 @@ def p_program(p):
         node.eval()
     if False:
         print("\n\n" + '=' * 80, ' == Syntax tree ==')
-        pp = pprint.PrettyPrinter()
-        pp.pprint(res.children)
-        #pp.pprint(context.table())
 
 def p_statement_list(p):
     '''
@@ -167,6 +164,25 @@ def p_arrays_2(p):
     statement : INIT identifier LSQBRACK NUM_INT RSQBRACK LSQBRACK NUM_INT RSQBRACK 
     '''
     p[0] = ast.ArrayInit(p[2],p[4],p[7])
+
+def p_init_serialport(p):
+    '''
+    statement : SERIALPORT LPAREN STRING COMMA NUM_INT RPAREN 
+    '''
+    p[0] = ast.InitSerialPort(p[3],p[5])
+
+def p_write_serialport(p):
+    '''
+    statement : SERIALPORT WRITE LPAREN expression RPAREN 
+    '''
+    p[0] = ast.writeSerialPort(p[4])
+
+def p_read_serialport(p):
+    '''
+    statement : SERIALPORT READ 
+    '''
+    p[0] = ast.readSerialPort()
+
 
 def p_array_access(p):
     '''
@@ -350,4 +366,4 @@ def p_error(p):
 parser = yacc.yacc()
 s = open(arguments[0], 'r').read()
     
-parser.parse(s) 
+parser.parse(s,debug=True) 
